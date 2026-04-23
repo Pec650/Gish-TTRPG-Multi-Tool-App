@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.Pages.NewTask"
+             Shell.TabBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- Title -->
+        <Label Grid.Row="0" Text="New Task" FontSize="24" FontAttributes="Bold"
+               TextColor="#06011F" HorizontalOptions="Center" Margin="0,30,0,10"/>
+
+        <!-- Title entry -->
+        <Border Grid.Row="1" Stroke="#9B19A4" StrokeThickness="3"
+                BackgroundColor="#9A9AE2" Margin="20,5">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Entry x:Name="titleEntry" Placeholder="Title" PlaceholderColor="#06011F"
+                   TextColor="#06011F" Keyboard="Text" ReturnType="Next" MaxLength="50"/>
+        </Border>
+
+        <!-- Details editor fills remaining space -->
+        <Border Grid.Row="2" Stroke="#9B19A4" StrokeThickness="3"
+                BackgroundColor="#9A9AE2" Margin="20,5">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Editor x:Name="detailsEditor" Placeholder="Details" PlaceholderColor="#06011F"
+                    TextColor="#06011F" BackgroundColor="#B0B0E6"
+                    Keyboard="Text" MaxLength="240"
+                    VerticalOptions="Fill" HorizontalOptions="Fill"/>
+        </Border>
+
+        <!-- Add Task button -->
+        <Border Grid.Row="3" Stroke="#9B19A4" StrokeThickness="3"
+                BackgroundColor="#9A9AE2" Margin="20,5,20,100">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="AddTask"/>
+            </Border.GestureRecognizers>
+            <Label Text="Add Task" TextColor="#06011F"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   Padding="0,12"/>
+        </Border>
+
+        <!-- Back FAB, bottom-left, overlaid -->
+        <Border Grid.RowSpan="4"
+                WidthRequest="60" HeightRequest="60"
+                BackgroundColor="#4DE0C8" Stroke="#2E8D75" StrokeThickness="3"
+                HorizontalOptions="Start" VerticalOptions="End" Margin="25,0,0,25">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="CancelNewTask"/>
+            </Border.GestureRecognizers>
+            <Label Text="&lt;" FontSize="32" FontAttributes="Bold"
+                   TextColor="#06011F" HorizontalOptions="Center" VerticalOptions="Center"/>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

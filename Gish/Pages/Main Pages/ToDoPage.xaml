@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ToDoList.Pages"
+             x:Class="ToDoList.Pages.ToDoPage">
+
+    <Grid>
+
+        <!-- Main content -->
+        <Grid RowDefinitions="Auto,*" Padding="15">
+
+            <!-- Header with editable title -->
+            <HorizontalStackLayout Grid.Row="0" Spacing="10"
+                                   HorizontalOptions="Center" Margin="0,10,0,10">
+                <Label x:Name="listTitle" Text="Your To-Do List"
+                       FontSize="24" FontAttributes="Bold" TextColor="#06011F"
+                       VerticalOptions="Center"/>
+                <Border Stroke="#2E8D75" StrokeThickness="3" BackgroundColor="#4DE0C8"
+                        Padding="0" VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="EditListTitle"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="edit.svg" WidthRequest="28" HeightRequest="28" Margin="4"/>
+                </Border>
+            </HorizontalStackLayout>
+
+            <!-- Task list -->
+            <ScrollView Grid.Row="1">
+                <CollectionView x:Name="todoCV" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="Nothing to show yet"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="Gray" Margin="0,40,0,0"/>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ToDoClass">
+                            <Grid RowSpacing="5" HorizontalOptions="Fill" Margin="10,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" FontSize="16"
+                                       TextColor="#06011F" Text="{Binding item_name}"
+                                       LineBreakMode="TailTruncation" VerticalOptions="Center"/>
+                                <Label Grid.Row="1" Grid.Column="0" FontSize="10"
+                                       TextColor="#06011F" Text="{Binding item_description}"
+                                       LineBreakMode="TailTruncation" VerticalOptions="Center"/>
+
+                                <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalOptions="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Stroke="#881B1B" StrokeThickness="3"
+                                            BackgroundColor="#DD4242" Margin="0,0,1,0" HorizontalOptions="Fill">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5"/>
+                                        </Border.StrokeShape>
+                                        <Button Text="Done" TextColor="#58241E" BackgroundColor="Transparent" 
+                                            ClassId="{Binding item_id}" Clicked="CompleteToDoItem"/>
+                                    </Border>
+
+                                    <Border Grid.Column="1" Stroke="#4B9170" StrokeThickness="3"
+                                            BackgroundColor="#67F083" Margin="1,0,0,0" HorizontalOptions="Fill">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5"/>
+                                        </Border.StrokeShape>
+                                        <Button Text="Edit" TextColor="#58241E" BackgroundColor="Transparent"
+                                                ClassId="{Binding item_id}" Clicked="EditToDoItem"/>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+        </Grid>
+
+        <!-- FAB + button (floats over content, bottom right) -->
+        <Border WidthRequest="60" HeightRequest="60"
+                BackgroundColor="#4DE0C8" Stroke="#2E8D75" StrokeThickness="3"
+                HorizontalOptions="End" VerticalOptions="End" Margin="0,0,25,25">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="GoToNewTask"/>
+            </Border.GestureRecognizers>
+            <Label Text="+" FontSize="32" FontAttributes="Bold"
+                   TextColor="#06011F" HorizontalOptions="Center" VerticalOptions="Center"/>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

@@ -1,33 +1,41 @@
-# Gradle files
-.gradle/
-build/
+# .NET MAUI / .NET Standard / .NET Core
+[Bb]in/
+[Oo]bj/
+publish/
+artifacts/
 
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
-
-# IntelliJ
-*.iml
+# JetBrains Rider
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+*.sln.iml
+*.user
+*.orig
+*.suo
 
-# Keystore files
-*.jks
+# macOS System Files
+.DS_Store
+
+# Android
 *.keystore
+*.jks
+*.ap_
+*.apk
+*.aab
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+# iOS / MacCatalyst
+*.app
+*.ipa
+*.vsmac-rev
 
-# Android Profiling
-*.hprof
+# Mobile/MAUI Specifics
+.xamlg.cs
+*.device
+
+# Environment / Secrets
+.env
+appsettings.Development.json
+secrets.json
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates

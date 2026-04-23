@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.Pages.ProfilePage">
+    <ContentPage.Content>
+        <VerticalStackLayout Spacing="15" WidthRequest="250">
+            
+            <Image Source="profile_image.png" HeightRequest="100" WidthRequest="100" Margin="0, 0, 0, 20"></Image>
+            
+            <Label x:Name="FullName" Text=""
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   FontSize="25"
+                   TextColor="Black"/>
+            
+            <Button x:Name="SubmitBtn" Text="Log Out" Clicked="LogOut" BackgroundColor="DimGray"
+                    Style="{StaticResource SubmitBtn}"></Button>
+            
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>

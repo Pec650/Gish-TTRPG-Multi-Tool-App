@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ToDoList.Pages"
+             x:Class="ToDoList.Pages.CompletedPage">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <Label Grid.Row="0" Text="Completed" FontSize="24" FontAttributes="Bold"
+               TextColor="#06011F" HorizontalOptions="Center" Margin="0,15,0,5"/>
+
+        <!-- Delete All button -->
+        <Border Grid.Row="1" Stroke="#881B1B" StrokeThickness="3"
+                BackgroundColor="#DD4242" Margin="20,5,20,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="DeleteAll"/>
+            </Border.GestureRecognizers>
+            <Label Text="Delete All" TextColor="#58241E"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   Padding="0,10"/>
+        </Border>
+
+        <ScrollView Grid.Row="2">
+            <CollectionView x:Name="completedCV" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="No completed tasks yet"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="Gray" Margin="0,40,0,0"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:CompletedTask">
+                        <Grid Margin="10,5" RowDefinitions="Auto,Auto,Auto"
+                              ColumnDefinitions="*,Auto,Auto">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding Item.item_name}"
+                                   FontSize="16" TextColor="#06011F"
+                                   LineBreakMode="TailTruncation"/>
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding Item.item_description}"
+                                   FontSize="10" TextColor="#06011F"
+                                   LineBreakMode="TailTruncation"/>
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="{Binding CompletedAt, StringFormat='Completed: {0:MMM dd, yyyy}'}"
+                                   FontSize="10" TextColor="Gray"/>
+
+                            <!-- Undo button -->
+                            <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+                                    Stroke="#4B9170" StrokeThickness="3"
+                                    BackgroundColor="#67F083"
+                                    VerticalOptions="Center" Margin="4,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"/>
+                                </Border.StrokeShape>
+                                <Button Text="Undo" TextColor="#082417" BackgroundColor="Transparent"
+                                        ClassId="{Binding Item.item_id}"
+                                        Clicked="UndoComplete"/>
+                            </Border>
+
+                            <!-- Delete button -->
+                            <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="2"
+                                    Stroke="#881B1B" StrokeThickness="3"
+                                    BackgroundColor="#DD4242"
+                                    VerticalOptions="Center" Margin="4,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"/>
+                                </Border.StrokeShape>
+                                <Button Text="Delete" TextColor="#58241E" BackgroundColor="Transparent"
+                                        ClassId="{Binding Item.item_id}"
+                                        Clicked="DeleteComplete"/>
+                            </Border>
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ToDoList.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ToDoList.Pages"
+    Title="Gish"
+    NavBarIsVisible="False">
+    
+    <ShellContent
+        ContentTemplate="{DataTemplate local:Startup}"
+        Route="StartupPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate local:SignInPage}"
+        Route="SignInPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate local:SignUpPage}"
+        Route="SignUpPage" />
+    
+    <TabBar Route="MainPages">
+        <Tab Title="Home" Route="HomeTab">
+            <ShellContent ContentTemplate="{DataTemplate local:ToDoPage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="Creations" Route="CreationsTab">
+             <ShellContent ContentTemplate="{DataTemplate local:CompletedPage}" Route="CreationsPage" />
+        </Tab>
+        <Tab Title="Tools" Route="ToolsTab">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="ToolsPage" />
+        </Tab>
+        <Tab Title="Rules" Route="RulesTab">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="RulesPage" />
+        </Tab>
+    </TabBar>
+
+</Shell>
