@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="ToDoList.AppShell"
+    x:Class="Gish.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:ToDoList.Pages"
+    xmlns:auth="clr-namespace:Gish.Pages.Authentication"
+    xmlns:main="clr-namespace:Gish.Pages.MainPages"
     Title="Gish"
     NavBarIsVisible="False">
     
     <ShellContent
-        ContentTemplate="{DataTemplate local:Startup}"
+        ContentTemplate="{DataTemplate auth:Startup}"
         Route="StartupPage" />
     <ShellContent
-        ContentTemplate="{DataTemplate local:SignInPage}"
+        ContentTemplate="{DataTemplate auth:SignInPage}"
         Route="SignInPage" />
     <ShellContent
-        ContentTemplate="{DataTemplate local:SignUpPage}"
+        ContentTemplate="{DataTemplate auth:SignUpPage}"
         Route="SignUpPage" />
-    
+
     <TabBar Route="MainPages">
         <Tab Title="Home" Route="HomeTab">
-            <ShellContent ContentTemplate="{DataTemplate local:ToDoPage}" Route="HomePage" />
+            <ShellContent ContentTemplate="{DataTemplate main:HomePage}" Route="HomePage" />
         </Tab>
         <Tab Title="Creations" Route="CreationsTab">
-             <ShellContent ContentTemplate="{DataTemplate local:CompletedPage}" Route="CreationsPage" />
+            <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" />
         </Tab>
         <Tab Title="Tools" Route="ToolsTab">
-            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="ToolsPage" />
+            <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" />
         </Tab>
         <Tab Title="Rules" Route="RulesTab">
-            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="RulesPage" />
+            <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
         </Tab>
     </TabBar>
 

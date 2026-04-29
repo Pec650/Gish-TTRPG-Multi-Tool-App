@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace ToDoList;
-
+namespace Gish;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

@@ -1,4 +1,4 @@
-﻿namespace ToDoList.Pages;
+﻿namespace Gish.Pages.Authentication;
 
 using System.Threading.Tasks;
 

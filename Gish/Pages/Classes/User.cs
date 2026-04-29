@@ -1,5 +1,4 @@
-﻿namespace MauiApp1;
-
+﻿namespace Gish.Pages.Classes;
 public class User
 {
     private int _id { get; set; }

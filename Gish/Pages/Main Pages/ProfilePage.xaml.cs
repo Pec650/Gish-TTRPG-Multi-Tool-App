@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoList.Pages;
+namespace Gish.Pages.MainPages;
 
 public partial class ProfilePage : ContentPage
 {
@@ -22,7 +22,6 @@ public partial class ProfilePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
-        FullName.Text = App.CurrentUser.fname +  " " + App.CurrentUser.lname;
+        FullName.Text = App.CurrentUser.fname + " " + App.CurrentUser.lname;
     }
 }

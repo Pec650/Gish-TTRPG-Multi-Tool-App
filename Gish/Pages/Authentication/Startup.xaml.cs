@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoList.Pages;
+namespace Gish.Pages.Authentication;
 
 public partial class Startup : ContentPage
 {
