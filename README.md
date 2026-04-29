@@ -1,4 +1,9 @@
-# Commit Log
+# Gish: A TTRPG Multi-Tool
+
+## Overview
+- description here
+
+#### Commit Log
 
 - Initiate Project [04/23/2026]
   - Set up initial project repository and baseline files.
