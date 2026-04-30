@@ -33,12 +33,6 @@ public partial class CompletedPage : ContentPage
     {
         base.OnAppearing();
         ToDoService.PurgeExpired();
-        
-        if (!App.isLoggedIn())
-        {
-            await ReturnToSignIn();
-            return;
-        }
 
         await GetUserCompletedTasks();
     }
@@ -47,9 +41,7 @@ public partial class CompletedPage : ContentPage
     {
         try
         {
-            if (App.CurrentUser == null) return;
-
-            int userID = App.CurrentUser.id;
+            int userID = 1;
             var response = await _httpClient.GetAsync($"https://todo-list.dcism.org/getItems_action.php?status=inactive&user_id={userID}");
 
             if (response.IsSuccessStatusCode)

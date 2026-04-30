@@ -1,12 +1,15 @@
 ﻿namespace ToDoList.Pages;
 
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using SQLite;
+using MauiApp1.Classes;
+using ToDoList.Pages.Classes;
 
 public partial class SignUpPage
 {
+    private LocalDatabase _database = new LocalDatabase();
+    
     public SignUpPage()
     {
         InitializeComponent();
@@ -14,25 +17,30 @@ public partial class SignUpPage
 
     private async void SubmitSignUp(object? sender, EventArgs e)
     {
-        if (IsEmptyInput(UsernameInput.Text) || IsEmptyInput(EmailInput.Text) ||
-            IsEmptyInput(PasswordInput.Text) || IsEmptyInput(ConfirmPassInput.Text))
+        string username = UsernameInput.Text;
+        string email = EmailInput.Text;
+        string password = PasswordInput.Text;
+        string confirm_pass = ConfirmPassInput.Text;
+        
+        if (IsEmptyInput(username) || IsEmptyInput(email) ||
+            IsEmptyInput(password) || IsEmptyInput(confirm_pass))
         {
             ShowError("Please input all fields");
             return;
         }
 
-        if (!IsValidEmail(EmailInput.Text))
+        if (!IsValidEmail(email))
         {
             ShowError("Invalid email address");
             return;
         }
 
-        if (!IsValidPassword(PasswordInput.Text))
+        if (!IsValidPassword(password))
         {
             return;
         }
 
-        if (!String.Equals(PasswordInput.Text, ConfirmPassInput.Text))
+        if (!String.Equals(password, confirm_pass))
         {
             ShowError("Passwords do not match");
             return;
@@ -41,7 +49,7 @@ public partial class SignUpPage
         RemoveError();
         LoadingUIState(true);
 
-        bool success = true;
+        bool success = await SignupUser(username, email, password);
 
         if (success)
         {
@@ -50,6 +58,50 @@ public partial class SignUpPage
         }
         
         LoadingUIState(false);
+    }
+
+    public async Task<bool> SignupUser(string username, string email, string password)
+    {
+        try
+        {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+            var newUser = new UserAccount
+            {
+                Username = username,
+                EmailAddress = email,
+                PasswordHashed = hashedPassword
+            };
+
+            int result = await _database.SaveUserAsync(newUser);
+
+            if (result <= 0)
+            {
+                ShowError("Unknown error has occurred");
+                return false;
+            }
+
+            int? userID = await _database.getUserID(email);
+
+            if (userID is null)
+            {
+                ShowError("Unknown error has occurred");
+                return false;
+            }
+            
+            App.setUserID(userID.Value);
+            return true;
+        }
+        catch (SQLite.SQLiteException e) when (e.Message.Contains("constraint", StringComparison.OrdinalIgnoreCase))
+        {
+            ShowError("Email address already exists");
+            return false;
+        }
+        catch (Exception e)
+        {
+            ShowError($"Error: {e.Message}");
+            return false;
+        }
     }
 
     private async Task GoToMain()

@@ -56,10 +56,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.10.196-beta" />
+        <PackageReference Include="SQLitePCLRawEx.bundle_green" Version="2.1.2-pre20220801070813" />
         <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     </ItemGroup>
 

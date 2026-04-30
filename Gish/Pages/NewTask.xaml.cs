@@ -24,7 +24,7 @@ public partial class NewTask : ContentPage
         {
             item_name = titleEntry.Text,
             item_description = detailsEditor.Text ?? "N/A",
-            user_id = App.CurrentUser.id
+            user_id = 1
         };
 
         bool success = await SendTaskToServer(payload);

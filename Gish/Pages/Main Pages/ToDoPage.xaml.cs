@@ -31,12 +31,6 @@ public partial class ToDoPage : ContentPage
     protected async override void OnAppearing()
     {
         base.OnAppearing();
-    
-        if (!App.isLoggedIn())
-        {
-            await ReturnToSignIn();
-            return;
-        }
         
         await GetUserTasks();
     }
@@ -45,9 +39,7 @@ public partial class ToDoPage : ContentPage
     {
         try
         {
-            if (App.CurrentUser == null) return;
-
-            int userID = App.CurrentUser.id;
+            int userID = 1;
             var response = await _httpClient.GetAsync($"https://todo-list.dcism.org/getItems_action.php?status=active&user_id={userID}");
 
             if (response.IsSuccessStatusCode)

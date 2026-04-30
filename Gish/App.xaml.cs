@@ -7,25 +7,49 @@ using ToDoList.Pages;
 
 public partial class App : Application
 {
-    public static User CurrentUser = new User();
+    private static int currentUserID = -1;
     
     public App()
     {
         InitializeComponent();
     }
 
+    protected override async void OnStart()
+    {
+        await initUserID();
+    }
+    
     protected override Window CreateWindow(IActivationState? activationState)
     {
         return new Window(new AppShell());
     }
     
-    public static void resetUser()
+    private async Task initUserID()
     {
-        CurrentUser.emptyUser();
+        string idString = await SecureStorage.Default.GetAsync("Current_User_ID");
+
+        if (int.TryParse(idString, out int userId))
+        {
+            currentUserID = userId;
+        }
+
+        currentUserID = -1;
+    }
+
+    public static async void setUserID(int userID)
+    {
+        currentUserID = userID;
+        await SecureStorage.Default.SetAsync("Current_User_ID", userID.ToString());
+    }
+
+    public static void resetUserID()
+    {
+        currentUserID = -1;
+        SecureStorage.Default.Remove("Current_User_ID");
     }
 
     public static bool isLoggedIn()
     {
-        return CurrentUser.userExists();
+        return currentUserID >= 0;
     }
 }

@@ -15,14 +15,11 @@ public partial class ProfilePage : ContentPage
 
     private async void LogOut(object? sender, EventArgs e)
     {
-        App.resetUser();
         await Shell.Current.GoToAsync("//StartupPage");
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
-        FullName.Text = App.CurrentUser.fname +  " " + App.CurrentUser.lname;
     }
 }

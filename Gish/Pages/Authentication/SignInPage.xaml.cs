@@ -1,9 +1,15 @@
 ﻿namespace ToDoList.Pages;
 
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SQLite;
+using MauiApp1.Classes;
+using ToDoList.Pages.Classes;
 
 public partial class SignInPage
 {
+    private LocalDatabase _database = new LocalDatabase();
+    
     public SignInPage()
     {
         InitializeComponent();
@@ -12,13 +18,7 @@ public partial class SignInPage
     protected async override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (App.isLoggedIn())
-        {
-            await GoToMain();
-            return;
-        }
-
+        
         PasswordInput.IsPassword = true;
         UpdatePasswordState();
         ResetUIStates();
@@ -26,7 +26,10 @@ public partial class SignInPage
 
     private async void SubmitLogin(object? sender, EventArgs e)
     {
-        if (IsEmptyInput(EmailInput.Text) || IsEmptyInput(PasswordInput.Text))
+        string email = EmailInput.Text;
+        string password = PasswordInput.Text;
+        
+        if (IsEmptyInput(email) || IsEmptyInput(password))
         {
             ShowError("Please enter a username and password");
             return;
@@ -35,16 +38,44 @@ public partial class SignInPage
         RemoveError();
         LoadingUIState(true);
 
-        bool success = true;
+        bool success = await SigninUser(email, password);
 
         if (success)
         {
             await GoToMain();
             return;
         }
-        else
+        
+        LoadingUIState(false);
+    }
+    
+    public async Task<bool> SigninUser(string email, string password)
+    {
+        try
         {
-            LoadingUIState(false);
+            bool userFound = await _database.matchUserByEmailPassword(email, password);
+
+            if (!userFound)
+            {
+                ShowError("Incorrect email or password");
+                return false;
+            }
+            
+            int? userID = await _database.getUserID(email);
+
+            if (userID is null)
+            {
+                ShowError("Unknown error has occurred");
+                return false;
+            }
+        
+            App.setUserID(userID.Value);
+            return true;
+        }
+        catch (Exception e)
+        {
+            ShowError($"Error: {e.Message}");
+            return false;
         }
     }
 
