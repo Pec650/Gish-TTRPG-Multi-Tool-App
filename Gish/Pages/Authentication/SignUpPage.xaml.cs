@@ -3,8 +3,8 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SQLite;
-using MauiApp1.Classes;
-using ToDoList.Pages.Classes;
+using Gish.Classes;
+using Gish.Pages.Classes;
 
 public partial class SignUpPage
 {

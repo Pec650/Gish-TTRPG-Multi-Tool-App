@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Classes;
+﻿namespace Gish.Classes;
 
 using SQLite;
 

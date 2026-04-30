@@ -1,6 +1,6 @@
-﻿namespace ToDoList.Pages.Classes;
+﻿namespace Gish.Pages.Classes;
 using SQLite;
-using MauiApp1.Classes;
+using Gish.Classes;
 
 public class LocalDatabase
 {
