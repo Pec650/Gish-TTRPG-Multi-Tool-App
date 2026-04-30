@@ -1,9 +1,6 @@
-﻿using MauiApp1;
-using Microsoft.Extensions.DependencyInjection;
+﻿namespace Gish;
 
-namespace ToDoList;
-
-using ToDoList.Pages;
+using Gish.Pages.Classes;
 
 public partial class App : Application
 {

@@ -2,7 +2,7 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToDoList.Pages.Startup">
+             x:Class="Gish.Pages.Authentication.Startup">
     <ContentPage.Content>
         <Grid ColumnDefinitions="0.1*, 0.8*, 0.1*">
             <VerticalStackLayout Grid.Column="1" Spacing="30" HorizontalOptions="Fill">

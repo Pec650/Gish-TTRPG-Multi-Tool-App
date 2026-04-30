@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList", "ToDoList.csproj", "{0F53E437-162D-49D8-A385-70D29FA7F994}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gish", "Gish.csproj", "{0F53E437-162D-49D8-A385-70D29FA7F994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

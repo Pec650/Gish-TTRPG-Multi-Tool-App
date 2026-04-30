@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace ToDoList;
+namespace Gish;
 
 [Application]
 public class MainApplication : MauiApplication
