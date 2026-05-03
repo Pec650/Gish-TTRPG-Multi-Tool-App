@@ -12,6 +12,10 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("AveriaLibre-Bold.ttf", "AveriaLibreBold");
+                fonts.AddFont("Harmattan-Bold.ttf", "HarmattanBold");
+                fonts.AddFont("Faustina-Bold.ttf", "FaustinaBold");
+                fonts.AddFont("Commissioner-Regular.ttf", "Commissioner");
             });
 
 #if DEBUG

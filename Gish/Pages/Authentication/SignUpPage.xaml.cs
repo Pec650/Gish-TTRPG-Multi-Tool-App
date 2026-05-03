@@ -3,7 +3,6 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SQLite;
-using Gish.Classes;
 using Gish.Pages.Classes;
 
 public partial class SignUpPage

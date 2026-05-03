@@ -18,4 +18,11 @@
 
   * Added a local database for sign up and login.
   * The database utilizes the UserAccount class as the table structure for the users.
+* Initial Fixes with Home Page \[05/02/2026]
 
+  * Added Recent Homebrew, Dice Roller, and Session Reminder tabs, not finished
+  * Most of the design is fixed, needs readjustments
+  * Fixed the button icons for the dice roller
+  * Fixed theme of the header
+  * Added "Commissioner" font for smaller text
+  * Added Roll Log, needs improvement

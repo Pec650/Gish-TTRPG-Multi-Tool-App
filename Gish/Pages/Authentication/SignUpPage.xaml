@@ -71,7 +71,7 @@
                         <Border Style="{StaticResource InputTextEntryBorder}">
                             <Grid ColumnDefinitions="0.9*, 0.1*">
                                 <Entry x:Name="ConfirmPassInput"
-                                       Placeholder="Enter confirmation password"
+                                       Placeholder="Re-enter password"
                                        Keyboard="Default"
                                        IsPassword="True"
                                        ReturnType="Go"
@@ -90,7 +90,7 @@
                                Style="{StaticResource InputErrorText}"></Label>
                         
                         <Button x:Name="SubmitBtn"
-                                Text="Login"
+                                Text="Sign Up"
                                 Margin="0, 10"
                                 Style="{StaticResource RedBtn}"
                                 Clicked="SubmitSignUp"></Button>

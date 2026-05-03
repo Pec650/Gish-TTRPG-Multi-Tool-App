@@ -1,6 +1,5 @@
 ﻿namespace Gish.Pages.Classes;
 using SQLite;
-using Gish.Classes;
 
 public class LocalDatabase
 {

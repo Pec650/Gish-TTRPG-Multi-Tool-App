@@ -1,4 +1,4 @@
-﻿namespace Gish.Classes;
+﻿namespace Gish.Pages.Classes;
 
 using SQLite;
 
