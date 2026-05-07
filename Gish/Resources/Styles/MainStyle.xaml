@@ -24,7 +24,22 @@
         <Setter Property="TextColor"      Value="{StaticResource TextDark}" />
         <Setter Property="FontFamily"     Value="AveriaLibre-Bold.ttf" />
     </Style>
-
+    
+    <!-- PAGE SUBTITLE -->
+    <Style x:Key="SubTitle" TargetType="Label">
+        <Setter Property="FontSize"       Value="32"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor"      Value="#4F6367"/>
+        <Setter Property="FontFamily"     Value="Faustina-Bold.ttf"/>
+    </Style>
+    
+    <!-- PAGE SUBTITLE TEXT -->
+    <Style x:Key="SubTitleText" TargetType="Label">
+        <Setter Property="FontSize"       Value="18"/>
+        <Setter Property="TextColor"      Value="#4F6367"/>
+        <Setter Property="FontFamily"     Value="Commissioner-Medium.ttf"/>
+    </Style>
+    
     <!-- OUTER CARD -->
     <Style x:Key="CardOuter" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{StaticResource CardOuter}" />
@@ -103,6 +118,19 @@
         <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="StrokeShape"     Value="RoundRectangle 8" />
         <Setter Property="Padding"         Value="10,8" />
+    </Style>
+    
+    <!-- TOOLS BUTTON -->
+    <Style x:Key="ToolsButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#EEE0CB" />
+        <Setter Property="BorderColor"     Value="#839788" />
+        <Setter Property="BorderWidth"     Value="5" />
+        <Setter Property="CornerRadius"    Value="15" />
+        <Setter Property="FontSize"        Value="24" />
+        <Setter Property="FontAttributes"  Value="Bold" />
+        <Setter Property="TextColor"       Value="{StaticResource TextDark}" />
+        <Setter Property="FontFamily"      Value="Harmattan-Bold.ttf" />
+        <Setter Property="Margin"          Value="0, 2" />
     </Style>
 
     <!-- AUTH STYLES -->

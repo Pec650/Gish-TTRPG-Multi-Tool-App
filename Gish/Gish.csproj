@@ -71,7 +71,7 @@
 
     <ItemGroup>
       <None Remove="Resources\Splash\splash.svg" />
-      <MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="120, 120" Color="#d4d4ff" />
+      <MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="120, 120" Color="#EEF5DB" />
     </ItemGroup>
 
 </Project>

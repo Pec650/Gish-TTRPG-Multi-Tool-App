@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource TabBar}">
     
     <Grid RowDefinitions="Auto,*">
-
+        
         <!-- HEADER -->
         <Grid Grid.Row="0"
               x:Name="Header"
@@ -25,8 +25,34 @@
         <ScrollView Grid.Row="1"
                     BackgroundColor="{StaticResource PageBackground}">
             <VerticalStackLayout Padding="20" Spacing="20">
-                <Label Text="Tools" FontSize="32" HorizontalOptions="Center" />
-                <Label Text="Dice roller and other utilities will live here" FontSize="18" HorizontalOptions="Center" />
+                <Label Style="{StaticResource SubTitle}" Text="Tool Selection" HorizontalOptions="Center" />
+                <Label Style="{StaticResource SubTitleText}" Text="Dice roller and other utilities" HorizontalOptions="Center" />
+                
+                <Button x:Name="SessionScheduleDIR"
+                        Text="Session Scheduler"
+                        Style="{StaticResource ToolsButton}"
+                />
+                
+                <Button x:Name="InitiativeTrackerDIR"
+                        Text="Initiative Tracker"
+                        Style="{StaticResource ToolsButton}"
+                />
+                
+                <Button x:Name="SpellDirectoryDIR"
+                        Text="Spell Directory"
+                        Style="{StaticResource ToolsButton}"
+                />
+                
+                <Button x:Name="CRCalculatorDIR"
+                        Text="CR Calculator"
+                        Style="{StaticResource ToolsButton}"
+                />
+                
+                <Button x:Name="BestiaryDIR"
+                        Text="Bestiary"
+                        Style="{StaticResource ToolsButton}"
+                />
+                
             </VerticalStackLayout>
         </ScrollView>
         

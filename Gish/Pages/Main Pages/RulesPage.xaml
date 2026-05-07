@@ -25,7 +25,7 @@
         <ScrollView Grid.Row="1"
                     BackgroundColor="{StaticResource PageBackground}">
             <VerticalStackLayout Padding="20" Spacing="20">
-                <Label Text="Rules" FontSize="32" HorizontalOptions="Center" />
+                <Label Style="{StaticResource SubTitle}" Text="Rules" />
                 <Label Text="Rules reference will live here" FontSize="18" HorizontalOptions="Center" />
             </VerticalStackLayout>
         </ScrollView>
