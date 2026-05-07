@@ -42,7 +42,7 @@
                                        Placeholder="Enter password"
                                        Keyboard="Default"
                                        IsPassword="True"
-                                       ReturnType="Go"
+                                       ReturnType="Done"
                                        TextChanged="InputChanged"
                                        Grid.Column="0"
                                        Style="{StaticResource InputTextEntry}"></Entry>
