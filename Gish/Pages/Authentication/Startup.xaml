@@ -5,7 +5,7 @@
              x:Class="Gish.Pages.Authentication.Startup">
     <ContentPage.Content>
         <Grid ColumnDefinitions="0.1*, 0.8*, 0.1*">
-            <VerticalStackLayout Grid.Column="1" Spacing="30" HorizontalOptions="Fill">
+            <VerticalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" HorizontalOptions="Fill">
             
                 <Label Text="Gish"
                        Margin="0, 0, 0, 50"
