@@ -17,8 +17,9 @@
                    TextColor="{StaticResource TextDark}"
                    VerticalOptions="Center"/>
             <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                <Image Source="profile_icon.png" WidthRequest="36" HeightRequest="36"/>
-                <Label Text="≡" FontSize="26" TextColor="{StaticResource TextDark}" VerticalOptions="Center"/>
+                <ImageButton x:Key="ProfileBtn" Source="profile_icon.svg"
+                             Style="{StaticResource ProfilePicture}"
+                             WidthRequest="36" HeightRequest="36"></ImageButton>
             </HorizontalStackLayout>
         </Grid>
         

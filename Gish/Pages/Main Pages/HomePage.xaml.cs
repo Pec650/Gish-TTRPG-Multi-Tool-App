@@ -102,4 +102,9 @@ public partial class HomePage : ContentPage
         RollResultLabel.Text = $"Result: {final}";
         _rollLog.Insert(0, logEntry);
     }
+    
+    private void EnterProfilePage(object? sender, EventArgs e)
+    {
+        Navigation.PushAsync(new ProfilePage());
+    }
 }

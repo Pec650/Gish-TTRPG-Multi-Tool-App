@@ -36,5 +36,11 @@
             <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
         </Tab>
     </TabBar>
+    
+    <ShellContent
+        ContentTemplate="{DataTemplate main:ProfilePage}"
+        Route="ProfilePage" />
+    
+    
 
 </Shell>

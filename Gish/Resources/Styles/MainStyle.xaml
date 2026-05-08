@@ -40,6 +40,13 @@
         <Setter Property="FontFamily"     Value="Commissioner-Medium.ttf"/>
     </Style>
     
+    <!-- PROFILE PICTURE STYLE -->
+    <Style x:Key="ProfilePicture" TargetType="ImageButton">
+        <Setter Property="CornerRadius"       Value="100"/>
+        <Setter Property="BorderColor"       Value="#424C44"/>
+        <Setter Property="BorderWidth"      Value="3"/>
+    </Style>
+    
     <!-- OUTER CARD -->
     <Style x:Key="CardOuter" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{StaticResource CardOuter}" />
