@@ -42,9 +42,24 @@
     
     <!-- PROFILE PICTURE STYLE -->
     <Style x:Key="ProfilePicture" TargetType="ImageButton">
-        <Setter Property="CornerRadius"       Value="100"/>
-        <Setter Property="BorderColor"       Value="#424C44"/>
-        <Setter Property="BorderWidth"      Value="3"/>
+        <Setter Property="CornerRadius" Value="100"/>
+        <Setter Property="BorderColor"  Value="#424C44"/>
+        <Setter Property="BorderWidth"  Value="2"/>
+    </Style>
+    
+    <!-- PROFILE USERNAME TITLE -->
+    <Style x:Key="ProfileUsername" TargetType="Label">
+        <Setter Property="FontSize"       Value="30" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor"      Value="{StaticResource TextDark}" />
+        <Setter Property="FontFamily"     Value="Faustina-Bold.ttf" />
+    </Style>
+    
+    <!-- PROFILE USERNAME TITLE -->
+    <Style x:Key="ProfileEmail" TargetType="Label">
+        <Setter Property="FontSize"   Value="20" />
+        <Setter Property="TextColor"  Value="{StaticResource TextDark}" />
+        <Setter Property="FontFamily" Value="Commissioner-Medium.ttf" />
     </Style>
     
     <!-- OUTER CARD -->

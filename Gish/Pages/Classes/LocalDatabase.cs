@@ -45,4 +45,13 @@ public class LocalDatabase
 
         return isPasswordValid;
     }
+    
+    public async Task<UserAccount> getUserInfo(int id)
+    {
+        await Init();
+        var user = await _connection.Table<UserAccount>()
+            .FirstOrDefaultAsync(u => u.ID == id);
+        if (user is not null) user.PasswordHashed = null;
+        return user;
+    }
 }

@@ -39,6 +39,11 @@ public partial class App : Application
         await SecureStorage.Default.SetAsync("Current_User_ID", userID.ToString());
     }
 
+    public static int getUserID()
+    {
+        return currentUserID;
+    }
+
     public static void resetUserID()
     {
         currentUserID = -1;

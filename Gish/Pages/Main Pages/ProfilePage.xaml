@@ -31,19 +31,42 @@
         </Grid>
     
         <ScrollView Grid.Row="1"
-                    BackgroundColor="{StaticResource PageBackground}">
-            <VerticalStackLayout Padding="20" Spacing="20">
+                    BackgroundColor="{StaticResource PageBackground}"
+                    VerticalOptions="Fill">
+            <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Fill">
                 
-                <Image Source="profile_image.svg" HeightRequest="100" WidthRequest="100" Margin="0, 0, 0, 20"></Image>
+                <ImageButton Source="profile_icon.svg"
+                       Style="{StaticResource ProfilePicture}"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       BorderWidth="8"
+                       HorizontalOptions="Center"
+                       Margin="0, 10, 0, 0"/>
         
-                <Label x:Name="FullName" Text=""
-                       FontAttributes="Bold"
+                <Label x:Name="UsernameText" Text="Username"
+                       Style="{StaticResource ProfileUsername}"
+                       HorizontalTextAlignment="Center" />
+                
+                <Label x:Name="EmailText" Text="Email Address"
+                       Style="{StaticResource ProfileEmail}"
                        HorizontalTextAlignment="Center"
-                       FontSize="25"
-                       TextColor="Black"/>
-        
-                <!-- <Button x:Name="SubmitBtn" Text="Log Out" Clicked="LogOut" BackgroundColor="DimGray" -->
-                <!--         Style="{StaticResource SubmitBtn}"></Button> -->
+                       Margin="0, 0, 0, 10"/>
+                
+                <VerticalStackLayout VerticalOptions="End" Spacing="20">
+                    <Button x:Name="EditProfileButton"
+                            Text="Edit Profile"
+                            Style="{StaticResource ToolsButton}"/>
+                    <Button x:Name="SettingsButton"
+                            Text="Settings"
+                            Style="{StaticResource ToolsButton}"/>
+                    <Button x:Name="LogOutButton"
+                            Text="Log Out"
+                            Style="{StaticResource ToolsButton}"
+                            BackgroundColor="#FE5F55"
+                            TextColor="White"
+                            BorderWidth="0"
+                            Clicked="LogOut"/>
+                </VerticalStackLayout>
                 
             </VerticalStackLayout>
         </ScrollView>
