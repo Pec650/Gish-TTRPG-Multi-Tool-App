@@ -49,4 +49,52 @@ public partial class App : Application
     {
         return currentUserID >= 0;
     }
+    
+    public static List<Button> getAllButtons(Element parent)
+    {
+        List<Button> buttons = new List<Button>();
+
+        if (parent is IVisualTreeElement container)
+        {
+            foreach (var child in container.GetVisualChildren())
+            {
+                if (child is Button button)
+                {
+                    buttons.Add(button);
+                }
+            
+                buttons.AddRange(getAllButtons((Element)child));
+            }
+        }
+        return buttons;
+    }
+    
+    public static void setButtonState(List<Button> buttons, bool enable)
+    {
+        buttons.ForEach(btn => btn.IsEnabled = enable);
+    }
+    
+    public static List<ImageButton> getAllImageButtons(Element parent)
+    {
+        List<ImageButton> buttons = new List<ImageButton>();
+
+        if (parent is IVisualTreeElement container)
+        {
+            foreach (var child in container.GetVisualChildren())
+            {
+                if (child is ImageButton button)
+                {
+                    buttons.Add(button);
+                }
+            
+                buttons.AddRange(getAllImageButtons((Element)child));
+            }
+        }
+        return buttons;
+    }
+    
+    public static void setImageButtonState(List<ImageButton> buttons, bool enable)
+    {
+        buttons.ForEach(btn => btn.IsEnabled = enable);
+    }
 }

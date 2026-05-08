@@ -21,7 +21,7 @@
                 <ImageButton x:Key="ProfileBtn" Source="profile_icon.svg"
                              Style="{StaticResource ProfilePicture}"
                              WidthRequest="36" HeightRequest="36"
-                             Clicked="EnterProfilePage"></ImageButton>
+                             Clicked="goToProfilePage"></ImageButton>
             </HorizontalStackLayout>
         </Grid>
 

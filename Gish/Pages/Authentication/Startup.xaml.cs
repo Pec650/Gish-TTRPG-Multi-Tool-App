@@ -8,6 +8,8 @@ namespace Gish.Pages.Authentication;
 
 public partial class Startup : ContentPage
 {
+    private List<Button> cachedButtons = new List<Button>();
+    
     public Startup()
     {
         InitializeComponent();
@@ -16,20 +18,27 @@ public partial class Startup : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        App.setButtonState(cachedButtons, true);
+    }
+    
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        cachedButtons = App.getAllButtons(this);
         
-        GoToLoginBtn.IsEnabled = true;
-        GoToSignUpBtn.IsEnabled = true;
+        App.setButtonState(cachedButtons, true);
     }
 
     private void RedirectToLogin(object? sender, EventArgs e)
     {
-        GoToLoginBtn.IsEnabled = false;
+        App.setButtonState(cachedButtons, false);
         Navigation.PushAsync(new SignInPage());
     }
 
     private void RedirectToSignup(object? sender, EventArgs e)
     {
-        GoToSignUpBtn.IsEnabled = false;
+        App.setButtonState(cachedButtons, false);
         Navigation.PushAsync(new SignUpPage());
     }
 }

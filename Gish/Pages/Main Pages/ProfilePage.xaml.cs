@@ -21,5 +21,13 @@ public partial class ProfilePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        ReturnButton.IsEnabled = true;
+    }
+
+    private async void ReturnPage(object? sender, EventArgs e)
+    {
+        ReturnButton.IsEnabled = false;
+        await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
     }
 }

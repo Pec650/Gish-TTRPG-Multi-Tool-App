@@ -53,7 +53,6 @@ public partial class SignUpPage
         if (success)
         {
             await GoToMain();
-            return;
         }
         
         LoadingUIState(false);
@@ -105,7 +104,14 @@ public partial class SignUpPage
 
     private async Task GoToMain()
     {
-        await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+        try
+        {
+            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+        }
+        catch (Exception e)
+        {
+            ShowError("Unable to navigate to homepage");
+        }
     }
     
     private bool IsEmptyInput(String input)

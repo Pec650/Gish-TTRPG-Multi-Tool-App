@@ -11,6 +11,9 @@ public partial class HomePage : ContentPage
     private int _bonus = 0;
     private readonly Random _rng = new();
     private readonly ObservableCollection<string> _rollLog = new();
+    
+    private List<Button> cachedButtons = new List<Button>();
+    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
 
     public class HomebrewPreview
     {
@@ -24,9 +27,22 @@ public partial class HomePage : ContentPage
         InitializeComponent();
         LoadMockData();
     }
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        
+        setAllButtonState(true);
+    }
+    
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        cachedButtons = App.getAllButtons(this);
+        cachedImgButtons = App.getAllImageButtons(this);
+
+        setAllButtonState(true);
     }
 
     private void LoadMockData()
@@ -103,8 +119,22 @@ public partial class HomePage : ContentPage
         _rollLog.Insert(0, logEntry);
     }
     
-    private void EnterProfilePage(object? sender, EventArgs e)
+    private async void goToProfilePage(object? sender, EventArgs e)
     {
-        Navigation.PushAsync(new ProfilePage());
+        try
+        {
+            setAllButtonState(false);
+            await Shell.Current.GoToAsync("//ProfilePage");
+        }
+        catch (Exception ex)
+        {
+            setAllButtonState(true);
+        }
+    }
+    
+    private void setAllButtonState(bool enable)
+    {
+        App.setButtonState(cachedButtons, enable);
+        App.setImageButtonState(cachedImgButtons, enable);
     }
 }

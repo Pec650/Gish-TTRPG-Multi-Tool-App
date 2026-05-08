@@ -19,7 +19,8 @@
             <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
                 <ImageButton x:Key="ProfileBtn" Source="profile_icon.svg"
                              Style="{StaticResource ProfilePicture}"
-                             WidthRequest="36" HeightRequest="36"></ImageButton>
+                             WidthRequest="36" HeightRequest="36"
+                             Clicked="goToProfilePage"></ImageButton>
             </HorizontalStackLayout>
         </Grid>
         
