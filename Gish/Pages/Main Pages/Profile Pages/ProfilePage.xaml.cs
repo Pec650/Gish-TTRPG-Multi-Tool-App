@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 using Gish.Pages.Classes;
+using Gish.Pages.Main_Pages.Profile_Pages;
 
-namespace Gish.Pages.MainPages;
+namespace Gish.Pages.MainPages.Profile_Pages;
 
 public partial class ProfilePage : ContentPage
 {
     private LocalDatabase _database = new LocalDatabase();
     
     private List<Button> cachedButtons = new List<Button>();
+    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
     
     public ProfilePage()
     {
@@ -23,9 +25,25 @@ public partial class ProfilePage : ContentPage
     {
         base.OnAppearing();
 
-        App.setButtonState(cachedButtons, true);
+        setAllButtonState(true);
 
         SetUserInfo();
+    }
+    
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        cachedButtons = App.getAllButtons(this);
+        cachedImgButtons = App.getAllImageButtons(this);
+
+        setAllButtonState(true);
+    }
+    
+    private void setAllButtonState(bool enable)
+    {
+        App.setButtonState(cachedButtons, enable);
+        App.setImageButtonState(cachedImgButtons, enable);
     }
     
     public async void SetUserInfo()
@@ -38,6 +56,11 @@ public partial class ProfilePage : ContentPage
             {
                 UsernameText.Text = user.Username;
                 EmailText.Text = user.EmailAddress;
+
+                if (user.ProfileImage is not null)
+                {
+                    ProfilePictureImage.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
+                }
             }
             else
             {
@@ -45,7 +68,7 @@ public partial class ProfilePage : ContentPage
                 EmailText.Text = "Error";
             }
         }
-        catch (Exception ex)
+        catch
         {
             UsernameText.Text = "Error";
             EmailText.Text = "Error";
@@ -54,31 +77,44 @@ public partial class ProfilePage : ContentPage
 
     private async void ReturnPage(object? sender, EventArgs e)
     {
-        App.setButtonState(cachedButtons, false);
+        setAllButtonState(false);
         try
         {
             await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
         }
-        catch (Exception ex)
+        catch
         {
-            App.setButtonState(cachedButtons, true);
+            setAllButtonState(true);
         }
         
+    }
+    
+    private async void GoToEditProfile(object? sender, EventArgs e)
+    {
+        setAllButtonState(false);
+        try
+        {
+            await Navigation.PushModalAsync(new EditProfilePage());
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
     }
     
     private async void LogOut(object? sender, EventArgs e)
     {
         int tempID = App.getUserID();
-        App.setButtonState(cachedButtons, false);
+        setAllButtonState(false);
         try
         {
             App.resetUserID();
             await Shell.Current.GoToAsync("//StartupPage");
         }
-        catch (Exception ex)
+        catch
         {
             App.setUserID(tempID);
-            App.setButtonState(cachedButtons, true);
+            setAllButtonState(true);
         }
     }
 }

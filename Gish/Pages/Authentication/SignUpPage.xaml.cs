@@ -95,9 +95,9 @@ public partial class SignUpPage
             ShowError("Email address already exists");
             return false;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            ShowError($"Error: {e.Message}");
+            ShowError($"Error: {ex.Message}");
             return false;
         }
     }
@@ -108,7 +108,7 @@ public partial class SignUpPage
         {
             await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
         }
-        catch (Exception e)
+        catch
         {
             ShowError("Unable to navigate to homepage");
         }

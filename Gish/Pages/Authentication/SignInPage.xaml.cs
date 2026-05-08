@@ -71,9 +71,9 @@ public partial class SignInPage
             App.setUserID(userID.Value);
             return true;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            ShowError($"Error: {e.Message}");
+            ShowError($"Error: {ex.Message}");
             return false;
         }
     }
@@ -84,7 +84,7 @@ public partial class SignInPage
         {
             await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
         }
-        catch (Exception e)
+        catch
         {
             ShowError("Unable to navigate to homepage");
         }

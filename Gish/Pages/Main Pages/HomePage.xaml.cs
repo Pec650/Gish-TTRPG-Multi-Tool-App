@@ -126,7 +126,7 @@ public partial class HomePage : ContentPage
             setAllButtonState(false);
             await Shell.Current.GoToAsync("//ProfilePage");
         }
-        catch (Exception ex)
+        catch
         {
             setAllButtonState(true);
         }

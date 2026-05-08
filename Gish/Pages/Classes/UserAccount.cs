@@ -13,4 +13,11 @@ public class UserAccount
     public string EmailAddress { get; set; }
     
     public string PasswordHashed { get; set; }
+    
+    public byte[] ProfileImage { get; set; }
+    
+    public UserAccount()
+    {
+        ProfileImage = null;
+    }
 }

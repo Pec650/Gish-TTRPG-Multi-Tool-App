@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:auth="clr-namespace:Gish.Pages.Authentication"
     xmlns:main="clr-namespace:Gish.Pages.MainPages"
+    xmlns:profile="clr-namespace:Gish.Pages.MainPages.Profile_Pages"
     Title="Gish"
     NavBarIsVisible="False"
     TabBarBackgroundColor="#F0B67F"
@@ -38,9 +39,7 @@
     </TabBar>
     
     <ShellContent
-        ContentTemplate="{DataTemplate main:ProfilePage}"
+        ContentTemplate="{DataTemplate profile:ProfilePage}"
         Route="ProfilePage" />
     
-    
-
 </Shell>

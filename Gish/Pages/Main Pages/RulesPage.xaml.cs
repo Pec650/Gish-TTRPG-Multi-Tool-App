@@ -34,7 +34,7 @@ public partial class RulesPage : ContentPage
             setAllButtonState(false);
             await Shell.Current.GoToAsync("//ProfilePage");
         }
-        catch (Exception ex)
+        catch
         {
             setAllButtonState(true);
         }

@@ -28,7 +28,6 @@
                                 Margin="0, 0, 0, -10">
                             <Entry x:Name="UsernameInput"
                                    Placeholder="Enter username"
-                                   Keyboard="Email"
                                    ReturnType="Next"
                                    TextChanged="InputChanged"
                                    Style="{StaticResource InputTextEntry}"></Entry>

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.Main_Pages.Profile_Pages.EditProfilePage"
+             Title="Profile"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource TabBar}">
+    
+    <Grid RowDefinitions="Auto,*">
+    
+        <!-- HEADER -->
+        <Grid Grid.Row="0"
+              x:Name="Header"
+              Padding="16,32,16,16"
+              ColumnDefinitions="*,Auto">
+            
+            <HorizontalStackLayout Spacing="10">
+                <ImageButton x:Name="ReturnButton"
+                             Source="back_button.png"
+                             HeightRequest="40"
+                             WidthRequest="40"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Center"
+                             Clicked="ReturnPage"
+                             Grid.Column="1"></ImageButton>
+                <Label Style="{StaticResource PageTitle}"
+                       Text="Edit Profile"
+                       TextColor="{StaticResource TextDark}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Grid>
+        
+        <ScrollView Grid.Row="1"
+                    BackgroundColor="{StaticResource PageBackground}"
+                    VerticalOptions="Fill">
+            <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Fill">
+                
+                <!-- PROFILE PICTURE INPUT -->
+                <Label Text="Profile Picture" Style="{StaticResource InputTextLabel}"></Label>
+                <ImageButton x:Name="ProfilePictureInput"
+                             Source="profile_icon.svg"
+                             Style="{StaticResource ProfilePicture}"
+                             HeightRequest="150"
+                             WidthRequest="150"
+                             BorderWidth="8"
+                             HorizontalOptions="Center"
+                             Margin="0, 10, 0, 0"/>
+                
+                <VerticalStackLayout VerticalOptions="End" Spacing="20">
+                    
+                    <!-- USERNAME INPUT -->
+                    <Label Text="Username" Style="{StaticResource InputTextLabel}"></Label>
+                    <Border Style="{StaticResource InputTextEntryBorder}"
+                            Margin="0, 10, 0, -10">
+                        <Entry x:Name="UsernameInput"
+                               Placeholder="Enter username"
+                               Keyboard="Email"
+                               ReturnType="Next"
+                               Style="{StaticResource InputTextEntry}"></Entry>
+                    </Border>
+                    
+                    <!-- EMAIL INPUT -->
+                    <!-- <Label Text="Email" Style="{StaticResource InputTextLabel}"></Label> -->
+                    <!-- <Border Style="{StaticResource InputTextEntryBorder}" -->
+                    <!--         Margin="0, 10, 0, -10"> -->
+                    <!--     <Entry x:Name="EmailInput" -->
+                    <!--            Placeholder="Enter email address" -->
+                    <!--            Keyboard="Email" -->
+                    <!--            ReturnType="Next" -->
+                    <!--            Style="{StaticResource InputTextEntry}"></Entry> -->
+                    <!-- </Border> -->
+                    
+                    <!--  -->
+                    
+                    <!-- SUBMIT BUTTON -->
+                    <Button x:Name="ConfirmButton"
+                            Text="CONFIRM"
+                            Margin="0, 25, 0, 0"
+                            Style="{StaticResource RedBtn}"/>
+                    
+                </VerticalStackLayout>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+        
+    </Grid>    
+</ContentPage>

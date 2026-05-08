@@ -74,4 +74,17 @@
       <MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="120, 120" Color="#EEF5DB" />
     </ItemGroup>
 
+    <ItemGroup>
+      <MauiXaml Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml.cs">
+        <DependentUpon>ProfilePage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
 </Project>

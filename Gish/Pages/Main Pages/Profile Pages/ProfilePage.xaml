@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.MainPages.ProfilePage"
+             x:Class="Gish.Pages.MainPages.Profile_Pages.ProfilePage"
              Title="Profile"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource TabBar}">             
@@ -35,13 +35,14 @@
                     VerticalOptions="Fill">
             <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Fill">
                 
-                <ImageButton Source="profile_icon.svg"
-                       Style="{StaticResource ProfilePicture}"
-                       HeightRequest="150"
-                       WidthRequest="150"
-                       BorderWidth="8"
-                       HorizontalOptions="Center"
-                       Margin="0, 10, 0, 0"/>
+                <ImageButton x:Name="ProfilePictureImage"
+                             Source="profile_icon.svg"
+                             Style="{StaticResource ProfilePicture}"
+                             HeightRequest="150"
+                             WidthRequest="150"
+                             BorderWidth="8"
+                             HorizontalOptions="Center"
+                             Margin="0, 10, 0, 0"/>
         
                 <Label x:Name="UsernameText" Text="Username"
                        Style="{StaticResource ProfileUsername}"
@@ -55,7 +56,8 @@
                 <VerticalStackLayout VerticalOptions="End" Spacing="20">
                     <Button x:Name="EditProfileButton"
                             Text="Edit Profile"
-                            Style="{StaticResource ToolsButton}"/>
+                            Style="{StaticResource ToolsButton}"
+                            Clicked="GoToEditProfile"/>
                     <Button x:Name="SettingsButton"
                             Text="Settings"
                             Style="{StaticResource ToolsButton}"/>
