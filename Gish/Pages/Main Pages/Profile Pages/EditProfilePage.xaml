@@ -60,19 +60,6 @@
                                Style="{StaticResource InputTextEntry}"></Entry>
                     </Border>
                     
-                    <!-- EMAIL INPUT -->
-                    <!-- <Label Text="Email" Style="{StaticResource InputTextLabel}"></Label> -->
-                    <!-- <Border Style="{StaticResource InputTextEntryBorder}" -->
-                    <!--         Margin="0, 10, 0, -10"> -->
-                    <!--     <Entry x:Name="EmailInput" -->
-                    <!--            Placeholder="Enter email address" -->
-                    <!--            Keyboard="Email" -->
-                    <!--            ReturnType="Next" -->
-                    <!--            Style="{StaticResource InputTextEntry}"></Entry> -->
-                    <!-- </Border> -->
-                    
-                    <!--  -->
-                    
                     <!-- SUBMIT BUTTON -->
                     <Button x:Name="ConfirmButton"
                             Text="CONFIRM"

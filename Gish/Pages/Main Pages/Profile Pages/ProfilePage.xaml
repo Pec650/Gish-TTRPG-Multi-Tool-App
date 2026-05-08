@@ -58,8 +58,8 @@
                             Text="Edit Profile"
                             Style="{StaticResource ToolsButton}"
                             Clicked="GoToEditProfile"/>
-                    <Button x:Name="SettingsButton"
-                            Text="Settings"
+                    <Button x:Name="ChangePasswordButton"
+                            Text="Change Password"
                             Style="{StaticResource ToolsButton}"/>
                     <Button x:Name="LogOutButton"
                             Text="Log Out"
