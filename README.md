@@ -26,3 +26,13 @@
   * Fixed theme of the header
   * Added "Commissioner" font for smaller text
   * Added Roll Log, needs improvement
+* Profile Page Update \[05/08/2026]
+
+  * Updated the tab to have icons
+  * Added headers to Creations, Tools, and Rules Page
+  * Added a new attribute for the UserAccount (ProfileImage) to store the profile picture of the user
+  * Added Profile Page
+  * Profile Page consists of Edit Profile, Change Password and Log Out
+  * Added Edit Profile Page to edit the profile picture and username
+  * Bugfix: Turn off all buttons when navigating to prevent overlapping of pages
+
