@@ -26,13 +26,13 @@ public partial class ProfilePage : ContentPage
         base.OnAppearing();
 
         setAllButtonState(true);
-
-        SetUserInfo();
     }
     
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+        
+        SetUserInfo();
 
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
@@ -114,6 +114,19 @@ public partial class ProfilePage : ContentPage
         catch
         {
             App.setUserID(tempID);
+            setAllButtonState(true);
+        }
+    }
+
+    private async void GoToChangePasswordButton(object? sender, EventArgs e)
+    {
+        setAllButtonState(false);
+        try
+        {
+            await Navigation.PushModalAsync(new ChangePasswordPage());
+        }
+        catch
+        {
             setAllButtonState(true);
         }
     }

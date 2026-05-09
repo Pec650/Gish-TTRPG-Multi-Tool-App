@@ -51,8 +51,19 @@ public class LocalDatabase
         await Init();
         var user = await _connection.Table<UserAccount>()
             .FirstOrDefaultAsync(u => u.ID == id);
-        if (user is not null) user.PasswordHashed = null;
         return user;
+    }
+
+    public async Task<bool> updateUserInfo(UserAccount user)
+    {
+        if (user is null)
+        {
+            return false;
+        }
+
+        int rowsAffected = await _connection.UpdateAsync(user);
+            
+        return rowsAffected > 0;
     }
     
     // public async Task<bool> setProfileImage(int id, FileResult img)
@@ -85,14 +96,14 @@ public class LocalDatabase
     //     return false;
     // }
     
-    public static async Task<byte[]> convertImageToByte(FileResult img)
+    public async Task<byte[]> convertImageToByte(FileResult img)
     {
         if (isFileImage(img.FileName))
         {
             try
             {
-                using var stream = await img.OpenReadAsync();
-                using var memoryStream = new MemoryStream();
+                var stream = await img.OpenReadAsync();
+                var memoryStream = new MemoryStream();
                 await stream.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
@@ -104,7 +115,7 @@ public class LocalDatabase
         return null;
     }
     
-    private static bool isFileImage(string fileName)
+    public static bool isFileImage(string fileName)
     {
         string[] allowedExtensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp" };
         string extension = Path.GetExtension(fileName).ToLower();

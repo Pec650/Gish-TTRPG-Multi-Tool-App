@@ -8,16 +8,14 @@ using Gish.Pages.Classes;
 
 namespace Gish.Pages.Main_Pages.Profile_Pages;
 
-public partial class EditProfilePage : ContentPage
+public partial class ChangePasswordPage : ContentPage
 {
     private LocalDatabase _database = new LocalDatabase();
     
     private List<Button> cachedButtons = new List<Button>();
     private List<ImageButton> cachedImgButtons = new List<ImageButton>();
     
-    private byte[] ProfileImageResult = null;
-    
-    public EditProfilePage()
+    public ChangePasswordPage()
     {
         InitializeComponent();
     }
@@ -33,8 +31,6 @@ public partial class EditProfilePage : ContentPage
     {
         base.OnHandlerChanged();
 
-        SetUserInfo();
-        
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
 
@@ -47,33 +43,6 @@ public partial class EditProfilePage : ContentPage
         App.setImageButtonState(cachedImgButtons, enable);
     }
     
-    public async void SetUserInfo()
-    {
-        try
-        {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user is not null)
-            {
-                UsernameInput.Text = user.Username;
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileImageResult = user.ProfileImage;
-                    ProfilePictureInput.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
-            }
-            else
-            {
-                UsernameInput.Text = "";
-            }
-        }
-        catch
-        {
-            UsernameInput.Text = "";
-        }
-    }
-
     private async void ReturnPage(object? sender, EventArgs e)
     {
         setAllButtonState(false);
@@ -86,34 +55,72 @@ public partial class EditProfilePage : ContentPage
             setAllButtonState(true);
         }
     }
+    
+    private void ToggleShowPassword(object? sender, EventArgs e)
+    {
+        UpdatePasswordState(PasswordInput, TogglePasswordBtn);
+    }
+
+    private void ToggleShowConfirmPassword(object? sender, EventArgs e)
+    {
+        UpdatePasswordState(ConfirmPassInput, ToggleConfirmPasswordBtn);
+    }
+    
+    private void UpdatePasswordState(Entry passwordInput, ImageButton toggleButton)
+    {
+        String openEye = "show_pass_eye.png";
+        String closedEye = "show_pass_close_eye.png";
+        
+        passwordInput.IsPassword = !passwordInput.IsPassword;
+        toggleButton.Source = (passwordInput.IsPassword) ? openEye : closedEye;
+    }
+
+    private void InputChanged(object? sender, TextChangedEventArgs e)
+    {
+        RemoveError();
+    }
 
     private async void ConfirmChange(object? sender, EventArgs e)
     {
-        string username = UsernameInput.Text;
-        
-        if (IsEmptyInput(username))
+        string password = PasswordInput.Text;
+        string confirm_pass = ConfirmPassInput.Text;
+    
+        if (IsEmptyInput(password) || IsEmptyInput(confirm_pass))
         {
             ShowError("Please input all fields");
             return;
         }
-        
+
+        if (!IsValidPassword(password))
+        {
+            return;
+        }
+
+        if (!String.Equals(password, confirm_pass))
+        {
+            ShowError("Passwords do not match");
+            return;
+        }
+    
         RemoveError();
         LoadingUIState(true);
 
-        bool success = await updateUserInfo(username);
-
+        bool success = await UpdatePassword(password);
+        
         if (success)
         {
             await GoToProfilePage();
         }
-        
+    
         LoadingUIState(false);
     }
-    
-    private async Task<bool> updateUserInfo(String username)
+
+    private async Task<bool> UpdatePassword(String password)
     {
         try
         {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            
             UserAccount user = await _database.getUserInfo(App.getUserID());
 
             if (user is null)
@@ -122,8 +129,7 @@ public partial class EditProfilePage : ContentPage
                 return false;
             }
 
-            user.Username = username;
-            user.ProfileImage = ProfileImageResult;
+            user.PasswordHashed = hashedPassword;
             
             bool updateSuccess = await _database.updateUserInfo(user);
 
@@ -154,6 +160,40 @@ public partial class EditProfilePage : ContentPage
         }
     }
     
+    private bool IsValidPassword(String password)
+    {
+        if (password.Length < 8 || password.Length > 16)
+        {
+            ShowError("Password must be 8-16 letters");
+            return false;
+        }
+
+        if (!password.Any(char.IsLetterOrDigit))
+        {
+            ShowError("Password must have a digit [0-9]");
+            return false;
+        }
+
+        if (!password.Any(char.IsLower))
+        {
+            ShowError("Password must have a lowercase [a-z]");
+            return false;
+        }
+        
+        if (!password.Any(char.IsUpper))
+        {
+            ShowError("Password must have a uppercase [A-Z]");
+            return false;
+        }
+
+        return true;
+    }
+    
+    private bool IsEmptyInput(String input)
+    {
+        return String.IsNullOrWhiteSpace(input);
+    }
+    
     private void LoadingUIState(bool isLoading)
     {
         if (isLoading)
@@ -168,11 +208,6 @@ public partial class EditProfilePage : ContentPage
         }
     }
     
-    private bool IsEmptyInput(String input)
-    {
-        return String.IsNullOrWhiteSpace(input);
-    }
-    
     private void ShowError(String errorMsg)
     {
         InputError.Text = errorMsg;
@@ -182,27 +217,5 @@ public partial class EditProfilePage : ContentPage
     private void RemoveError()
     {
         InputError.IsVisible = false;
-    }
-
-    private async void OnSelectFileClicked(object? sender, EventArgs e)
-    {
-        try
-        {
-            var result = await FilePicker.Default.PickAsync(new PickOptions
-            {
-                PickerTitle = "Please select a file",
-                FileTypes = FilePickerFileType.Images
-            });
-
-            if (result != null)
-            {
-                ProfileImageResult = await _database.convertImageToByte(result);
-                ProfilePictureInput.Source = ImageSource.FromFile(result.FullPath);
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", ex.Message, "OK");
-        }
     }
 }

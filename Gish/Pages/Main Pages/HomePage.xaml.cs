@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
+using SQLite;
+using Gish.Pages.Classes;
 
 namespace Gish.Pages.MainPages;
 
@@ -11,6 +13,8 @@ public partial class HomePage : ContentPage
     private int _bonus = 0;
     private readonly Random _rng = new();
     private readonly ObservableCollection<string> _rollLog = new();
+    
+    private LocalDatabase _database = new LocalDatabase();
     
     private List<Button> cachedButtons = new List<Button>();
     private List<ImageButton> cachedImgButtons = new List<ImageButton>();
@@ -39,10 +43,31 @@ public partial class HomePage : ContentPage
     {
         base.OnHandlerChanged();
 
+        SetUserInfo();
+        
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
 
         setAllButtonState(true);
+    }
+    
+    public async void SetUserInfo()
+    {
+        try
+        {
+            UserAccount user = await _database.getUserInfo(App.getUserID());
+
+            if (user is not null)
+            {
+
+                if (user.ProfileImage is not null)
+                {
+                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
+                }
+            }
+        }
+        catch
+        {}
     }
 
     private void LoadMockData()

@@ -18,10 +18,13 @@
                    TextColor="{StaticResource TextDark}"
                    VerticalOptions="Center"/>
             <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                <ImageButton x:Key="ProfileBtn" Source="profile_icon.svg"
-                             Style="{StaticResource ProfilePicture}"
-                             WidthRequest="36" HeightRequest="36"
-                             Clicked="goToProfilePage"></ImageButton>
+                <Border HeightRequest="36"
+                        WidthRequest="36"
+                        Style="{StaticResource ProfileBorder}">
+                    <ImageButton x:Name="ProfileBtn"
+                                 Clicked="goToProfilePage"
+                                 Style="{StaticResource ProfilePictureButton}" />
+                </Border>
             </HorizontalStackLayout>
         </Grid>
 

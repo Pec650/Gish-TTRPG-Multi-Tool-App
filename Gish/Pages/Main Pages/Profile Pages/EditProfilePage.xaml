@@ -3,7 +3,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Main_Pages.Profile_Pages.EditProfilePage"
-             Title="Profile"
+             Title="Edit Profile"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource TabBar}">
     
@@ -38,21 +38,28 @@
                 
                 <!-- PROFILE PICTURE INPUT -->
                 <Label Text="Profile Picture" Style="{StaticResource InputTextLabel}"></Label>
-                <ImageButton x:Name="ProfilePictureInput"
-                             Source="profile_icon.svg"
-                             Style="{StaticResource ProfilePicture}"
-                             HeightRequest="150"
-                             WidthRequest="150"
-                             BorderWidth="8"
-                             HorizontalOptions="Center"
-                             Margin="0, 10, 0, 0"/>
+                <Border Style="{StaticResource ProfileBorder}"
+                        HeightRequest="150"
+                        WidthRequest="150"
+                        Margin="0, 10, 0, 0"
+                        StrokeThickness="8">
+                    <ImageButton x:Name="ProfilePictureInput"
+                                 Style="{StaticResource ProfilePictureButton}"
+                                 Clicked="OnSelectFileClicked"/>
+                </Border>
+                
+                <Label Text="Edit Profile"
+                       Style="{StaticResource InputTextLabel}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="0, -10, 0, 0"></Label>
                 
                 <VerticalStackLayout VerticalOptions="End" Spacing="20">
                     
                     <!-- USERNAME INPUT -->
                     <Label Text="Username" Style="{StaticResource InputTextLabel}"></Label>
                     <Border Style="{StaticResource InputTextEntryBorder}"
-                            Margin="0, 10, 0, -10">
+                            Margin="0, 10, 0, 10">
                         <Entry x:Name="UsernameInput"
                                Placeholder="Enter username"
                                Keyboard="Email"
@@ -60,11 +67,19 @@
                                Style="{StaticResource InputTextEntry}"></Entry>
                     </Border>
                     
+                    <!-- ERROR MESSAGE -->
+                    <Label x:Name="InputError" IsVisible="False"
+                           Margin="0, -5, 0, -5"
+                           Style="{StaticResource InputErrorText}"></Label>
+                
                     <!-- SUBMIT BUTTON -->
-                    <Button x:Name="ConfirmButton"
-                            Text="CONFIRM"
-                            Margin="0, 25, 0, 0"
-                            Style="{StaticResource RedBtn}"/>
+                    <Button x:Name="SubmitBtn"
+                            Text="Confirm"
+                            Margin="0, 10"
+                            Style="{StaticResource RedBtn}"
+                            Clicked="ConfirmChange"/>
+                    
+                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" VerticalOptions="Center" />
                     
                 </VerticalStackLayout>
                 

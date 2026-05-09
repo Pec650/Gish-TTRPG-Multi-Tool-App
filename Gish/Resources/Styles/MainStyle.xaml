@@ -40,11 +40,27 @@
         <Setter Property="FontFamily"     Value="Commissioner-Medium.ttf"/>
     </Style>
     
+    <!-- PROFILE BORDER STYLE -->
+    <Style x:Key="ProfileBorder" TargetType="Border">
+        <Setter Property="HorizontalOptions" Value="Center"></Setter>
+        <Setter Property="Margin"            Value="0, 10, 0, 0"></Setter>
+        <Setter Property="Stroke"            Value="#424C44"></Setter>
+        <Setter Property="StrokeThickness"   Value="3"></Setter>
+        <Setter Property="StrokeShape"       Value="RoundRectangle 75"></Setter>
+    </Style>
+    
     <!-- PROFILE PICTURE STYLE -->
-    <Style x:Key="ProfilePicture" TargetType="ImageButton">
-        <Setter Property="CornerRadius" Value="100"/>
-        <Setter Property="BorderColor"  Value="#424C44"/>
-        <Setter Property="BorderWidth"  Value="2"/>
+    <Style x:Key="ProfilePicture" TargetType="Image">
+        <Setter Property="Source"          Value="profile_icon.svg"></Setter>
+        <Setter Property="Aspect"          Value="AspectFill"></Setter>
+        <Setter Property="BackgroundColor" Value="#424C44"></Setter>
+    </Style>
+    
+    <!-- PROFILE PICTURE BUTTON STYLE -->
+    <Style x:Key="ProfilePictureButton" TargetType="ImageButton">
+        <Setter Property="Source"          Value="profile_icon.svg"></Setter>
+        <Setter Property="Aspect"          Value="AspectFill"></Setter>
+        <Setter Property="BackgroundColor" Value="#424C44"></Setter>
     </Style>
     
     <!-- PROFILE USERNAME TITLE -->
