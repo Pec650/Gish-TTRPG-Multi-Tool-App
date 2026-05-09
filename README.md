@@ -35,4 +35,9 @@
   * Profile Page consists of Edit Profile, Change Password and Log Out
   * Added Edit Profile Page to edit the profile picture and username
   * Bugfix: Turn off all buttons when navigating to prevent overlapping of pages
+* Profile Page Update II \[05/09/2026]
+
+  * Added Edit Profile Page and Change Password Page
+  * Backend functionalities (Update) are now implemented for both pages
+  * Allow users to change their profile image
 
