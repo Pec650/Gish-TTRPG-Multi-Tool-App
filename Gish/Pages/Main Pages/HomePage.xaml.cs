@@ -8,18 +8,11 @@ namespace Gish.Pages.MainPages;
 
 public partial class HomePage : ContentPage
 {
+    private int _selectedDie = 20;
     private string _modifier = "N";
     private int _bonus = 0;
     private readonly Random _rng = new();
     private readonly ObservableCollection<string> _rollLog = new();
-    private bool _rollLogVisible = false;
-    private bool _hasRolledThisSession = false;
-
-    // Tracks how many of each die type are queued
-    private readonly Dictionary<int, int> _diceQueue = new()
-    {
-        { 4, 0 }, { 6, 0 }, { 8, 0 }, { 10, 0 }, { 12, 0 }, { 100, 0 }
-    };
     
     private LocalDatabase _database = new LocalDatabase();
     
@@ -100,33 +93,9 @@ public partial class HomePage : ContentPage
     private void OnDiceClicked(object sender, EventArgs e)
     {
         if (sender is ImageButton btn && int.TryParse(btn.CommandParameter?.ToString(), out int sides))
-        {
-            // D20 button pressed
-            if (sides == 20)
-            {
-                // Condition: If queue is empty, add 1d20. 
-                // If queue is NOT empty, we don't add d20, just proceed to roll what's there.
-                bool isQueueEmpty = !_diceQueue.Any(kv => kv.Value > 0);
-                
-                if (isQueueEmpty)
-                {
-                    // Temporarily add a d20 to the queue for this roll logic
-                    // (Note: Since we clear the queue after rolling, this is safe)
-                    _diceQueue[20] = 1; 
-                }
-
-                OnRollClicked(sender, e);
-                return;
-            }
-
-            // Other dice (d4, d6, etc.) — add 1 to queue up to 50
-            if (_diceQueue.ContainsKey(sides))
-            {
-                if (_diceQueue[sides] < 50)
-                    _diceQueue[sides]++;
-                UpdateDiceQueueLabel();
-            }
-        }
+            _selectedDie = sides;
+        else if (sender is Button textBtn && int.TryParse(textBtn.CommandParameter?.ToString(), out int sides2))
+            _selectedDie = sides2;
     }
 
     private void OnModifierClicked(object sender, EventArgs e)
@@ -147,95 +116,32 @@ public partial class HomePage : ContentPage
         BonusLabel.Text = _bonus.ToString();
     }
 
-    private void OnClearDiceClicked(object sender, EventArgs e)
+    private void OnRollClicked(object sender, EventArgs e)
     {
-        foreach (var key in _diceQueue.Keys.ToList())
-            _diceQueue[key] = 0;
-        UpdateDiceQueueLabel();
-    }
+        int roll1 = _rng.Next(1, _selectedDie + 1);
+        int final;
+        string logEntry;
 
-    private void UpdateDiceQueueLabel()
-    {
-        var active = _diceQueue
-            .Where(kv => kv.Value > 0)
-            .Select(kv => $"{kv.Value}d{kv.Key}");
-
-        if (active.Any())
+        if (_modifier == "A")
         {
-            DiceQueueLabel.Text = string.Join("  ", active);
+            int roll2 = _rng.Next(1, _selectedDie + 1);
+            final = Math.Max(roll1, roll2) + _bonus;
+            logEntry = $"D{_selectedDie} (Adv): {roll1} vs {roll2} → {final}";
+        }
+        else if (_modifier == "D")
+        {
+            int roll2 = _rng.Next(1, _selectedDie + 1);
+            final = Math.Min(roll1, roll2) + _bonus;
+            logEntry = $"D{_selectedDie} (Dis): {roll1} vs {roll2} → {final}";
         }
         else
         {
-            // If they've already rolled once, don't show the help text anymore
-            DiceQueueLabel.Text = _hasRolledThisSession 
-                ? "" 
-                : "Tap dice to add, press d20 to roll";
-        }
-    }
-
-    private void OnRollLogToggled(object sender, EventArgs e)
-    {
-        _rollLogVisible = !_rollLogVisible;
-        RollLogList.IsVisible = _rollLogVisible;
-    }
-
-    private void OnRollClicked(object sender, EventArgs e)
-    {
-        var results = new List<string>();
-        int total = 0;
-
-        // 1. Process all dice currently in the queue (including the d20 if it was added)
-        // We sort by key descending so d20/d100 usually show up first in the string
-        foreach (var sides in _diceQueue.Keys.OrderByDescending(k => k).ToList())
-        {
-            int count = _diceQueue[sides];
-            if (count <= 0) continue;
-
-            var rolls = new List<int>();
-            for (int i = 0; i < count; i++)
-            {
-                int roll;
-                // Handle Advantage/Disadvantage ONLY for d20s
-                if (sides == 20 && _modifier != "N")
-                {
-                    int r1 = _rng.Next(1, 21);
-                    int r2 = _rng.Next(1, 21);
-                    roll = (_modifier == "A") ? Math.Max(r1, r2) : Math.Min(r1, r2);
-                    results.Add($"d20 ({(_modifier == "A" ? "Adv" : "Dis")}): {r1} vs {r2} → {roll}");
-                }
-                else
-                {
-                    roll = _rng.Next(1, sides + 1);
-                    rolls.Add(roll);
-                }
-                total += roll;
-            }
-
-            if (rolls.Any())
-            {
-                results.Add($"{count}d{sides}: [{string.Join(", ", rolls)}]");
-            }
+            final = roll1 + _bonus;
+            logEntry = $"D{_selectedDie}: {roll1} + {_bonus} → {final}";
         }
 
-        // 2. Add the Bonus
-        total += _bonus;
-        if (_bonus != 0)
-            results.Add($"Bonus: {(_bonus > 0 ? "+" : "")}{_bonus}");
-
-        // 3. Update UI and Log
-        string logEntry = string.Join(" | ", results) + $" = {total}";
-        RollResultLabel.Text = $"Result: {total}";
+        RollResultLabel.Text = $"Result: {final}";
         _rollLog.Insert(0, logEntry);
-
-        // 4. CLEAR the dice queue and update label
-        _hasRolledThisSession = true;
-
-        foreach (var key in _diceQueue.Keys.ToList())
-        {
-            _diceQueue[key] = 0;
-        }
-        
-        UpdateDiceQueueLabel();
     }
     
     private async void goToProfilePage(object? sender, EventArgs e)
