@@ -13,7 +13,7 @@
               Padding="16,32,16,16"
               ColumnDefinitions="*,Auto">
             <Label Style="{StaticResource PageTitle}"
-                   Text="Your Homebrew Creations"
+                   Text="Your Creations"
                    TextColor="{StaticResource TextDark}"
                    VerticalOptions="Center"/>
             <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">

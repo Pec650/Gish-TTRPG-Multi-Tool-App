@@ -95,7 +95,7 @@
         <Setter Property="StrokeShape"     Value="RoundRectangle 8" />
         <Setter Property="Padding"         Value="10" />
     </Style>
-
+    
     <!-- ITEM TITLE -->
     <Style x:Key="ItemTitle" TargetType="Label">
         <Setter Property="FontSize"       Value="24" />
@@ -116,6 +116,31 @@
         <Setter Property="FontSize"   Value="12" />
         <Setter Property="TextColor"  Value="{StaticResource TextMid}" />
         <Setter Property="FontFamily" Value="Commissioner-Medium.ttf" />
+    </Style>
+    
+    <!-- RULES CARD -->
+    <Style x:Key="RulesCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="#EEE0CB" />
+        <Setter Property="Stroke"          Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape"     Value="RoundRectangle 12" />
+        <Setter Property="Padding"         Value="15" />
+    </Style>
+    
+    <!-- RULES TITLE -->
+    <Style x:Key="RulesTitle" TargetType="Label">
+        <Setter Property="FontSize"                Value="18" />
+        <Setter Property="TextColor"               Value="Black" />
+        <Setter Property="FontFamily"              Value="Merriweather-Bold.ttf" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+    </Style>
+    
+    <!-- RULES DESCRIPTION -->
+    <Style x:Key="RulesDescription" TargetType="Label">
+        <Setter Property="FontSize"                Value="16" />
+        <Setter Property="TextColor"               Value="Black" />
+        <Setter Property="FontFamily"              Value="Commissioner-Medium.ttf" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
     </Style>
 
     <!-- CHEVRON -->
