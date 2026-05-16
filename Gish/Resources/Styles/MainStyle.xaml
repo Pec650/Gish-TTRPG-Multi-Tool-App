@@ -118,6 +118,66 @@
         <Setter Property="FontFamily" Value="Commissioner-Medium.ttf" />
     </Style>
     
+    <!-- SEARCH CARD -->
+    <Style x:Key="SearchCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="#D4C4B2" />
+        <Setter Property="Stroke"          Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape"     Value="RoundRectangle 12" />
+        <Setter Property="Padding"         Value="15" />
+    </Style>
+    
+    <!-- SEARCH TITLE -->
+    <Style x:Key="SearchTitle" TargetType="Label">
+        <Setter Property="FontSize"       Value="25" />
+        <Setter Property="TextColor"      Value="Black" />
+        <Setter Property="FontFamily"     Value="Harmattan-Bold.ttf" />
+    </Style>
+    
+    <!-- SEARCH INPUT -->
+    <Style x:Key="SearchInput" TargetType="Entry"></Style>
+    
+    <!-- SEARCH TAGS BUTTONS -->
+    <Style x:Key="SearchTagButtonStyle" TargetType="ContentView">
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    
+        <Setter Property="ControlTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FE5F55"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Center">
+                        
+                        <Border.Shadow>
+                            <Shadow Brush="#000000"
+                                    Offset="0,2"
+                                    Radius="3"
+                                    Opacity="0.15" />
+                        </Border.Shadow>
+                    
+                        <HorizontalStackLayout Spacing="8" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center">
+                        
+                            <Image Source="{TemplateBinding AutomationId}" 
+                                   HeightRequest="24" 
+                                   WidthRequest="24"
+                                   VerticalOptions="Center"/>
+                               
+                            <Label Text="{TemplateBinding StyleId}"
+                                   TextColor="White"
+                                   FontSize="24"
+                                   FontFamily="Harmattan-Bold.ttf"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <!-- RULES CARD -->
     <Style x:Key="RulesCard" TargetType="Border">
         <Setter Property="BackgroundColor" Value="#EEE0CB" />

@@ -40,11 +40,9 @@
                               VerticalOptions="Fill">
                             <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
                                 <Label Text="Player's Handbook"
-                                       Style="{StaticResource RulesTitle}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesTitle}"/>
                                 <Label Text="Introducing the Player's Handbook (5.5e), the new and improved guide for fifth edition DUNGEONS &amp; DRAGONS."
-                                       Style="{StaticResource RulesDescription}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesDescription}"/>
                             </VerticalStackLayout>
                             <Label Grid.Row="1" 
                                    Style="{StaticResource RulesDescription}"
@@ -67,11 +65,9 @@
                               VerticalOptions="Fill">
                             <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
                                 <Label Text="Player's Handbook (2014)"
-                                       Style="{StaticResource RulesTitle}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesTitle}"/>
                                 <Label Text="Everything a player needs to create heroic characters for the world’s greatest roleplaying game."
-                                       Style="{StaticResource RulesDescription}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesDescription}"/>
                             </VerticalStackLayout>
                             <Label Grid.Row="1" 
                                    Style="{StaticResource RulesDescription}"
@@ -96,11 +92,9 @@
                               VerticalOptions="Fill">
                             <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
                                 <Label Text="Advanced Player’s Guide"
-                                       Style="{StaticResource RulesTitle}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesTitle}"/>
                                 <Label Text="Ready to go beyond the basics? Expand the limits of possibility with the Pathfinder Advanced Player’s Guide!"
-                                       Style="{StaticResource RulesDescription}"
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource RulesDescription}"/>
                             </VerticalStackLayout>
                             <Label Grid.Row="1" 
                                    Style="{StaticResource RulesDescription}"
