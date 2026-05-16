@@ -41,25 +41,40 @@
                         </Border>
                         <Label Text="Tags" Style="{StaticResource SearchTitle}"></Label>
                         <Grid RowDefinitions="*, *" ColumnDefinitions="*, *, *" RowSpacing="8" ColumnSpacing="8">
-                            <ContentView Grid.Row="0" Grid.Column="0" 
+                            <ContentView x:Name="SubclassTag" Grid.Row="0" Grid.Column="0" 
                                          Style="{StaticResource SearchTagButtonStyle}"
                                          StyleId="Subclass" AutomationId="active_subclass_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
                             </ContentView>
-                            <ContentView Grid.Row="0" Grid.Column="1" 
+                            <ContentView x:Name="LineageTag" Grid.Row="0" Grid.Column="1" 
                                          Style="{StaticResource SearchTagButtonStyle}"
                                          StyleId="Lineage" AutomationId="active_lineage_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
                             </ContentView>
-                            <ContentView Grid.Row="0" Grid.Column="2" 
+                            <ContentView x:Name="MonsterTag" Grid.Row="0" Grid.Column="2" 
                                          Style="{StaticResource SearchTagButtonStyle}"
                                          StyleId="Monster" AutomationId="active_monster_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
                             </ContentView>
-                            <ContentView Grid.Row="1" Grid.Column="0" 
+                            <ContentView x:Name="SpellTag" Grid.Row="1" Grid.Column="0" 
                                          Style="{StaticResource SearchTagButtonStyle}"
                                          StyleId="Spell" AutomationId="active_spells_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
                             </ContentView>
-                            <ContentView Grid.Row="1" Grid.Column="1" 
+                            <ContentView x:Name="FeatTag" Grid.Row="1" Grid.Column="1" 
                                          Style="{StaticResource SearchTagButtonStyle}"
                                          StyleId="Feat" AutomationId="active_feat_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
                             </ContentView>
                         </Grid>
                     </VerticalStackLayout>
@@ -74,6 +89,28 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+        
+        <Border Grid.RowSpan="2"
+                BackgroundColor="#FE5F55"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0, 0, 20, 20"
+                HeightRequest="80"
+                WidthRequest="80"
+                StrokeShape="Ellipse"
+                Padding="0">
+            
+            <Border.Shadow>
+                <Shadow Brush="#000000"
+                        Offset="0,2"
+                        Radius="20"
+                        Opacity="0.4" />
+            </Border.Shadow>
+            
+            <Label Text="+" TextColor="White" FontSize="60" FontAttributes="Bold" TranslationY="-3"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+        </Border>
         
     </Grid>
 </ContentPage>
