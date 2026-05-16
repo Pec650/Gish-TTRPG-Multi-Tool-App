@@ -40,26 +40,41 @@
                     <!-- SESSION REMINDER -->
                     <Label Text="Session Reminder" Style="{StaticResource SectionHeader}" Margin="0,16,0,0"/>
                     <Border Style="{StaticResource CardOuter}" Margin="0,6,0,0">
-                        <Grid ColumnDefinitions="48,*">
-                            <Image Source="discord_icon.png" WidthRequest="36" HeightRequest="36" VerticalOptions="Center"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
-                                <Label x:Name="SessionTitle" Text="D&amp;D Session"
-                                       Style="{StaticResource ItemTitle}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionDate" Text="May 2, 2026"
-                                       Style="{StaticResource ItemSubtitle}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
-                                       Style="{StaticResource ItemSubtitle}"
-                                       HorizontalOptions="Center"/>
+                        <VerticalStackLayout Spacing="0">
+
+                            <Border Style="{StaticResource CardInner}" Margin="0,0,0,0">
+                                <Grid ColumnDefinitions="48,*" Padding="4,4,4,4">
+                                    <Image Source="discord_icon.png"
+                                        WidthRequest="36" HeightRequest="36"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="End"
+                                                        Padding="0,0,8,0">
+                                        <Label x:Name="SessionTitle" Text="D&amp;D Session"
+                                            Style="{StaticResource ItemTitle}"
+                                            HorizontalOptions="End"/>
+                                        <Label x:Name="SessionDate" Text="May 2, 2026"
+                                            Style="{StaticResource ItemSubtitle}"
+                                            HorizontalOptions="End"/>
+                                        <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
+                                            Style="{StaticResource ItemSubtitle}"
+                                            HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+
+                            <VerticalStackLayout Spacing="2" Padding="8,6,8,6" HorizontalOptions="End">
                                 <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
-                                       Style="{StaticResource ItemSubtitleText}"
-                                       HorizontalOptions="Center"/>
+                                    Style="{StaticResource ItemSubtitleText}"
+                                    HorizontalOptions="End"/>
                                 <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
-                                       Style="{StaticResource ItemSubtitleText}"
-                                       HorizontalOptions="Center"/>
+                                    Style="{StaticResource ItemSubtitleText}"
+                                    HorizontalOptions="End"/>
                             </VerticalStackLayout>
-                        </Grid>
+
+                        </VerticalStackLayout>
                     </Border>
 
                     <!-- QUICK ROLL -->
@@ -71,22 +86,25 @@
                             <VerticalStackLayout Spacing="10" Padding="8,8,8,8">
 
                                 <!-- Dice row — starts after d20 space -->
-                                <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignItems="Center" Margin="60,0,0,0">
-                                    <ImageButton Source="dice/d4.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d6.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d8.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d10.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d12.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d100.svg" WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
-                                </FlexLayout>
+                                <Border Style="{StaticResource CardInner}">
+                                    <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignItems="Center" Margin="36,0,0,0">
+                                        
+                                        <ImageButton Source="dice/d4.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d6.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d8.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d10.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d12.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d100.svg" WidthRequest="64" HeightRequest="64" Margin="4"
+                                                    Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
+                                    </FlexLayout>
+                                </Border>
 
-                                <Label x:Name="RollResultLabel" Text="Select a die and roll"
+                                <Label x:Name="DiceQueueLabel" Text="Tap dice to add, press d20 to roll"
                                     Style="{StaticResource ItemTitle}"
                                     HorizontalOptions="Center"/>
 
@@ -95,6 +113,9 @@
                                         <Label Text="ROLL LOG" HorizontalOptions="Center"
                                             FontSize="18" TextColor="{StaticResource White}"
                                             FontFamily="Faustina-Bold.ttf"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnRollLogToggled"/>
+                                        </Border.GestureRecognizers>
                                     </Border>
                                     <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
                                         <VerticalStackLayout VerticalOptions="Center">
@@ -139,11 +160,15 @@
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Button Text="ROLL" Style="{StaticResource DangerBtn}"
-                                        Clicked="OnRollClicked" FontSize="18"
-                                        HorizontalOptions="Fill"/>
+                                <Button Text="CLEAR DICE" Style="{StaticResource RollBtn}"
+                                    Clicked="OnClearDiceClicked" FontSize="18"
+                                    HorizontalOptions="Fill"/>
+                                
+                                <Label x:Name="RollResultLabel" Text=""
+                                    Style="{StaticResource ItemSubtitle}"
+                                    HorizontalOptions="Center"/>
 
-                                <CollectionView x:Name="RollLogList" HeightRequest="120">
+                                <CollectionView x:Name="RollLogList" HeightRequest="120" IsVisible="False">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Label Text="{Binding .}" Padding="4,2"
@@ -165,7 +190,7 @@
                                     Clicked="OnDiceClicked" CommandParameter="20"
                                     BackgroundColor="#FFFF0202"
                                     Aspect="AspectFit"
-                                    Padding="12"/>
+                                    Padding="15"/>
                     </Grid>
 
                     <!-- RECENT HOMEBREW -->
