@@ -1,4 +1,3 @@
-using SQLite;
 using Gish.Pages.Classes;
 
 namespace Gish.Pages.MainPages;
@@ -70,5 +69,35 @@ public partial class RulesPage : ContentPage
     {
         App.setButtonState(cachedButtons, enable);
         App.setImageButtonState(cachedImgButtons, enable);
+    }
+
+    private void PlayersHandbookDirectory(object? sender, TappedEventArgs e)
+    {
+        string url = "https://online.anyflip.com/mldog/ynbn/mobile/";
+        goToLink(url);
+    }
+
+    private void PlayersHandbook2014Directory(object? sender, TappedEventArgs e)
+    {
+        string url = "https://online.anyflip.com/sqwmo/hzys/mobile/index.html";
+        goToLink(url);
+    }
+
+    private void PathfinderPlayersGuideDirectory(object? sender, TappedEventArgs e)
+    {
+        string url = "https://online.anyflip.com/njoma/bvqf/mobile/index.html";
+        goToLink(url);
+    }
+
+    private async void goToLink(String url)
+    {
+        try
+        {
+            await Launcher.Default.OpenAsync(url);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "Could not open the link.", "OK");
+        }
     }
 }

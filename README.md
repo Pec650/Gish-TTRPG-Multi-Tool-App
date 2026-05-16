@@ -44,3 +44,8 @@
 
   * Changed the text themes of section headers and cards
   * Fixed the Dice roller to make it in line with the prototype
+* Rules and Creation Page Update \[05/16/2026]
+
+  * Updated contents of the rules page
+  * Updated contents of the creation page
+

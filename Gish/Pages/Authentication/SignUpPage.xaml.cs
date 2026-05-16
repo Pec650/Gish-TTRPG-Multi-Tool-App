@@ -54,8 +54,10 @@ public partial class SignUpPage
         {
             await GoToMain();
         }
-        
-        LoadingUIState(false);
+        else
+        {
+            LoadingUIState(false);
+        }
     }
 
     public async Task<bool> SignupUser(string username, string email, string password)
@@ -111,6 +113,7 @@ public partial class SignUpPage
         catch
         {
             ShowError("Unable to navigate to homepage");
+            LoadingUIState(false);
         }
     }
     
