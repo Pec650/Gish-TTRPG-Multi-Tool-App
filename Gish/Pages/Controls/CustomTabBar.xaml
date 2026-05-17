@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.Controls.CustomTabBar">
+
+    <Border BackgroundColor="{StaticResource TabBar}"
+            Stroke="Transparent"
+            Padding="0,8,0,2"
+            HeightRequest="90"
+            Margin="0"
+            VerticalOptions="FillAndExpand">
+        <Grid ColumnDefinitions="*,*,*,*">
+
+            <!-- Home -->
+            <VerticalStackLayout Grid.Column="0" Spacing="2"
+                                 HorizontalOptions="Center"
+                                 x:Name="HomeTab">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnHomeTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Image x:Name="HomeIcon" Source="tab_icons/home_tab_icon.svg"
+                       HeightRequest="24" WidthRequest="24"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="HomeLabel" Text="Home"
+                       HorizontalOptions="Center"
+                       FontFamily="Faustina-Bold.ttf"
+                       FontSize="12"
+                       TextColor="#424C44"/>
+            </VerticalStackLayout>
+
+            <!-- Creations -->
+            <VerticalStackLayout Grid.Column="1" Spacing="2"
+                                 HorizontalOptions="Center"
+                                 x:Name="CreationsTab">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCreationsTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Image x:Name="CreationsIcon" Source="tab_icons/edit_tab_icon.svg"
+                       HeightRequest="24" WidthRequest="24"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="CreationsLabel" Text="Creations"
+                       HorizontalOptions="Center"
+                       FontFamily="Faustina-Bold.ttf"
+                       FontSize="12"
+                       TextColor="#424C44"/>
+            </VerticalStackLayout>
+
+            <!-- Tools -->
+            <VerticalStackLayout Grid.Column="2" Spacing="2"
+                                 HorizontalOptions="Center"
+                                 x:Name="ToolsTab">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnToolsTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Image x:Name="ToolsIcon" Source="tab_icons/creations_tab_icon.svg"
+                       HeightRequest="24" WidthRequest="24"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="ToolsLabel" Text="Tools"
+                       HorizontalOptions="Center"
+                       FontFamily="Faustina-Bold.ttf"
+                       FontSize="12"
+                       TextColor="#424C44"/>
+            </VerticalStackLayout>
+
+            <!-- Rules -->
+            <VerticalStackLayout Grid.Column="3" Spacing="2"
+                                 HorizontalOptions="Center"
+                                 x:Name="RulesTab">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRulesTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Image x:Name="RulesIcon" Source="tab_icons/rules_tab_icon.svg"
+                       HeightRequest="24" WidthRequest="24"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="RulesLabel" Text="Rules"
+                       HorizontalOptions="Center"
+                       FontFamily="Faustina-Bold.ttf"
+                       FontSize="12"
+                       TextColor="#424C44"/>
+            </VerticalStackLayout>
+
+        </Grid>
+    </Border>
+</ContentView>

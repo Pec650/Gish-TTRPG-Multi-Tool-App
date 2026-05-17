@@ -89,7 +89,7 @@ public partial class SignUpPage
                 return false;
             }
             
-            App.setUserID(userID.Value);
+            await App.setUserID(userID.Value);
             return true;
         }
         catch (SQLite.SQLiteException e) when (e.Message.Contains("constraint", StringComparison.OrdinalIgnoreCase))
@@ -108,7 +108,7 @@ public partial class SignUpPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+            await Shell.Current.GoToAsync("//HomePage");
         }
         catch
         {

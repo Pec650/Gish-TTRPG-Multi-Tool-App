@@ -69,7 +69,7 @@ public partial class SignInPage
                 return false;
             }
         
-            App.setUserID(userID.Value);
+            await App.setUserID(userID.Value);
             return true;
         }
         catch (Exception ex)
@@ -83,7 +83,7 @@ public partial class SignInPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+            await Shell.Current.GoToAsync("//HomePage");
         }
         catch
         {

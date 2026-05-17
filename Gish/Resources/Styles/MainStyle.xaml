@@ -249,6 +249,17 @@
         <Setter Property="StrokeShape"     Value="RoundRectangle 8" />
         <Setter Property="Padding"         Value="10,8" />
     </Style>
+
+    <!-- ROLL / CLEAR DICE BUTTON -->
+    <Style x:Key="RollBtn" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource AccentRed}" />
+        <Setter Property="TextColor"       Value="{StaticResource White}" />
+        <Setter Property="FontFamily"      Value="Faustina-Bold.ttf" />
+        <Setter Property="CornerRadius"    Value="8" />
+        <Setter Property="FontSize"        Value="18" />
+        <Setter Property="Padding"         Value="12,8" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+    </Style>
     
     <!-- TOOLS BUTTON -->
     <Style x:Key="ToolsButton" TargetType="Button">

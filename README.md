@@ -49,3 +49,8 @@
   * Updated contents of the rules page
   * Updated contents of the creation page
 
+* Tab Bar Design Shift and Home Page fix \[05/17/2026]
+
+  * Fixed an issue where on login where the homepage couldn't load and threw error exception instead
+  * Removed duplicate icons
+  * Switched tab bar design from AppShell for better design, needs improvement.
