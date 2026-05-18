@@ -80,7 +80,7 @@ public partial class ProfilePage : ContentPage
         setAllButtonState(false);
         try
         {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+            await Shell.Current.GoToAsync("//HomePage");
         }
         catch
         {

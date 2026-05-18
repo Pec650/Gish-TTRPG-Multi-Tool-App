@@ -106,7 +106,7 @@ public partial class SignUpPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+            await Shell.Current.GoToAsync("//HomePage");
         }
         catch
         {

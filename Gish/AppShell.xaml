@@ -23,20 +23,10 @@
         ContentTemplate="{DataTemplate auth:SignUpPage}"
         Route="SignUpPage" />
 
-    <TabBar Route="MainPages">
-        <Tab Title="Home" Route="HomeTab" Icon="tab_icons/home_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:HomePage}" Route="HomePage" />
-        </Tab>
-        <Tab Title="Creations" Route="CreationsTab" Icon="tab_icons/edit_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" />
-        </Tab>
-        <Tab Title="Tools" Route="ToolsTab" Icon="tab_icons/creations_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" />
-        </Tab>
-        <Tab Title="Rules" Route="RulesTab" Icon="tab_icons/rules_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
-        </Tab>
-    </TabBar>
+    <ShellContent ContentTemplate="{DataTemplate main:HomePage}" Route="HomePage" />
+    <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" />
+    <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" />
+    <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
     
     <ShellContent
         ContentTemplate="{DataTemplate profile:ProfilePage}"

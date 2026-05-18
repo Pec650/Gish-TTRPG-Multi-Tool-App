@@ -82,7 +82,7 @@ public partial class SignInPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
+            await Shell.Current.GoToAsync("//HomePage");
         }
         catch
         {
