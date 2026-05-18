@@ -7,12 +7,8 @@
     xmlns:main="clr-namespace:Gish.Pages.MainPages"
     xmlns:profile="clr-namespace:Gish.Pages.MainPages.Profile_Pages"
     Title="Gish"
-    NavBarIsVisible="False"
-    TabBarBackgroundColor="#F0B67F"
-    TabBarForegroundColor="#424C44"
-    TabBarUnselectedColor="#424C44"
-    TabBarTitleColor="#424C44">
-    
+    NavBarIsVisible="False">
+
     <ShellContent
         ContentTemplate="{DataTemplate auth:Startup}"
         Route="StartupPage" />
@@ -27,9 +23,8 @@
     <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" />
     <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" />
     <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
-    
+
     <ShellContent
         ContentTemplate="{DataTemplate profile:ProfilePage}"
         Route="ProfilePage" />
-    
 </Shell>

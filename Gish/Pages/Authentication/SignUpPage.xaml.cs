@@ -54,8 +54,10 @@ public partial class SignUpPage
         {
             await GoToMain();
         }
-        
-        LoadingUIState(false);
+        else
+        {
+            LoadingUIState(false);
+        }
     }
 
     public async Task<bool> SignupUser(string username, string email, string password)
@@ -87,7 +89,7 @@ public partial class SignUpPage
                 return false;
             }
             
-            App.setUserID(userID.Value);
+            await App.setUserID(userID.Value);
             return true;
         }
         catch (SQLite.SQLiteException e) when (e.Message.Contains("constraint", StringComparison.OrdinalIgnoreCase))
@@ -111,6 +113,7 @@ public partial class SignUpPage
         catch
         {
             ShowError("Unable to navigate to homepage");
+            LoadingUIState(false);
         }
     }
     

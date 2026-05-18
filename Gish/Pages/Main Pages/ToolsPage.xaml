@@ -29,7 +29,9 @@
         </Grid>
         
         <ScrollView Grid.Row="1"
-                    BackgroundColor="{StaticResource PageBackground}">
+                    BackgroundColor="{StaticResource PageBackground}"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Fill">
             <VerticalStackLayout Padding="20" Spacing="20">
                 <Label Style="{StaticResource SubTitle}" Text="Tool Selection" HorizontalOptions="Center" />
                 <Label Style="{StaticResource SubTitleText}" Text="Dice roller and other utilities" HorizontalOptions="Center" />
@@ -61,6 +63,8 @@
                 
             </VerticalStackLayout>
         </ScrollView>
+
+        <controls:CustomTabBar Grid.Row="2" ActiveTab="Tools"/>
         
             <controls:CustomTabBar Grid.Row="2" ActiveTab="Tools" />
     </Grid>

@@ -29,14 +29,23 @@ public partial class App : Application
         {
             currentUserID = userId;
         }
-
-        currentUserID = -1;
+        else
+        {
+            currentUserID = -1;
+        }
     }
 
-    public static async void setUserID(int userID)
+    public static async Task setUserID(int userID)
     {
         currentUserID = userID;
-        await SecureStorage.Default.SetAsync("Current_User_ID", userID.ToString());
+        try
+        {
+            await SecureStorage.Default.SetAsync("Current_User_ID", userID.ToString());
+        }
+        catch
+        {
+            // If secure storage fails, keep the in-memory ID so login can continue.
+        }
     }
 
     public static int getUserID()

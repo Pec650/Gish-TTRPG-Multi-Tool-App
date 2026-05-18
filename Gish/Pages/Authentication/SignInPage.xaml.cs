@@ -42,10 +42,11 @@ public partial class SignInPage
         if (success)
         {
             await GoToMain();
-            return;
         }
-        
-        LoadingUIState(false);
+        else
+        {
+            LoadingUIState(false);
+        }
     }
     
     public async Task<bool> SigninUser(string email, string password)
@@ -68,7 +69,7 @@ public partial class SignInPage
                 return false;
             }
         
-            App.setUserID(userID.Value);
+            await App.setUserID(userID.Value);
             return true;
         }
         catch (Exception ex)
@@ -87,6 +88,7 @@ public partial class SignInPage
         catch
         {
             ShowError("Unable to navigate to homepage");
+            LoadingUIState(false);
         }
     }
 

@@ -70,28 +70,28 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\Splash\splash.svg" />
-      <MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="120, 120" Color="#EEF5DB" />
+        <None Remove="Resources\Splash\splash.svg" />
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" BaseSize="120, 120" Color="#EEF5DB" />
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-      <MauiXaml Update="Pages\Main Pages\Profile Pages\AuthorizeChangePasswordPage.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
+        <MauiXaml Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
+        <MauiXaml Update="Pages\Main Pages\Profile Pages\AuthorizeChangePasswordPage.xaml">
+            <SubType>Designer</SubType>
+        </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml.cs">
-        <DependentUpon>ProfilePage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Pages\Main Pages\Profile Pages\AuthorizeChangePasswordPage.xaml.cs">
-        <DependentUpon>AuthorizeChangePasswordPage.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Pages\Main Pages\Profile Pages\ProfilePage.xaml.cs">
+            <DependentUpon>ProfilePage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Pages\Main Pages\Profile Pages\AuthorizeChangePasswordPage.xaml.cs">
+            <DependentUpon>AuthorizeChangePasswordPage.xaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
 </Project>
