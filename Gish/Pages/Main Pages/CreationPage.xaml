@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Gish.Pages.Controls"
              x:Class="Gish.Pages.MainPages.CreationsPage"
              Title="Creations"
              BackgroundColor="{StaticResource TabBar}">
     
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
 
         <!-- HEADER -->
         <Grid Grid.Row="0"
@@ -13,7 +14,7 @@
               Padding="16,32,16,16"
               ColumnDefinitions="*,Auto">
             <Label Style="{StaticResource PageTitle}"
-                   Text="Your Homebrew Creations"
+                   Text="Your Creations"
                    TextColor="{StaticResource TextDark}"
                    VerticalOptions="Center"/>
             <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
@@ -28,12 +29,93 @@
         </Grid>
         
         <ScrollView Grid.Row="1"
-                    BackgroundColor="{StaticResource PageBackground}">
+                    BackgroundColor="{StaticResource PageBackground}"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Fill">
             <VerticalStackLayout Padding="20" Spacing="20">
-                <Label Style="{StaticResource SubTitle}" Text="Creations" />
-                <Label Text="Your homebrew content will live here" FontSize="18" HorizontalOptions="Center" />
+                <Border Style="{StaticResource SearchCard}">
+                    <VerticalStackLayout>
+                        <Label Text="Search Creations" Style="{StaticResource SearchTitle}"></Label>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Entry x:Name="SearchInput"
+                                   Placeholder="Search by name..."
+                                   ReturnType="Go"
+                                   Style="{StaticResource InputTextEntry}"></Entry>
+                        </Border>
+                        <Label Text="Tags" Style="{StaticResource SearchTitle}"></Label>
+                        <Grid RowDefinitions="*, *" ColumnDefinitions="*, *, *" RowSpacing="8" ColumnSpacing="8">
+                            <ContentView x:Name="SubclassTag" Grid.Row="0" Grid.Column="0" 
+                                         Style="{StaticResource SearchTagButtonStyle}"
+                                         StyleId="Subclass" AutomationId="active_subclass_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
+                            <ContentView x:Name="LineageTag" Grid.Row="0" Grid.Column="1" 
+                                         Style="{StaticResource SearchTagButtonStyle}"
+                                         StyleId="Lineage" AutomationId="active_lineage_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
+                            <ContentView x:Name="MonsterTag" Grid.Row="0" Grid.Column="2" 
+                                         Style="{StaticResource SearchTagButtonStyle}"
+                                         StyleId="Monster" AutomationId="active_monster_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
+                            <ContentView x:Name="SpellTag" Grid.Row="1" Grid.Column="0" 
+                                         Style="{StaticResource SearchTagButtonStyle}"
+                                         StyleId="Spell" AutomationId="active_spells_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
+                            <ContentView x:Name="FeatTag" Grid.Row="1" Grid.Column="1" 
+                                         Style="{StaticResource SearchTagButtonStyle}"
+                                         StyleId="Feat" AutomationId="active_feat_tag_icon.svg">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="UpdateActiveTags" />
+                                </ContentView.GestureRecognizers>
+                            </ContentView>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
+                    <Label Text="You currently have no creations"
+                           Style="{StaticResource SubTitleText}"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"></Label>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+
+        <controls:CustomTabBar Grid.Row="2" ActiveTab="Creations"/>
+        
+        <Border Grid.RowSpan="2"
+                BackgroundColor="#FE5F55"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0, 0, 20, 20"
+                HeightRequest="80"
+                WidthRequest="80"
+                StrokeShape="Ellipse"
+                Padding="0">
+            
+            <Border.Shadow>
+                <Shadow Brush="#000000"
+                        Offset="0,2"
+                        Radius="20"
+                        Opacity="0.4" />
+            </Border.Shadow>
+            
+            <Label Text="+" TextColor="White" FontSize="60" FontAttributes="Bold" TranslationY="-3"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+        </Border>
         
     </Grid>
 </ContentPage>

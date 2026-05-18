@@ -1,6 +1,9 @@
 using SQLite;
 using Gish.Pages.Classes;
 
+using System.Diagnostics;
+using Debug = System.Diagnostics.Debug;
+
 namespace Gish.Pages.MainPages;
 
 public partial class CreationsPage : ContentPage
@@ -70,5 +73,54 @@ public partial class CreationsPage : ContentPage
     {
         App.setButtonState(cachedButtons, enable);
         App.setImageButtonState(cachedImgButtons, enable);
+    }
+
+    private void UpdateActiveTags(object? sender, TappedEventArgs e)
+    {
+        if (sender is ContentView)
+        {
+            var contentView = (ContentView)sender;
+
+            var border = contentView.GetVisualTreeDescendants().OfType<Border>().FirstOrDefault();
+            var label = contentView.GetVisualTreeDescendants().OfType<Label>().FirstOrDefault();
+            var icon = contentView.GetVisualTreeDescendants().OfType<Image>().FirstOrDefault();
+
+            if (border != null && label != null && icon != null)
+            {
+                string tagType = contentView.StyleId;
+
+                bool isActive = border.BackgroundColor.Equals(Color.FromArgb("#FE5F55"));
+                
+                if (isActive)
+                {
+                    border.BackgroundColor = Color.FromArgb("#EEE0CB");
+                    label.TextColor = Color.FromArgb("#4F6367");
+                }
+                else
+                {
+                    border.BackgroundColor = Color.FromArgb("#FE5F55");
+                    label.TextColor = Colors.White;
+                }
+                
+                switch (tagType)
+                {
+                    case "Subclass":
+                        icon.Source = ((isActive) ? "" : "active_") + "subclass_tag_icon.svg";
+                        break;
+                    case "Lineage":
+                        icon.Source = ((isActive) ? "" : "active_") + "lineage_tag_icon.svg";
+                        break;
+                    case "Monster":
+                        icon.Source = ((isActive) ? "" : "active_") + "monster_tag_icon.svg";
+                        break;
+                    case "Spell":
+                        icon.Source = ((isActive) ? "" : "active_") + "spells_tag_icon.svg";
+                        break;
+                    case "Feat":
+                        icon.Source = ((isActive) ? "" : "active_") + "feat_tag_icon.svg";
+                        break;
+                }
+            }
+        }
     }
 }
