@@ -4,9 +4,11 @@
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
              x:Class="Gish.Pages.MainPages.CreationsPage"
              Title="Creations"
-             BackgroundColor="{StaticResource TabBar}">
+             BackgroundColor="{StaticResource TabBar}"
+             SafeAreaEdges="None"
+             Padding="0">
     
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
 
         <!-- HEADER -->
         <Grid Grid.Row="0"

@@ -1,8 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.Authentication.Startup">
+             x:Class="Gish.Pages.Authentication.Startup"
+             Title="Startup"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackground}">
     <ContentPage.Content>
         <Grid ColumnDefinitions="0.1*, 0.8*, 0.1*">
             <VerticalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" HorizontalOptions="Fill">

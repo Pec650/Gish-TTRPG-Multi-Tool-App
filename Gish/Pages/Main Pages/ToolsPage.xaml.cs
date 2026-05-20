@@ -1,5 +1,6 @@
 using SQLite;
 using Gish.Pages.Classes;
+using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -58,7 +59,7 @@ public partial class ToolsPage : ContentPage
         try
         {
             setAllButtonState(false);
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PushAsync(new ProfilePage());
         }
         catch
         {

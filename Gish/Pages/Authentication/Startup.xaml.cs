@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace Gish.Pages.Authentication;
 
@@ -24,21 +22,21 @@ public partial class Startup : ContentPage
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-
         cachedButtons = App.getAllButtons(this);
-        
         App.setButtonState(cachedButtons, true);
     }
 
     private void RedirectToLogin(object? sender, EventArgs e)
     {
         App.setButtonState(cachedButtons, false);
-        Navigation.PushAsync(new SignInPage());
+        // Clean swap: No navigation wrappers involved
+        App.SetMainPage(new SignInPage());
     }
 
     private void RedirectToSignup(object? sender, EventArgs e)
     {
         App.setButtonState(cachedButtons, false);
-        Navigation.PushAsync(new SignUpPage());
+        // Clean swap
+        App.SetMainPage(new SignUpPage());
     }
 }

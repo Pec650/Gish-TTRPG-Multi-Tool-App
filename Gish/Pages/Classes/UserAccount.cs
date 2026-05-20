@@ -7,14 +7,15 @@ public class UserAccount
     [PrimaryKey, AutoIncrement]
     public int ID { get; set; }
 
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
     
     [Unique]
-    public string EmailAddress { get; set; }
+    public string EmailAddress { get; set; } = string.Empty;
     
-    public string PasswordHashed { get; set; }
+    public string PasswordHashed { get; set; } = string.Empty;
     
-    public byte[] ProfileImage { get; set; }
+    // Made nullable to support default fallback placeholder icons cleanly
+    public byte[]? ProfileImage { get; set; }
     
     public UserAccount()
     {

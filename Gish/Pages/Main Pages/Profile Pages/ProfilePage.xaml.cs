@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 using Gish.Pages.Classes;
-using Gish.Pages.Main_Pages.Profile_Pages;
+using Gish.Pages.MainPages;
+using Gish.Pages.MainPages.Profile_Pages;
+using Gish.Pages.Authentication;
 
 namespace Gish.Pages.MainPages.Profile_Pages;
 
@@ -80,13 +82,12 @@ public partial class ProfilePage : ContentPage
         setAllButtonState(false);
         try
         {
-            await Shell.Current.GoToAsync("//HomePage");
+            await Navigation.PopAsync();
         }
         catch
         {
             setAllButtonState(true);
         }
-        
     }
     
     private async void GoToEditProfile(object? sender, EventArgs e)
@@ -109,7 +110,16 @@ public partial class ProfilePage : ContentPage
         try
         {
             App.resetUserID();
-            await Shell.Current.GoToAsync("//StartupPage");
+            var nav = Navigation;
+            if (nav.NavigationStack.Count > 0)
+            {
+                nav.InsertPageBefore(new Startup(), nav.NavigationStack[0]);
+                await nav.PopToRootAsync(false);
+            }
+            else
+            {
+                await nav.PushAsync(new Startup());
+            }
         }
         catch
         {

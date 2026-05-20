@@ -1,6 +1,7 @@
-﻿namespace Gish;
-
+﻿using Gish.Pages.Authentication;
 using Gish.Pages.Classes;
+
+namespace Gish;
 
 public partial class App : Application
 {
@@ -9,16 +10,30 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+
+        // Launch directly into your custom startup layout without wrappers
+        MainPage = new Gish.Pages.Authentication.Startup();
+    }
+    
+    // Direct view swapper that guarantees zero purple platform title bars
+    public static void SetMainPage(Page page)
+    {
+        if (Application.Current is not null)
+        {
+            Application.Current.MainPage = page;
+        }
     }
 
     protected override async void OnStart()
     {
-        await initUserID();
-    }
-    
-    protected override Window CreateWindow(IActivationState? activationState)
-    {
-        return new Window(new AppShell());
+        try
+        {
+            await initUserID();
+        }
+        catch
+        {
+            // Ignore secure storage initialization failures at startup.
+        }
     }
     
     private async Task initUserID()
@@ -64,6 +79,7 @@ public partial class App : Application
         return currentUserID >= 0;
     }
     
+    // VISUAL TREE HELPERS (Used by Startup page to anti-spam button clicks)
     public static List<Button> getAllButtons(Element parent)
     {
         List<Button> buttons = new List<Button>();

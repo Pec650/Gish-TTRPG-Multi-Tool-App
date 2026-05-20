@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 namespace Gish;
+
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -10,27 +11,22 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
+                // Core Template Fonts
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("AveriaLibre-Bold.ttf", "AveriaLibreBold");
-                fonts.AddFont("Harmattan-Bold.ttf", "HarmattanBold");
-                fonts.AddFont("Faustina-Bold.ttf", "FaustinaBold");
-                fonts.AddFont("Commissioner-Regular.ttf", "Commissioner");
+
+                // Your Custom Design Typography Mappings
+                fonts.AddFont("AveriaLibre-Bold.ttf", "AveriaLibre-Bold.ttf");
+                fonts.AddFont("Faustina-Bold.ttf", "Faustina-Bold.ttf");
+                fonts.AddFont("Harmattan-Bold.ttf", "Harmattan-Bold.ttf");
+                fonts.AddFont("Commissioner-Medium.ttf", "Commissioner-Medium.ttf");
+                fonts.AddFont("Commissioner-Bold.ttf", "Commissioner-Bold.ttf");
+                fonts.AddFont("Merriweather-Bold.ttf", "Merriweather-Bold.ttf");
             });
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
-        {
-#if ANDROID
-            handler.PlatformView.Background = null;
-            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-#elif IOS || MACCATALYST
-            handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-        });
 
         return builder.Build();
     }

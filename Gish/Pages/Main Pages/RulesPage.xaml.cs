@@ -1,4 +1,5 @@
 using Gish.Pages.Classes;
+using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -57,7 +58,7 @@ public partial class RulesPage : ContentPage
         try
         {
             setAllButtonState(false);
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PushAsync(new ProfilePage());
         }
         catch
         {

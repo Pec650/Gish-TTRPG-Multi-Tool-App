@@ -53,4 +53,7 @@
 
   * Fixed an issue where on login where the homepage couldn't load and threw error exception instead
   * Removed duplicate icons
-  * Switched tab bar design from AppShell for better design, needs improvement.
+  * Switched tab bar design for better design; needs improvement.
+* Removed AppShell References \[05/20/2026]
+
+  * AppShell is stupid and it shouldn't exist

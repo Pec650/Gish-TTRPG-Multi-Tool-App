@@ -1,10 +1,19 @@
+using System;
+using Microsoft.Maui.Controls;
+using Gish.Pages.MainPages;
+
 namespace Gish.Pages.Controls;
 
 public partial class CustomTabBar : ContentView
 {
+    // Registering the property so it can be set in XAML attributes
     public static readonly BindableProperty ActiveTabProperty =
-        BindableProperty.Create(nameof(ActiveTab), typeof(string), typeof(CustomTabBar),
-            defaultValue: "Home", propertyChanged: OnActiveTabChanged);
+        BindableProperty.Create(
+            nameof(ActiveTab),
+            typeof(string),
+            typeof(CustomTabBar),
+            default(string),
+            propertyChanged: OnActiveTabChanged);
 
     public string ActiveTab
     {
@@ -12,57 +21,72 @@ public partial class CustomTabBar : ContentView
         set => SetValue(ActiveTabProperty, value);
     }
 
-    private static void OnActiveTabChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        if (bindable is CustomTabBar bar)
-            bar.UpdateActiveTab((string)newValue);
-    }
-
     public CustomTabBar()
     {
         InitializeComponent();
-        Loaded += (s, e) => UpdateActiveTab(ActiveTab);
     }
 
-    private void UpdateActiveTab(string activeTab)
+    private static void OnActiveTabChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        Color active   = Color.FromArgb("#424C44");
-        Color inactive = Color.FromArgb("#424C44");
-        float activeOpacity   = 1.0f;
-        float inactiveOpacity = 0.45f;
-
-        HomeIcon.Opacity      = activeTab == "Home"      ? activeOpacity : inactiveOpacity;
-        CreationsIcon.Opacity = activeTab == "Creations" ? activeOpacity : inactiveOpacity;
-        ToolsIcon.Opacity     = activeTab == "Tools"     ? activeOpacity : inactiveOpacity;
-        RulesIcon.Opacity     = activeTab == "Rules"     ? activeOpacity : inactiveOpacity;
-
-        HomeLabel.FontAttributes      = activeTab == "Home"      ? FontAttributes.Bold : FontAttributes.None;
-        CreationsLabel.FontAttributes = activeTab == "Creations" ? FontAttributes.Bold : FontAttributes.None;
-        ToolsLabel.FontAttributes     = activeTab == "Tools"     ? FontAttributes.Bold : FontAttributes.None;
-        RulesLabel.FontAttributes     = activeTab == "Rules"     ? FontAttributes.Bold : FontAttributes.None;
+        if (bindable is CustomTabBar tabBar && newValue is string tabName)
+        {
+            tabBar.SetSelectedTab(tabName);
+        }
     }
 
-    private async void OnHomeTapped(object? sender, TappedEventArgs e)
+    private void OnHomeTapped(object sender, TappedEventArgs e)
     {
-        if (ActiveTab == "Home") return;
-        await Shell.Current.GoToAsync("//HomePage");
+        App.SetMainPage(new HomePage());
     }
 
-    private async void OnCreationsTapped(object? sender, TappedEventArgs e)
+    private void OnCreationsTapped(object sender, TappedEventArgs e)
     {
-        if (ActiveTab == "Creations") return;
-        await Shell.Current.GoToAsync("//CreationsPage");
+        App.SetMainPage(new CreationsPage());
     }
 
-    private async void OnToolsTapped(object? sender, TappedEventArgs e)
+    private void OnToolsTapped(object sender, TappedEventArgs e)
     {
-        if (ActiveTab == "Tools") return;
-        await Shell.Current.GoToAsync("//ToolsPage");
+        App.SetMainPage(new ToolsPage());
     }
 
-    private async void OnRulesTapped(object? sender, TappedEventArgs e)
+    private void OnRulesTapped(object sender, TappedEventArgs e)
     {
-        if (ActiveTab == "Rules") return;
-        await Shell.Current.GoToAsync("//RulesPage");
+        App.SetMainPage(new RulesPage());
+    }
+
+    public void SetSelectedTab(string tabName)
+    {
+        // Reset all text colors to your default dark tone
+        HomeLabel.TextColor = Color.FromArgb("#424C44");
+        CreationsLabel.TextColor = Color.FromArgb("#424C44");
+        ToolsLabel.TextColor = Color.FromArgb("#424C44");
+        RulesLabel.TextColor = Color.FromArgb("#424C44");
+        
+        // Reset all icon visibilities to dim state
+        HomeIcon.Opacity = 0.6;
+        CreationsIcon.Opacity = 0.6;
+        ToolsIcon.Opacity = 0.6;
+        RulesIcon.Opacity = 0.6;
+
+        var activeColor = Color.FromArgb("#1E2420"); 
+        switch (tabName)
+        {
+            case "Home":
+                HomeLabel.TextColor = activeColor;
+                HomeIcon.Opacity = 1.0;
+                break;
+            case "Creations":
+                CreationsLabel.TextColor = activeColor;
+                CreationsIcon.Opacity = 1.0;
+                break;
+            case "Tools":
+                ToolsLabel.TextColor = activeColor;
+                ToolsIcon.Opacity = 1.0;
+                break;
+            case "Rules":
+                RulesLabel.TextColor = activeColor;
+                RulesIcon.Opacity = 1.0;
+                break;
+        }
     }
 }

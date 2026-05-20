@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SQLite;
 using Gish.Pages.Classes;
 
-namespace Gish.Pages.Main_Pages.Profile_Pages;
+namespace Gish.Pages.MainPages.Profile_Pages;
 
 public partial class EditProfilePage : ContentPage
 {
@@ -146,7 +146,7 @@ public partial class EditProfilePage : ContentPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PopModalAsync();
         }
         catch
         {

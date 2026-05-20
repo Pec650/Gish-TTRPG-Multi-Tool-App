@@ -1,66 +1,88 @@
 ﻿namespace Gish.Pages.Authentication;
 
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SQLite;
+using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
+using Gish.Pages.MainPages;
 
-public partial class SignInPage
+public partial class SignUpPage : ContentPage
 {
     private LocalDatabase _database = new LocalDatabase();
     
-    public SignInPage()
+    public SignUpPage()
     {
         InitializeComponent();
     }
-    
-    protected async override void OnAppearing()
-    {
-        base.OnAppearing();
-        
-        PasswordInput.IsPassword = true;
-        UpdatePasswordState();
-        ResetUIStates();
-    }
 
-    private async void SubmitLogin(object? sender, EventArgs e)
+    private async void SubmitSignUp(object? sender, EventArgs e)
     {
+        string username = UsernameInput.Text;
         string email = EmailInput.Text;
         string password = PasswordInput.Text;
+        string confirm_pass = ConfirmPassInput.Text;
         
-        if (IsEmptyInput(email) || IsEmptyInput(password))
+        if (IsEmptyInput(username) || IsEmptyInput(email) ||
+            IsEmptyInput(password) || IsEmptyInput(confirm_pass))
         {
-            ShowError("Please enter a username and password");
+            ShowError("Please input all fields");
+            return;
+        }
+
+        if (!IsValidEmail(email))
+        {
+            ShowError("Invalid email address");
+            return;
+        }
+
+        if (!IsValidPassword(password))
+        {
+            return;
+        }
+
+        if (!string.Equals(password, confirm_pass))
+        {
+            ShowError("Passwords do not match");
             return;
         }
         
         RemoveError();
         LoadingUIState(true);
 
-        bool success = await SigninUser(email, password);
+        bool success = await SignupUser(username, email, password);
 
         if (success)
         {
-            await GoToMain();
+            GoToMain();
         }
         else
         {
             LoadingUIState(false);
         }
     }
-    
-    public async Task<bool> SigninUser(string email, string password)
+
+    public async Task<bool> SignupUser(string username, string email, string password)
     {
         try
         {
-            bool userFound = await _database.matchUserByEmailPassword(email, password);
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-            if (!userFound)
+            var newUser = new UserAccount
             {
-                ShowError("Incorrect email or password");
+                Username = username,
+                EmailAddress = email,
+                PasswordHashed = hashedPassword
+            };
+
+            int result = await _database.SaveUserAsync(newUser);
+
+            if (result <= 0)
+            {
+                ShowError("Unknown error has occurred");
                 return false;
             }
-            
+
             int? userID = await _database.getUserID(email);
 
             if (userID is null)
@@ -68,9 +90,14 @@ public partial class SignInPage
                 ShowError("Unknown error has occurred");
                 return false;
             }
-        
+            
             await App.setUserID(userID.Value);
             return true;
+        }
+        catch (SQLite.SQLiteException e) when (e.Message.Contains("constraint", StringComparison.OrdinalIgnoreCase))
+        {
+            ShowError("Email address already exists");
+            return false;
         }
         catch (Exception ex)
         {
@@ -79,11 +106,11 @@ public partial class SignInPage
         }
     }
 
-    private async Task GoToMain()
+    private void GoToMain()
     {
         try
         {
-            await Shell.Current.GoToAsync("//HomePage");
+            App.SetMainPage(new HomePage());
         }
         catch
         {
@@ -91,46 +118,59 @@ public partial class SignInPage
             LoadingUIState(false);
         }
     }
-
-    private bool IsEmptyInput(String input)
+    
+    private bool IsEmptyInput(string input)
     {
-        return String.IsNullOrWhiteSpace(input);
+        return string.IsNullOrWhiteSpace(input);
     }
 
-    private void ShowError(String errorMsg)
+    private bool IsValidEmail(string email)
+    {
+        return Regex.IsMatch(email,
+            @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
+            RegexOptions.IgnoreCase);
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        if (password.Length < 8 || password.Length > 16)
+        {
+            ShowError("Password must be 8-16 letters");
+            return false;
+        }
+
+        if (!password.Any(char.IsLetterOrDigit))
+        {
+            ShowError("Password must have a digit [0-9]");
+            return false;
+        }
+
+        if (!password.Any(char.IsLower))
+        {
+            ShowError("Password must have a lowercase [a-z]");
+            return false;
+        }
+        
+        if (!password.Any(char.IsUpper))
+        {
+            ShowError("Password must have a uppercase [A-Z]");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ShowError(string errorMsg)
     {
         InputError.Text = errorMsg;
         InputError.IsVisible = true;
     }
-
+    
     private void RemoveError()
     {
         InputError.IsVisible = false;
     }
-
-    private void ToggleShowPassword(object? sender, EventArgs eventArgs)
-    {
-        PasswordInput.IsPassword = !PasswordInput.IsPassword;
-        UpdatePasswordState();
-    }
-
-    private void UpdatePasswordState()
-    {
-        String openEye = "show_pass_eye.png";
-        String closedEye = "show_pass_close_eye.png";
-        
-        TogglePasswordBtn.Source = (PasswordInput.IsPassword) ? openEye : closedEye;
-    }
-
-    private void ResetUIStates()
-    {
-        EmailInput.Text = string.Empty;
-        PasswordInput.Text = string.Empty;
-        
-        RemoveError();
-        LoadingUIState(false);
-    }
-
+    
     private void LoadingUIState(bool isLoading)
     {
         if (isLoading)
@@ -144,14 +184,33 @@ public partial class SignInPage
             LoadingIndicator.IsRunning = false;
         }
     }
-
+    
     private void InputChanged(object? sender, TextChangedEventArgs e)
     {
         RemoveError();
     }
-
+    
     private void ReturnPage(object? sender, EventArgs e)
     {
-        Navigation.PopAsync();
+        App.SetMainPage(new Startup());
+    }
+
+    private void ToggleShowPassword(object? sender, EventArgs e)
+    {
+        UpdatePasswordState(PasswordInput, TogglePasswordBtn);
+    }
+
+    private void ToggleShowConfirmPassword(object? sender, EventArgs e)
+    {
+        UpdatePasswordState(ConfirmPassInput, ToggleConfirmPasswordBtn);
+    }
+    
+    private void UpdatePasswordState(Entry passwordInput, ImageButton toggleButton)
+    {
+        string openEye = "show_pass_eye.png";
+        string closedEye = "show_pass_close_eye.png";
+        
+        passwordInput.IsPassword = !passwordInput.IsPassword;
+        toggleButton.Source = (passwordInput.IsPassword) ? openEye : closedEye;
     }
 }

@@ -4,9 +4,11 @@
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
              x:Class="Gish.Pages.MainPages.ToolsPage"
              Title="Tools"
-             BackgroundColor="{StaticResource TabBar}">
+             BackgroundColor="{StaticResource TabBar}"
+             SafeAreaEdges="None"
+             Padding="0">
     
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
         
         <!-- HEADER -->
         <Grid Grid.Row="0"
@@ -65,7 +67,5 @@
         </ScrollView>
 
         <controls:CustomTabBar Grid.Row="2" ActiveTab="Tools"/>
-        
-            <controls:CustomTabBar Grid.Row="2" ActiveTab="Tools" />
     </Grid>
 </ContentPage>
