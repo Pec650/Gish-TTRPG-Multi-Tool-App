@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
-             x:Class="Gish.Pages.MainPages.HomePage"
-             Title="Home"
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="{StaticResource PageBackground}"
-             SafeAreaEdges="None"
-             Padding="0">
+             x:Class="Gish.Pages.MainPages.HomeView">
 
-    <Grid RowDefinitions="Auto,*,Auto" 
-          SafeAreaEdges="None" 
-          Padding="0" 
-          RowSpacing="0" 
-          Margin="0">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
         <Border Grid.Row="0" BackgroundColor="#FEC7A2" Padding="0" StrokeThickness="0">
             <Grid x:Name="Header"
-                  Padding="16,32,16,16"
+                  Padding="16,48,16,16"
                   ColumnDefinitions="*,Auto">
                 <Label Style="{StaticResource PageTitle}"
                        Text="Welcome User"
@@ -69,7 +60,6 @@
 
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Quick Roll" Style="{StaticResource SectionHeader}"/>
-                    
                     <Grid>
                         <Border Style="{StaticResource CardOuter}" Margin="0,4,0,0">
                             <VerticalStackLayout Spacing="12" Padding="8">
@@ -117,7 +107,7 @@
                                             <Grid RowDefinitions="*,*" ColumnDefinitions="30,20">
                                                 <Label x:Name="BonusLabel" Text="0" FontSize="14" TextColor="{StaticResource TextDark}" HorizontalOptions="Center" VerticalOptions="Center" Grid.RowSpan="2"/>
                                                 <Button Text="+" Grid.Column="1" Grid.Row="0" Clicked="OnBonusUp" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
-                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
+                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextDark="{StaticResource TextDark}"/>
                                             </Grid>
                                         </Border>
                                     </HorizontalStackLayout>
@@ -158,9 +148,5 @@
 
             </VerticalStackLayout>
         </ScrollView>
-
-        <controls:CustomTabBar Grid.Row="2" 
-                               VerticalOptions="End" />
-
     </Grid>
-</ContentPage>
+</ContentView>

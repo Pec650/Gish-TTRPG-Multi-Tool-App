@@ -48,7 +48,10 @@ public partial class ChangePasswordPage : ContentPage
         setAllButtonState(false);
         try
         {
-            await Navigation.PopModalAsync();
+            if (Application.Current?.MainPage is Page mainPage)
+            {
+                await mainPage.Navigation.PopModalAsync();
+            }
         }
         catch
         {

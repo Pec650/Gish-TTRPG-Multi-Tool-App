@@ -1,13 +1,16 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
-using SQLite;
+using System.IO;
+using System.Linq;
+using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
-public partial class HomePage : ContentPage
+// FIXED: Changed class base inheritance from ContentPage to ContentView
+public partial class HomeView : ContentView
 {
     private string _modifier = "N";
     private int _bonus = 0;
@@ -26,10 +29,10 @@ public partial class HomePage : ContentPage
     private bool _hasRolledThisSession = false;
     private bool _rollLogVisible = true;
     
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
     
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
+    private List<Button> cachedButtons = new();
+    private List<ImageButton> cachedImgButtons = new();
 
     public class HomebrewPreview
     {
@@ -38,17 +41,13 @@ public partial class HomePage : ContentPage
         public string System  { get; set; } = "";
     }
 
-    public HomePage()
+    public HomeView()
     {
         InitializeComponent();
         LoadMockData();
-    }
-    
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        
-        setAllButtonState(true);
+
+        // FIXED: Replaced OnAppearing with the modern ContentView Loaded event
+        this.Loaded += (s, e) => setAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
@@ -69,17 +68,15 @@ public partial class HomePage : ContentPage
         {
             UserAccount user = await _database.getUserInfo(App.getUserID());
 
-            if (user is not null)
+            if (user?.ProfileImage is not null)
             {
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
+                ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
             }
         }
         catch
-        {}
+        {
+            // Fail silently or handle local storage logging gracefully
+        }
     }
 
     private void LoadMockData()
@@ -98,7 +95,12 @@ public partial class HomePage : ContentPage
     {
         if (e.CurrentSelection.FirstOrDefault() is HomebrewPreview item)
         {
-            await DisplayAlertAsync("Homebrew", $"Tapped: {item.Name}", "OK");
+            // Note: DisplayAlert is a Page method. Since we are in a ContentView, 
+            // we safely dispatch it through the root App Shell layer window.
+            if (Application.Current?.MainPage is Page mainPage)
+            {
+                await mainPage.DisplayAlert("Homebrew", $"Tapped: {item.Name}", "OK");
+            }
             ((CollectionView)sender).SelectedItem = null;
         }
     }
@@ -107,7 +109,6 @@ public partial class HomePage : ContentPage
     {
         if (sender is ImageButton btn && int.TryParse(btn.CommandParameter?.ToString(), out int sides))
         {
-            // D20 button pressed triggers a roll if the queue is empty, otherwise we roll what's queued.
             if (sides == 20)
             {
                 bool isQueueEmpty = !_diceQueue.Any(kv => kv.Value > 0);
@@ -206,6 +207,7 @@ public partial class HomePage : ContentPage
             _diceQueue[key] = 0;
         UpdateDiceQueueLabel();
     }
+
     private void UpdateDiceQueueLabel()
     {
         var active = _diceQueue
@@ -230,12 +232,17 @@ public partial class HomePage : ContentPage
         RollLogList.IsVisible = _rollLogVisible;
     }
     
-    private async void goToProfilePage(object? sender, EventArgs e)
+    private void goToProfilePage(object? sender, EventArgs e)
     {
         try
         {
             setAllButtonState(false);
-            await Navigation.PushAsync(new ProfilePage());
+            
+            // Pass "Profile" token string to your MainContainerPage engine layout view system handler
+            if (Application.Current?.MainPage is MainContainerPage mainContainer)
+            {
+                mainContainer.SwitchToTab("Profile");
+            }
         }
         catch
         {

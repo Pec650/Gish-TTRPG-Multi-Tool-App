@@ -1,5 +1,8 @@
 ﻿using Gish.Pages.Authentication;
 using Gish.Pages.Classes;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace Gish;
 
@@ -11,8 +14,8 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // Launch directly into your custom startup layout without wrappers
-        MainPage = new Gish.Pages.Authentication.Startup();
+        // Launch the core window context framework natively through our container page
+        MainPage = new Gish.Pages.Authentication.AuthContainerPage();
     }
     
     // Direct view swapper that guarantees zero purple platform title bars

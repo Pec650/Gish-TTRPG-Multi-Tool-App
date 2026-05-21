@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
-             x:Class="Gish.Pages.MainPages.CreationsPage"
-             Title="Creations"
-             BackgroundColor="{StaticResource TabBar}"
-             SafeAreaEdges="None"
-             Padding="0">
+             x:Class="Gish.Pages.MainPages.CreationsView">
     
-    <Grid RowDefinitions="Auto,*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
-        <!-- HEADER -->
         <Grid Grid.Row="0"
               x:Name="Header"
               Padding="16,32,16,16"
@@ -37,14 +32,14 @@
             <VerticalStackLayout Padding="20" Spacing="20">
                 <Border Style="{StaticResource SearchCard}">
                     <VerticalStackLayout>
-                        <Label Text="Search Creations" Style="{StaticResource SearchTitle}"></Label>
+                        <Label Text="Search Creations" Style="{StaticResource SearchTitle}"/>
                         <Border Style="{StaticResource InputTextEntryBorder}">
                             <Entry x:Name="SearchInput"
                                    Placeholder="Search by name..."
                                    ReturnType="Go"
-                                   Style="{StaticResource InputTextEntry}"></Entry>
+                                   Style="{StaticResource InputTextEntry}"/>
                         </Border>
-                        <Label Text="Tags" Style="{StaticResource SearchTitle}"></Label>
+                        <Label Text="Tags" Style="{StaticResource SearchTitle}"/>
                         <Grid RowDefinitions="*, *" ColumnDefinitions="*, *, *" RowSpacing="8" ColumnSpacing="8">
                             <ContentView x:Name="SubclassTag" Grid.Row="0" Grid.Column="0" 
                                          Style="{StaticResource SearchTagButtonStyle}"
@@ -90,14 +85,12 @@
                            Style="{StaticResource SubTitleText}"
                            HorizontalTextAlignment="Center"
                            HorizontalOptions="Center"
-                           VerticalOptions="Center"></Label>
+                           VerticalOptions="Center"/>
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
-        <controls:CustomTabBar Grid.Row="2" ActiveTab="Creations"/>
-        
-        <Border Grid.RowSpan="2"
+        <Border Grid.Row="1"
                 BackgroundColor="#FE5F55"
                 HorizontalOptions="End"
                 VerticalOptions="End"
@@ -106,18 +99,13 @@
                 WidthRequest="80"
                 StrokeShape="Ellipse"
                 Padding="0">
-            
             <Border.Shadow>
-                <Shadow Brush="#000000"
-                        Offset="0,2"
-                        Radius="20"
-                        Opacity="0.4" />
+                <Shadow Brush="#000000" Offset="0,2" Radius="20" Opacity="0.4" />
             </Border.Shadow>
-            
             <Label Text="+" TextColor="White" FontSize="60" FontAttributes="Bold" TranslationY="-3"
                    HorizontalOptions="Center" VerticalOptions="Center"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
         </Border>
         
     </Grid>
-</ContentPage>
+</ContentView>

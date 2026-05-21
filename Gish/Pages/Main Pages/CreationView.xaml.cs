@@ -1,29 +1,24 @@
-using SQLite;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages.Profile_Pages;
 
-using System.Diagnostics;
-using Debug = System.Diagnostics.Debug;
-
 namespace Gish.Pages.MainPages;
 
-public partial class CreationsPage : ContentPage
+public partial class CreationsView : ContentView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
+    private List<Button> cachedButtons = new();
+    private List<ImageButton> cachedImgButtons = new();
     
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
-    
-    public CreationsPage()
+    public CreationsView()
     {
         InitializeComponent();
-    }
-    
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
         
-        setAllButtonState(true);
+        this.Loaded += (s, e) => setAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
@@ -31,10 +26,8 @@ public partial class CreationsPage : ContentPage
         base.OnHandlerChanged();
         
         SetUserInfo();
-
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
-
         setAllButtonState(true);
     }
     
@@ -43,26 +36,25 @@ public partial class CreationsPage : ContentPage
         try
         {
             UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user is not null)
+            if (user?.ProfileImage is not null)
             {
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
+                ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
             }
         }
-        catch
-        {}
+        catch { }
     }
 
-    private async void goToProfilePage(object? sender, EventArgs e)
+    private void goToProfilePage(object? sender, EventArgs e)
     {
         try
         {
             setAllButtonState(false);
-            await Navigation.PushAsync(new ProfilePage());
+            
+            // Pass "Profile" token string to your MainContainerPage engine layout view system handler
+            if (Application.Current?.MainPage is MainContainerPage mainContainer)
+            {
+                mainContainer.SwitchToTab("Profile");
+            }
         }
         catch
         {
@@ -78,10 +70,8 @@ public partial class CreationsPage : ContentPage
 
     private void UpdateActiveTags(object? sender, TappedEventArgs e)
     {
-        if (sender is ContentView)
+        if (sender is ContentView contentView)
         {
-            var contentView = (ContentView)sender;
-
             var border = contentView.GetVisualTreeDescendants().OfType<Border>().FirstOrDefault();
             var label = contentView.GetVisualTreeDescendants().OfType<Label>().FirstOrDefault();
             var icon = contentView.GetVisualTreeDescendants().OfType<Image>().FirstOrDefault();
@@ -89,7 +79,6 @@ public partial class CreationsPage : ContentPage
             if (border != null && label != null && icon != null)
             {
                 string tagType = contentView.StyleId;
-
                 bool isActive = border.BackgroundColor.Equals(Color.FromArgb("#FE5F55"));
                 
                 if (isActive)
@@ -103,22 +92,23 @@ public partial class CreationsPage : ContentPage
                     label.TextColor = Colors.White;
                 }
                 
+                string prefix = isActive ? "" : "active_";
                 switch (tagType)
                 {
                     case "Subclass":
-                        icon.Source = ((isActive) ? "" : "active_") + "subclass_tag_icon.svg";
+                        icon.Source = $"{prefix}subclass_tag_icon.svg";
                         break;
                     case "Lineage":
-                        icon.Source = ((isActive) ? "" : "active_") + "lineage_tag_icon.svg";
+                        icon.Source = $"{prefix}lineage_tag_icon.svg";
                         break;
                     case "Monster":
-                        icon.Source = ((isActive) ? "" : "active_") + "monster_tag_icon.svg";
+                        icon.Source = $"{prefix}monster_tag_icon.svg";
                         break;
                     case "Spell":
-                        icon.Source = ((isActive) ? "" : "active_") + "spells_tag_icon.svg";
+                        icon.Source = $"{prefix}spells_tag_icon.svg";
                         break;
                     case "Feat":
-                        icon.Source = ((isActive) ? "" : "active_") + "feat_tag_icon.svg";
+                        icon.Source = $"{prefix}feat_tag_icon.svg";
                         break;
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+
 using Android.Views;
 
 namespace Gish;
@@ -13,14 +14,16 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
-        // Tells the native Android window manager to draw your layouts behind the system bars
+        // Force the underlying native window canvas color to eliminate the white flash
+        Window.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.ParseColor("#EBE5C9")));
+
         if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
         {
             Window.SetDecorFitsSystemWindows(false);
         }
         else
         {
-            #pragma warning disable CS0618 // Type or member is obsolete
+            #pragma warning disable CS0618
             Window.AddFlags(WindowManagerFlags.LayoutNoLimits);
             #pragma warning restore CS0618
         }

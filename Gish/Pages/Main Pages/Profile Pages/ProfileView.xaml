@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.MainPages.Profile_Pages.ProfilePage"
-             Title="Profile"
-             NavigationPage.HasNavigationBar="False"
+             x:Class="Gish.Pages.MainPages.Profile_Pages.ProfileView"
              BackgroundColor="{StaticResource TabBar}">             
     
     <Grid RowDefinitions="Auto,*">
     
-        <!-- HEADER -->
         <Grid Grid.Row="0"
               x:Name="Header"
               Padding="16,32,16,16"
@@ -21,12 +18,10 @@
                              WidthRequest="40"
                              HorizontalOptions="Start"
                              VerticalOptions="Center"
-                             Clicked="ReturnPage"
-                             Grid.Column="1"></ImageButton>
+                             Clicked="ReturnPage"/>
                 <Label Style="{StaticResource PageTitle}"
-                       Text="Profile"
-                       TextColor="{StaticResource TextDark}"
-                       VerticalOptions="Center"/>
+                    Text="Profile"
+                    VerticalOptions="Center"/>
             </HorizontalStackLayout>
         </Grid>
     
@@ -74,4 +69,4 @@
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
-</ContentPage>
+</ContentView>

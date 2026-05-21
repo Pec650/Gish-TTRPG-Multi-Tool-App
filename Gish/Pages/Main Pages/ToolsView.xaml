@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
-             x:Class="Gish.Pages.MainPages.ToolsPage"
-             Title="Tools"
-             BackgroundColor="{StaticResource TabBar}"
-             SafeAreaEdges="None"
-             Padding="0">
+             x:Class="Gish.Pages.MainPages.ToolsView">
     
-    <Grid RowDefinitions="Auto,*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
         
-        <!-- HEADER -->
         <Grid Grid.Row="0"
               x:Name="Header"
               Padding="16,32,16,16"
@@ -38,34 +33,13 @@
                 <Label Style="{StaticResource SubTitle}" Text="Tool Selection" HorizontalOptions="Center" />
                 <Label Style="{StaticResource SubTitleText}" Text="Dice roller and other utilities" HorizontalOptions="Center" />
                 
-                <Button x:Name="SessionScheduleDIR"
-                        Text="Session Scheduler"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="InitiativeTrackerDIR"
-                        Text="Initiative Tracker"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="SpellDirectoryDIR"
-                        Text="Spell Directory"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="CRCalculatorDIR"
-                        Text="CR Calculator"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="BestiaryDIR"
-                        Text="Bestiary"
-                        Style="{StaticResource ToolsButton}"
-                />
+                <Button x:Name="SessionScheduleDIR" Text="Session Scheduler" Style="{StaticResource ToolsButton}"/>
+                <Button x:Name="InitiativeTrackerDIR" Text="Initiative Tracker" Style="{StaticResource ToolsButton}"/>
+                <Button x:Name="SpellDirectoryDIR" Text="Spell Directory" Style="{StaticResource ToolsButton}"/>
+                <Button x:Name="CRCalculatorDIR" Text="CR Calculator" Style="{StaticResource ToolsButton}"/>
+                <Button x:Name="BestiaryDIR" Text="Bestiary" Style="{StaticResource ToolsButton}"/>
                 
             </VerticalStackLayout>
         </ScrollView>
-
-        <controls:CustomTabBar Grid.Row="2" ActiveTab="Tools"/>
     </Grid>
-</ContentPage>
+</ContentView>

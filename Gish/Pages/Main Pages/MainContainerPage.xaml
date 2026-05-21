@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Gish.Pages.Controls"
+             x:Class="Gish.Pages.MainPages.MainContainerPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource PageBackground}"
+             SafeAreaEdges="None"
+             Padding="0">
+
+    <Grid RowDefinitions="*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
+
+        <Grid x:Name="ContentArea" Grid.Row="0" Margin="0" Padding="0"/>
+
+        <controls:CustomTabBar x:Name="AppTabBar" Grid.Row="1" ActiveTab="Home"/>
+
+    </Grid>
+</ContentPage>

@@ -1,19 +1,32 @@
-﻿namespace Gish.Pages.Authentication;
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages;
 
-public partial class SignUpPage : ContentPage
+namespace Gish.Pages.Authentication;
+
+public partial class SignUpView : ContentView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
+    private List<Button> cachedButtons = new();
+    private List<ImageButton> cachedImgButtons = new();
     
-    public SignUpPage()
+    public SignUpView()
     {
         InitializeComponent();
+        this.Loaded += (s, e) => setAllButtonState(true);
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        cachedButtons = App.getAllButtons(this);
+        cachedImgButtons = App.getAllImageButtons(this);
+        setAllButtonState(true);
     }
 
     private async void SubmitSignUp(object? sender, EventArgs e)
@@ -36,10 +49,7 @@ public partial class SignUpPage : ContentPage
             return;
         }
 
-        if (!IsValidPassword(password))
-        {
-            return;
-        }
+        if (!IsValidPassword(password)) return;
 
         if (!string.Equals(password, confirm_pass))
         {
@@ -108,21 +118,21 @@ public partial class SignUpPage : ContentPage
 
     private void GoToMain()
     {
-        try
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            App.SetMainPage(new HomePage());
-        }
-        catch
-        {
-            ShowError("Unable to navigate to homepage");
-            LoadingUIState(false);
-        }
+            try
+            {
+                App.SetMainPage(new Gish.Pages.MainPages.MainContainerPage());
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Navigation error: {ex.Message}");
+                LoadingUIState(false);
+            }
+        });
     }
     
-    private bool IsEmptyInput(string input)
-    {
-        return string.IsNullOrWhiteSpace(input);
-    }
+    private bool IsEmptyInput(string input) => string.IsNullOrWhiteSpace(input);
 
     private bool IsValidEmail(string email)
     {
@@ -138,25 +148,21 @@ public partial class SignUpPage : ContentPage
             ShowError("Password must be 8-16 letters");
             return false;
         }
-
         if (!password.Any(char.IsLetterOrDigit))
         {
             ShowError("Password must have a digit [0-9]");
             return false;
         }
-
         if (!password.Any(char.IsLower))
         {
             ShowError("Password must have a lowercase [a-z]");
             return false;
         }
-        
         if (!password.Any(char.IsUpper))
         {
             ShowError("Password must have a uppercase [A-Z]");
             return false;
         }
-
         return true;
     }
 
@@ -166,51 +172,44 @@ public partial class SignUpPage : ContentPage
         InputError.IsVisible = true;
     }
     
-    private void RemoveError()
-    {
-        InputError.IsVisible = false;
-    }
+    private void RemoveError() => InputError.IsVisible = false;
     
     private void LoadingUIState(bool isLoading)
     {
-        if (isLoading)
-        {
-            SubmitBtn.IsEnabled = false;
-            LoadingIndicator.IsRunning = true;
-        }
-        else
-        {
-            SubmitBtn.IsEnabled = true;
-            LoadingIndicator.IsRunning = false;
-        }
+        SubmitBtn.IsEnabled = !isLoading;
+        LoadingIndicator.IsRunning = isLoading;
     }
     
-    private void InputChanged(object? sender, TextChangedEventArgs e)
-    {
-        RemoveError();
-    }
+    private void InputChanged(object? sender, TextChangedEventArgs e) => RemoveError();
     
     private void ReturnPage(object? sender, EventArgs e)
     {
-        App.SetMainPage(new Startup());
+        Element current = this.Parent;
+        while (current != null)
+        {
+            if (current is AuthContainerPage container)
+            {
+                container.SwitchToAuthView("Startup");
+                return;
+            }
+            current = current.Parent;
+        }
     }
 
-    private void ToggleShowPassword(object? sender, EventArgs e)
-    {
-        UpdatePasswordState(PasswordInput, TogglePasswordBtn);
-    }
-
-    private void ToggleShowConfirmPassword(object? sender, EventArgs e)
-    {
-        UpdatePasswordState(ConfirmPassInput, ToggleConfirmPasswordBtn);
-    }
+    private void ToggleShowPassword(object? sender, EventArgs e) => UpdatePasswordState(PasswordInput, TogglePasswordBtn);
+    private void ToggleShowConfirmPassword(object? sender, EventArgs e) => UpdatePasswordState(ConfirmPassInput, ToggleConfirmPasswordBtn);
     
     private void UpdatePasswordState(Entry passwordInput, ImageButton toggleButton)
     {
         string openEye = "show_pass_eye.png";
         string closedEye = "show_pass_close_eye.png";
-        
         passwordInput.IsPassword = !passwordInput.IsPassword;
         toggleButton.Source = (passwordInput.IsPassword) ? openEye : closedEye;
+    }
+
+    private void setAllButtonState(bool enable)
+    {
+        App.setButtonState(cachedButtons, enable);
+        App.setImageButtonState(cachedImgButtons, enable);
     }
 }

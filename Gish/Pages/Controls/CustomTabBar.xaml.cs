@@ -6,7 +6,6 @@ namespace Gish.Pages.Controls;
 
 public partial class CustomTabBar : ContentView
 {
-    // Registering the property so it can be set in XAML attributes
     public static readonly BindableProperty ActiveTabProperty =
         BindableProperty.Create(
             nameof(ActiveTab),
@@ -24,6 +23,10 @@ public partial class CustomTabBar : ContentView
     public CustomTabBar()
     {
         InitializeComponent();
+        
+        Dispatcher.Dispatch(() => {
+            SetSelectedTab(ActiveTab ?? "Home");
+        });
     }
 
     private static void OnActiveTabChanged(BindableObject bindable, object oldValue, object newValue)
@@ -34,58 +37,74 @@ public partial class CustomTabBar : ContentView
         }
     }
 
-    private void OnHomeTapped(object sender, TappedEventArgs e)
+    private void OnTabTapped(object sender, EventArgs e)
     {
-        App.SetMainPage(new HomePage());
-    }
+        // Tap gesture target extraction checks
+        if (sender is Element element)
+        {
+            // If the gesture target doesn't house the ID directly, crawl up to its element frame (VerticalStackLayout)
+            string targetTab = element.AutomationId ?? element.Parent?.AutomationId;
 
-    private void OnCreationsTapped(object sender, TappedEventArgs e)
-    {
-        App.SetMainPage(new CreationsPage());
-    }
-
-    private void OnToolsTapped(object sender, TappedEventArgs e)
-    {
-        App.SetMainPage(new ToolsPage());
-    }
-
-    private void OnRulesTapped(object sender, TappedEventArgs e)
-    {
-        App.SetMainPage(new RulesPage());
+            if (!string.IsNullOrEmpty(targetTab))
+            {
+                if (Application.Current?.MainPage is MainContainerPage mainContainer)
+                {
+                    // Ensure this calls your actual view frame swapping method name
+                    mainContainer.SwitchToTab(targetTab);
+                }
+            }
+        }
     }
 
     public void SetSelectedTab(string tabName)
     {
-        // Reset all text colors to your default dark tone
-        HomeLabel.TextColor = Color.FromArgb("#424C44");
-        CreationsLabel.TextColor = Color.FromArgb("#424C44");
-        ToolsLabel.TextColor = Color.FromArgb("#424C44");
-        RulesLabel.TextColor = Color.FromArgb("#424C44");
+        var mutedColor = Color.FromArgb("#5D6660"); 
+        HomeLabel.TextColor = mutedColor;
+        CreationsLabel.TextColor = mutedColor;
+        ToolsLabel.TextColor = mutedColor;
+        RulesLabel.TextColor = mutedColor;
         
-        // Reset all icon visibilities to dim state
-        HomeIcon.Opacity = 0.6;
-        CreationsIcon.Opacity = 0.6;
-        ToolsIcon.Opacity = 0.6;
-        RulesIcon.Opacity = 0.6;
+        HomeIcon.Opacity = 0.5;
+        CreationsIcon.Opacity = 0.5;
+        ToolsIcon.Opacity = 0.5;
+        RulesIcon.Opacity = 0.5;
+
+        HomeHighlight.Opacity = 0;
+        HomeHighlight.Scale = 0.8;
+        CreationsHighlight.Opacity = 0;
+        CreationsHighlight.Scale = 0.8;
+        ToolsHighlight.Opacity = 0;
+        ToolsHighlight.Scale = 0.8;
+        RulesHighlight.Opacity = 0;
+        RulesHighlight.Scale = 0.8;
 
         var activeColor = Color.FromArgb("#1E2420"); 
+        
         switch (tabName)
         {
             case "Home":
                 HomeLabel.TextColor = activeColor;
                 HomeIcon.Opacity = 1.0;
+                HomeHighlight.FadeTo(1, 150);
+                HomeHighlight.ScaleTo(1.0, 150, Easing.CubicOut);
                 break;
             case "Creations":
                 CreationsLabel.TextColor = activeColor;
                 CreationsIcon.Opacity = 1.0;
+                CreationsHighlight.FadeTo(1, 150);
+                CreationsHighlight.ScaleTo(1.0, 150, Easing.CubicOut);
                 break;
             case "Tools":
                 ToolsLabel.TextColor = activeColor;
                 ToolsIcon.Opacity = 1.0;
+                ToolsHighlight.FadeTo(1, 150);
+                ToolsHighlight.ScaleTo(1.0, 150, Easing.CubicOut);
                 break;
             case "Rules":
                 RulesLabel.TextColor = activeColor;
                 RulesIcon.Opacity = 1.0;
+                RulesHighlight.FadeTo(1, 150);
+                RulesHighlight.ScaleTo(1.0, 150, Easing.CubicOut);
                 break;
         }
     }

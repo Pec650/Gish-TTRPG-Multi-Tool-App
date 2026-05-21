@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+using System.IO;
+using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
-using Gish.Pages.MainPages;
-using Gish.Pages.MainPages.Profile_Pages;
 using Gish.Pages.Authentication;
 
 namespace Gish.Pages.MainPages.Profile_Pages;
 
-public partial class ProfilePage : ContentPage
+public partial class ProfileView : ContentView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
+    private List<Button> cachedButtons = new();
+    private List<ImageButton> cachedImgButtons = new();
     
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
-    
-    public ProfilePage()
+    public ProfileView()
     {
         InitializeComponent();
-    }
-    
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        setAllButtonState(true);
+        this.Loaded += (s, e) => setAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
@@ -35,10 +24,8 @@ public partial class ProfilePage : ContentPage
         base.OnHandlerChanged();
         
         SetUserInfo();
-
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
-
         setAllButtonState(true);
     }
     
@@ -53,7 +40,6 @@ public partial class ProfilePage : ContentPage
         try
         {
             UserAccount user = await _database.getUserInfo(App.getUserID());
-
             if (user is not null)
             {
                 UsernameText.Text = user.Username;
@@ -77,12 +63,16 @@ public partial class ProfilePage : ContentPage
         }
     }
 
-    private async void ReturnPage(object? sender, EventArgs e)
+    private void ReturnPage(object? sender, EventArgs e)
     {
         setAllButtonState(false);
         try
         {
-            await Navigation.PopAsync();
+            // Direct parent view manager call to restore navigation back to your tab engine shell
+            if (Application.Current?.MainPage is MainPages.MainContainerPage container)
+            {
+                container.SwitchToTab("Home");
+            }
         }
         catch
         {
@@ -95,7 +85,11 @@ public partial class ProfilePage : ContentPage
         setAllButtonState(false);
         try
         {
-            await Navigation.PushModalAsync(new EditProfilePage());
+            // Note: Modal views must be pushed using the root window page context!
+            if (Application.Current?.MainPage is Page mainPage)
+            {
+                await mainPage.Navigation.PushModalAsync(new EditProfilePage());
+            }
         }
         catch
         {
@@ -103,37 +97,31 @@ public partial class ProfilePage : ContentPage
         }
     }
     
-    private async void LogOut(object? sender, EventArgs e)
-    {
-        int tempID = App.getUserID();
-        setAllButtonState(false);
-        try
-        {
-            App.resetUserID();
-            var nav = Navigation;
-            if (nav.NavigationStack.Count > 0)
-            {
-                nav.InsertPageBefore(new Startup(), nav.NavigationStack[0]);
-                await nav.PopToRootAsync(false);
-            }
-            else
-            {
-                await nav.PushAsync(new Startup());
-            }
-        }
-        catch
-        {
-            App.setUserID(tempID);
-            setAllButtonState(true);
-        }
-    }
-
     private async void GoToChangePasswordButton(object? sender, EventArgs e)
     {
         setAllButtonState(false);
         try
         {
-            await Navigation.PushModalAsync(new ChangePasswordPage());
+            if (Application.Current?.MainPage is Page mainPage)
+            {
+                await mainPage.Navigation.PushModalAsync(new ChangePasswordPage());
+            }
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
+    
+    private void LogOut(object? sender, EventArgs e)
+    {
+        setAllButtonState(false);
+        try
+        {
+            App.resetUserID();
+            
+            // Cleanly re-instantiate your complete authentication container view shell window
+            App.SetMainPage(new AuthContainerPage());
         }
         catch
         {

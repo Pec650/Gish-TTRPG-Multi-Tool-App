@@ -1,27 +1,25 @@
-﻿namespace Gish.Pages.Authentication;
-
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages;
 
-public partial class SignInPage : ContentPage
+namespace Gish.Pages.Authentication;
+
+public partial class SignInView : ContentView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
     
-    public SignInPage()
+    public SignInView()
     {
         InitializeComponent();
-    }
-    
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        PasswordInput.IsPassword = true;
-        UpdatePasswordState();
-        ResetUIStates();
+        
+        this.Loaded += (s, e) => {
+            PasswordInput.IsPassword = true;
+            UpdatePasswordState();
+            ResetUIStates();
+        };
     }
 
     private async void SubmitLogin(object? sender, EventArgs e)
@@ -70,7 +68,7 @@ public partial class SignInPage : ContentPage
                 return false;
             }
         
-            await App.setUserID(userID.Value);
+            App.setUserID(userID.Value);
             return true;
         }
         catch (Exception ex)
@@ -82,22 +80,22 @@ public partial class SignInPage : ContentPage
 
     private void GoToMain()
     {
-        try
+        // Force the execution back onto the device UI loop thread
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            // Direct view swap erases authentication views from memory safely
-            App.SetMainPage(new HomePage());
-        }
-        catch
-        {
-            ShowError("Unable to navigate to homepage");
-            LoadingUIState(false);
-        }
+            try
+            {
+                App.SetMainPage(new Gish.Pages.MainPages.MainContainerPage());
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Navigation error: {ex.Message}");
+                LoadingUIState(false);
+            }
+        });
     }
 
-    private bool IsEmptyInput(string input)
-    {
-        return string.IsNullOrWhiteSpace(input);
-    }
+    private bool IsEmptyInput(string input) => string.IsNullOrWhiteSpace(input);
 
     private void ShowError(string errorMsg)
     {
@@ -105,10 +103,7 @@ public partial class SignInPage : ContentPage
         InputError.IsVisible = true;
     }
 
-    private void RemoveError()
-    {
-        InputError.IsVisible = false;
-    }
+    private void RemoveError() => InputError.IsVisible = false;
 
     private void ToggleShowPassword(object? sender, EventArgs eventArgs)
     {
@@ -120,7 +115,6 @@ public partial class SignInPage : ContentPage
     {
         string openEye = "show_pass_eye.png";
         string closedEye = "show_pass_close_eye.png";
-        
         TogglePasswordBtn.Source = (PasswordInput.IsPassword) ? openEye : closedEye;
     }
 
@@ -128,33 +122,29 @@ public partial class SignInPage : ContentPage
     {
         EmailInput.Text = string.Empty;
         PasswordInput.Text = string.Empty;
-        
         RemoveError();
         LoadingUIState(false);
     }
 
     private void LoadingUIState(bool isLoading)
     {
-        if (isLoading)
-        {
-            SubmitBtn.IsEnabled = false;
-            LoadingIndicator.IsRunning = true;
-        }
-        else
-        {
-            SubmitBtn.IsEnabled = true;
-            LoadingIndicator.IsRunning = false;
-        }
+        SubmitBtn.IsEnabled = !isLoading;
+        LoadingIndicator.IsRunning = isLoading;
     }
 
-    private void InputChanged(object? sender, TextChangedEventArgs e)
-    {
-        RemoveError();
-    }
+    private void InputChanged(object? sender, TextChangedEventArgs e) => RemoveError();
 
     private void ReturnPage(object? sender, EventArgs e)
     {
-        // Go back to the onboarding hub view cleanly
-        App.SetMainPage(new Startup());
+        Element current = this.Parent;
+        while (current != null)
+        {
+            if (current is AuthContainerPage container)
+            {
+                container.SwitchToAuthView("Startup");
+                return;
+            }
+            current = current.Parent;
+        }
     }
 }

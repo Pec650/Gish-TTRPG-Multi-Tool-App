@@ -1,26 +1,23 @@
-using SQLite;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
-public partial class ToolsPage : ContentPage
+public partial class ToolsView : ContentView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
+    private List<Button> cachedButtons = new();
+    private List<ImageButton> cachedImgButtons = new();
     
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
-    
-    public ToolsPage()
+    public ToolsView()
     {
         InitializeComponent();
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
         
-        setAllButtonState(true);
+        this.Loaded += (s, e) => setAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
@@ -28,10 +25,8 @@ public partial class ToolsPage : ContentPage
         base.OnHandlerChanged();
         
         SetUserInfo();
-
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
-
         setAllButtonState(true);
     }
     
@@ -40,26 +35,25 @@ public partial class ToolsPage : ContentPage
         try
         {
             UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user is not null)
+            if (user?.ProfileImage is not null)
             {
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
+                ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
             }
         }
-        catch
-        {}
+        catch { }
     }
 
-    private async void goToProfilePage(object? sender, EventArgs e)
+    private void goToProfilePage(object? sender, EventArgs e)
     {
         try
         {
             setAllButtonState(false);
-            await Navigation.PushAsync(new ProfilePage());
+            
+            // Pass "Profile" token string to your MainContainerPage engine layout view system handler
+            if (Application.Current?.MainPage is MainContainerPage mainContainer)
+            {
+                mainContainer.SwitchToTab("Profile");
+            }
         }
         catch
         {

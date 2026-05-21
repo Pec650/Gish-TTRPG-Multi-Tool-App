@@ -4,19 +4,15 @@ using Microsoft.Maui.Controls;
 
 namespace Gish.Pages.Authentication;
 
-public partial class Startup : ContentPage
+public partial class StartupView : ContentView
 {
-    private List<Button> cachedButtons = new List<Button>();
+    private List<Button> cachedButtons = new();
     
-    public Startup()
+    public StartupView()
     {
         InitializeComponent();
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        App.setButtonState(cachedButtons, true);
+        
+        this.Loaded += (s, e) => App.setButtonState(cachedButtons, true);
     }
     
     protected override void OnHandlerChanged()
@@ -29,14 +25,18 @@ public partial class Startup : ContentPage
     private void RedirectToLogin(object? sender, EventArgs e)
     {
         App.setButtonState(cachedButtons, false);
-        // Clean swap: No navigation wrappers involved
-        App.SetMainPage(new SignInPage());
+        if (Parent is Grid parentGrid && parentGrid.Parent is AuthContainerPage container)
+        {
+            container.SwitchToAuthView("SignIn");
+        }
     }
 
     private void RedirectToSignup(object? sender, EventArgs e)
     {
         App.setButtonState(cachedButtons, false);
-        // Clean swap
-        App.SetMainPage(new SignUpPage());
+        if (Parent is Grid parentGrid && parentGrid.Parent is AuthContainerPage container)
+        {
+            container.SwitchToAuthView("SignUp");
+        }
     }
 }

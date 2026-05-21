@@ -5,78 +5,111 @@
 
     <Border BackgroundColor="#FEC7A2"
             Stroke="Transparent"
-            Padding="0,8,0,0"
-            HeightRequest="60"
+            Padding="0,4,0,4"
+            HeightRequest="64"
             Margin="0"
-            VerticalOptions="FillAndExpand">
-        <Grid ColumnDefinitions="*,*,*,*">
+            VerticalOptions="End">
+        
+        <Grid ColumnDefinitions="*,*,*,*" RowSpacing="0">
 
-            <!-- Home -->
             <VerticalStackLayout Grid.Column="0" Spacing="2"
-                                 HorizontalOptions="Center"
-                                 x:Name="HomeTab">
+                                 HorizontalOptions="Center" VerticalOptions="Center"
+                                 x:Name="HomeTab"
+                                 AutomationId="Home">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnHomeTapped"/>
+                    <TapGestureRecognizer Tapped="OnTabTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Image x:Name="HomeIcon" Source="tab_icons/home_tab_icon.svg"
-                       HeightRequest="24" WidthRequest="24"
-                       HorizontalOptions="Center"/>
+                
+                <Grid HeightRequest="32" WidthRequest="48" HorizontalOptions="Center">
+                    <Border x:Name="HomeHighlight"
+                            BackgroundColor="#E8A984" 
+                            StrokeShape="RoundRectangle 16"
+                            Opacity="0"
+                            Scale="0.8"
+                            HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                    <Image x:Name="HomeIcon" Source="tab_icons/home_tab_icon.svg"
+                           HeightRequest="22" WidthRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+                
                 <Label x:Name="HomeLabel" Text="Home"
-                       HorizontalOptions="Center"
-                       FontFamily="Faustina-Bold.ttf"
-                       FontSize="12"
-                       TextColor="#424C44"/>
+                       HorizontalOptions="Center" FontFamily="Faustina-Bold.ttf"
+                       FontSize="11" TextColor="#424C44"/>
             </VerticalStackLayout>
 
-            <!-- Creations -->
             <VerticalStackLayout Grid.Column="1" Spacing="2"
-                                 HorizontalOptions="Center"
-                                 x:Name="CreationsTab">
+                                 HorizontalOptions="Center" VerticalOptions="Center"
+                                 x:Name="CreationsTab"
+                                 AutomationId="Creations">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnCreationsTapped"/>
+                    <TapGestureRecognizer Tapped="OnTabTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Image x:Name="CreationsIcon" Source="tab_icons/edit_tab_icon.svg"
-                       HeightRequest="24" WidthRequest="24"
-                       HorizontalOptions="Center"/>
+                
+                <Grid HeightRequest="32" WidthRequest="48" HorizontalOptions="Center">
+                    <Border x:Name="CreationsHighlight"
+                            BackgroundColor="#E8A984" 
+                            StrokeShape="RoundRectangle 16"
+                            Opacity="0"
+                            Scale="0.8"
+                            HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                    <Image x:Name="CreationsIcon" Source="tab_icons/edit_tab_icon.svg"
+                           HeightRequest="22" WidthRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+                
                 <Label x:Name="CreationsLabel" Text="Creations"
-                       HorizontalOptions="Center"
-                       FontFamily="Faustina-Bold.ttf"
-                       FontSize="12"
-                       TextColor="#424C44"/>
+                       HorizontalOptions="Center" FontFamily="Faustina-Bold.ttf"
+                       FontSize="11" TextColor="#424C44"/>
             </VerticalStackLayout>
 
-            <!-- Tools -->
             <VerticalStackLayout Grid.Column="2" Spacing="2"
-                                 HorizontalOptions="Center"
-                                 x:Name="ToolsTab">
+                                 HorizontalOptions="Center" VerticalOptions="Center"
+                                 x:Name="ToolsTab"
+                                 AutomationId="Tools">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnToolsTapped"/>
+                    <TapGestureRecognizer Tapped="OnTabTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Image x:Name="ToolsIcon" Source="tab_icons/creations_tab_icon.svg"
-                       HeightRequest="24" WidthRequest="24"
-                       HorizontalOptions="Center"/>
+                
+                <Grid HeightRequest="32" WidthRequest="48" HorizontalOptions="Center">
+                    <Border x:Name="ToolsHighlight"
+                            BackgroundColor="#E8A984" 
+                            StrokeShape="RoundRectangle 16"
+                            Opacity="0"
+                            Scale="0.8"
+                            HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                    <Image x:Name="ToolsIcon" Source="tab_icons/creations_tab_icon.svg"
+                           HeightRequest="22" WidthRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+                
                 <Label x:Name="ToolsLabel" Text="Tools"
-                       HorizontalOptions="Center"
-                       FontFamily="Faustina-Bold.ttf"
-                       FontSize="12"
-                       TextColor="#424C44"/>
+                       HorizontalOptions="Center" FontFamily="Faustina-Bold.ttf"
+                       FontSize="11" TextColor="#424C44"/>
             </VerticalStackLayout>
 
-            <!-- Rules -->
             <VerticalStackLayout Grid.Column="3" Spacing="2"
-                                 HorizontalOptions="Center"
-                                 x:Name="RulesTab">
+                                 HorizontalOptions="Center" VerticalOptions="Center"
+                                 x:Name="RulesTab"
+                                 AutomationId="Rules">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnRulesTapped"/>
+                    <TapGestureRecognizer Tapped="OnTabTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Image x:Name="RulesIcon" Source="tab_icons/rules_tab_icon.svg"
-                       HeightRequest="24" WidthRequest="24"
-                       HorizontalOptions="Center"/>
+                
+                <Grid HeightRequest="32" WidthRequest="48" HorizontalOptions="Center">
+                    <Border x:Name="RulesHighlight"
+                            BackgroundColor="#E8A984" 
+                            StrokeShape="RoundRectangle 16"
+                            Opacity="0"
+                            Scale="0.8"
+                            HorizontalOptions="Fill" VerticalOptions="Fill"/>
+                    <Image x:Name="RulesIcon" Source="tab_icons/rules_tab_icon.svg"
+                           HeightRequest="22" WidthRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+                
                 <Label x:Name="RulesLabel" Text="Rules"
-                       HorizontalOptions="Center"
-                       FontFamily="Faustina-Bold.ttf"
-                       FontSize="12"
-                       TextColor="#424C44"/>
+                       HorizontalOptions="Center" FontFamily="Faustina-Bold.ttf"
+                       FontSize="11" TextColor="#424C44"/>
             </VerticalStackLayout>
 
         </Grid>
