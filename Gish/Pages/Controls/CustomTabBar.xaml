@@ -5,7 +5,7 @@
 
     <Border BackgroundColor="#FEC7A2"
             Stroke="Transparent"
-            Padding="0,4,0,4"
+            Padding="0,4,0,20"
             HeightRequest="64"
             Margin="0"
             VerticalOptions="End">

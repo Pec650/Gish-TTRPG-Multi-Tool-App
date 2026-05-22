@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using Microsoft.Maui.Controls;
-using Gish.Pages.Classes;
-using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
-// FIXED: Changed class base inheritance from ContentPage to ContentView
 public partial class HomeView : ContentView
 {
     private string _modifier = "N";
@@ -29,8 +25,6 @@ public partial class HomeView : ContentView
     private bool _hasRolledThisSession = false;
     private bool _rollLogVisible = true;
     
-    private readonly LocalDatabase _database = new();
-    
     private List<Button> cachedButtons = new();
     private List<ImageButton> cachedImgButtons = new();
 
@@ -46,37 +40,17 @@ public partial class HomeView : ContentView
         InitializeComponent();
         LoadMockData();
 
-        // FIXED: Replaced OnAppearing with the modern ContentView Loaded event
         this.Loaded += (s, e) => setAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-
-        SetUserInfo();
         
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
 
         setAllButtonState(true);
-    }
-    
-    public async void SetUserInfo()
-    {
-        try
-        {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user?.ProfileImage is not null)
-            {
-                ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-            }
-        }
-        catch
-        {
-            // Fail silently or handle local storage logging gracefully
-        }
     }
 
     private void LoadMockData()
@@ -95,8 +69,6 @@ public partial class HomeView : ContentView
     {
         if (e.CurrentSelection.FirstOrDefault() is HomebrewPreview item)
         {
-            // Note: DisplayAlert is a Page method. Since we are in a ContentView, 
-            // we safely dispatch it through the root App Shell layer window.
             if (Application.Current?.MainPage is Page mainPage)
             {
                 await mainPage.DisplayAlert("Homebrew", $"Tapped: {item.Name}", "OK");
@@ -230,24 +202,6 @@ public partial class HomeView : ContentView
     {
         _rollLogVisible = !_rollLogVisible;
         RollLogList.IsVisible = _rollLogVisible;
-    }
-    
-    private void goToProfilePage(object? sender, EventArgs e)
-    {
-        try
-        {
-            setAllButtonState(false);
-            
-            // Pass "Profile" token string to your MainContainerPage engine layout view system handler
-            if (Application.Current?.MainPage is MainContainerPage mainContainer)
-            {
-                mainContainer.SwitchToTab("Profile");
-            }
-        }
-        catch
-        {
-            setAllButtonState(true);
-        }
     }
     
     private void setAllButtonState(bool enable)

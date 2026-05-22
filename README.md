@@ -58,9 +58,13 @@
 
   * AppShell is stupid and it shouldn't exist
   * Removed all references and dependencies related to MAUI AppShell
-* Changed App Architecture \{05/20/2026}
+* Changed App Architecture \[05/21/2026]
 
   * Changed paging into a tree of pages instead of calling pages one at a time to fix the call delay while navigating
   * Refactored many files to be ContentViews instead of ContentPages for seamless navigation
   * Used AuthContainerPage and MainContainerPage to contain the views 
   * IMPORTANT! Must fix the navigation from Sign In and Sign Up to the Main Pages
+* Fixed the Login Issue and new Header /[05/22/2026]
+
+  * Made the header its own separate component to be manipulated
+  * Fixed issue with logging in

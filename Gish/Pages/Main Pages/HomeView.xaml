@@ -6,26 +6,10 @@
 
     <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
-        <Border Grid.Row="0" BackgroundColor="#FEC7A2" Padding="0" StrokeThickness="0">
-            <Grid x:Name="Header"
-                  Padding="16,48,16,16"
-                  ColumnDefinitions="*,Auto">
-                <Label Style="{StaticResource PageTitle}"
-                       Text="Welcome User"
-                       TextColor="{StaticResource TextDark}"
-                       VerticalOptions="Center"/>
-                <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                    <Border HeightRequest="36" WidthRequest="36" Style="{StaticResource ProfileBorder}">
-                        <ImageButton x:Name="ProfileBtn"
-                                     Clicked="goToProfilePage"
-                                     Style="{StaticResource ProfilePictureButton}" />
-                    </Border>
-                </HorizontalStackLayout>
-            </Grid>
-        </Border>
+        <controls:CustomHeader Grid.Row="0" Title="Home" />
 
-        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never" Margin="0" Padding="0">
-            <VerticalStackLayout Padding="16,0,16,16" Spacing="16" HorizontalOptions="Fill">
+        <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
+            <VerticalStackLayout Padding="16,20,16,16" Spacing="16">
 
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Session Reminder" Style="{StaticResource SectionHeader}"/>
@@ -107,7 +91,7 @@
                                             <Grid RowDefinitions="*,*" ColumnDefinitions="30,20">
                                                 <Label x:Name="BonusLabel" Text="0" FontSize="14" TextColor="{StaticResource TextDark}" HorizontalOptions="Center" VerticalOptions="Center" Grid.RowSpan="2"/>
                                                 <Button Text="+" Grid.Column="1" Grid.Row="0" Clicked="OnBonusUp" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
-                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextDark="{StaticResource TextDark}"/>
+                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
                                             </Grid>
                                         </Border>
                                     </HorizontalStackLayout>
