@@ -133,16 +133,19 @@
 
                 <VerticalStackLayout Spacing="6" Margin="0,0,0,12">
                     <Label Text="Recent Homebrew" Style="{StaticResource SectionHeader}"/>
-                    <CollectionView x:Name="RecentHomebrewList" SelectionMode="Single" SelectionChanged="OnHomebrewSelected">
+                    <CollectionView x:Name="RecentHomebrewList" SelectionMode="None">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CardOuter}" Margin="0,4">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnHomebrewTapped" />
+                                    </Border.GestureRecognizers>
+                                    
                                     <Grid ColumnDefinitions="*, Auto" Padding="8">
                                         <VerticalStackLayout VerticalOptions="Center">
-                                            <Label Text="{Binding Name}" Style="{StaticResource ItemTitle}"/>
-                                            <Label Text="{Binding SubType}" Style="{StaticResource ItemSubtitle}"/>
+                                            <Label Text="{Binding Title}" Style="{StaticResource ItemTitle}"/>
+                                            <Label Text="{Binding CreationType}" Style="{StaticResource ItemSubtitle}"/>
                                         </VerticalStackLayout>
-                                        <Label Grid.Column="1" Text="{Binding System}" Style="{StaticResource ItemSubtitleText}" VerticalOptions="Center"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

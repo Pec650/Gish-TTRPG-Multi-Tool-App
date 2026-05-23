@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Maui.Controls;
 using SQLite;
 using Gish.Pages.Classes;
+using Gish.Pages.Main_Pages.Creations_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -42,9 +43,21 @@ public partial class HomePage : ContentPage
     public HomePage()
     {
         InitializeComponent();
-        LoadMockData();
 
         this.Loaded += (s, e) => setAllButtonState(true);
+    }
+    
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        setAllButtonState(true);
+
+        try
+        {
+            RecentHomebrewList.ItemsSource = await _database.GetRecentCreations();
+        } catch {}
+        
     }
     
     protected override void OnHandlerChanged()
@@ -76,30 +89,6 @@ public partial class HomePage : ContentPage
         }
         catch
         {}
-    }
-
-    private void LoadMockData()
-    {
-        RecentHomebrewList.ItemsSource = new List<HomebrewPreview>
-        {
-            new() { Name = "Eldritch Knight",  SubType = "Class: Fighter", System = "D&D 5.5e" },
-            new() { Name = "Khoravare",         SubType = "Type: Humanoid", System = "D&D 5.5e" },
-            new() { Name = "Copper Dragonborn", SubType = "CR: 3",          System = "D&D 5.5e" },
-        };
-        RollLogList.ItemsSource = _rollLog;
-        UpdateDiceQueueLabel();
-    }
-
-    private async void OnHomebrewSelected(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is HomebrewPreview item)
-        {
-            if (Application.Current?.MainPage is Page mainPage)
-            {
-                await mainPage.DisplayAlert("Homebrew", $"Tapped: {item.Name}", "OK");
-            }
-            ((CollectionView)sender).SelectedItem = null;
-        }
     }
 
     private void OnDiceClicked(object sender, EventArgs e)
@@ -241,6 +230,33 @@ public partial class HomePage : ContentPage
         {
             setAllButtonState(false);
             await Shell.Current.GoToAsync("//ProfilePage");
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
+
+    private async void OnHomebrewTapped(object? sender, TappedEventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+
+            var layout = sender as BindableObject;
+            if (layout == null) {
+                setAllButtonState(true);
+                return;
+            }
+
+            var selectedCreation = layout.BindingContext as Creations;
+            if (selectedCreation == null)
+            {
+                setAllButtonState(true);
+                return;
+            }
+
+            await Navigation.PushModalAsync(new ViewCreationPage(selectedCreation));
         }
         catch
         {

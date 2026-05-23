@@ -133,6 +133,16 @@ public class LocalDatabase
         
         return creations;
     }
+
+    public async Task<List<Creations>> GetRecentCreations()
+    {
+        await Init();
+        List<Creations> creations = await _connection.Table<Creations>()
+                                               .OrderByDescending(c => c.ID)
+                                               .Take(3)
+                                               .ToListAsync();
+        return creations;
+    }
     
     public async Task<bool> updatedCreationInfo(Creations creation)
     {
