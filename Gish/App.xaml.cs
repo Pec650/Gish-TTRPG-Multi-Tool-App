@@ -9,29 +9,20 @@ namespace Gish;
 public partial class App : Application
 {
     private static int currentUserID = -1;
-    
+
     public App()
     {
         InitializeComponent();
 
         if (!isLoggedIn())
         {
-            MainPage = new Gish.Pages.Authentication.AuthContainerPage();
+            MainPage = new NavigationPage(new Gish.Pages.Authentication.AuthContainerPage());
         }
         else
         {
-            MainPage = new Gish.Pages.MainPages.MainContainerPage();
+            MainPage = new NavigationPage(new Gish.Pages.MainPages.MainContainerPage());
         }
-        
-    }
-    
-    // Direct view swapper that guarantees zero purple platform title bars
-    public static void SetMainPage(Page page)
-    {
-        if (Application.Current is not null)
-        {
-            Application.Current.MainPage = page;
-        }
+
     }
 
     protected override async void OnStart()
@@ -136,5 +127,25 @@ public partial class App : Application
     public static void setImageButtonState(List<ImageButton> buttons, bool enable)
     {
         buttons.ForEach(btn => btn.IsEnabled = enable);
+    }
+    
+    public static void SetMainPage(Page rootPage)
+    {
+        if (Application.Current is not null)
+        {
+            Application.Current.MainPage = new NavigationPage(rootPage);
+        }
+    }
+
+    public static async Task PushToCurrentStackAsync(Page pageToPush)
+    {
+        if (Application.Current?.MainPage?.Navigation is INavigation currentNav)
+        {
+            await currentNav.PushAsync(pageToPush);
+        }
+        else
+        {
+            Application.Current.MainPage = new NavigationPage(pageToPush);
+        }
     }
 }

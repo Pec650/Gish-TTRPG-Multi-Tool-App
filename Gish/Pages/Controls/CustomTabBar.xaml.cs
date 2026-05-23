@@ -39,17 +39,29 @@ public partial class CustomTabBar : ContentView
 
     private void OnTabTapped(object sender, EventArgs e)
     {
-        // Tap gesture target extraction checks
         if (sender is Element element)
         {
-            // If the gesture target doesn't house the ID directly, crawl up to its element frame (VerticalStackLayout)
             string targetTab = element.AutomationId ?? element.Parent?.AutomationId;
 
             if (!string.IsNullOrEmpty(targetTab))
             {
-                if (Application.Current?.MainPage is MainContainerPage mainContainer)
+                // 1. Grab the current root MainPage
+                var rootPage = Application.Current?.MainPage;
+                MainContainerPage mainContainer = null;
+
+                // 2. Safely extract your container whether it is wrapped in a NavigationPage or loose
+                if (rootPage is NavigationPage navPage)
                 {
-                    // Ensure this calls your actual view frame swapping method name
+                    mainContainer = navPage.CurrentPage as MainContainerPage;
+                }
+                else if (rootPage is MainContainerPage directContainer)
+                {
+                    mainContainer = directContainer;
+                }
+
+                // 3. Execute the tab swap
+                if (mainContainer != null)
+                {
                     mainContainer.SwitchToTab(targetTab);
                 }
             }
