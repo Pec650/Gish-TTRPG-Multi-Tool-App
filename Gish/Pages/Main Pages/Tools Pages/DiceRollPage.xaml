@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.Main_Pages.Tools_Pages.DiceRollPage"
+             Title="Initiative Tracker"
+             BackgroundColor="{StaticResource TabBar}">
+    <ContentPage.Content>
+        
+        <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
+
+            <Grid Grid.Row="0"
+                  x:Name="Header"
+                  Padding="16,32,16,16"
+                  ColumnDefinitions="*,Auto">
+                
+                <HorizontalStackLayout Spacing="10">
+                    <ImageButton x:Name="ReturnButton"
+                                 Source="back_button.png"
+                                 HeightRequest="40"
+                                 WidthRequest="40"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Center"
+                                 Clicked="ReturnPage"/>
+                    <Label Style="{StaticResource PageTitle}"
+                           Text="Dice Roll"
+                           TextColor="{StaticResource TextDark}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Grid>
+            
+            <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}" Padding="10">
+                <VerticalStackLayout Spacing="6">
+                    <Grid>
+                        <Border Style="{StaticResource CardOuter}" Margin="0,4,0,0">
+                            <VerticalStackLayout Spacing="12" Padding="8">
+
+                                <Border Style="{StaticResource CardInner}" Padding="4">
+                                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
+                                        <ImageButton Source="dice/d4.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d6.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d8.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d10.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d12.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d100.svg" WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
+                                    </FlexLayout>
+                                </Border>
+                                
+                                <Label x:Name="DiceQueueLabel" Text="Tap dice to add, press d20 to roll"
+                                       Style="{StaticResource ItemTitle}" HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center"/>
+
+                                <Border x:Name="RollResult" IsVisible="False" Style="{StaticResource CardInner}" BackgroundColor="{StaticResource RollLogGreen}">
+                                    <Label x:Name="RollResultLabel" Text="Result: 0" Style="{StaticResource ItemTitle}" HorizontalOptions="Center"/>
+                                </Border>
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <Border Style="{StaticResource RollLogBtn}">
+                                        <Label Text="ROLL LOG" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FontSize="18" TextColor="{StaticResource White}"
+                                               FontFamily="Faustina-Bold.ttf"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnRollLogToggled"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                    
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                        <VerticalStackLayout VerticalOptions="Center">
+                                            <Label Text="Modifier" FontSize="11" Style="{StaticResource ItemSubtitleText}" HorizontalOptions="Center"/>
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Button x:Name="DisadvantageBtn" Text="D" Style="{StaticResource DangerBtn}" Clicked="OnModifierClicked" CommandParameter="D" FontSize="13" Padding="8,4" Margin="0"/>
+                                                <Button x:Name="NormalBtn" Text="●" Style="{StaticResource DiceBtn}" Clicked="OnModifierClicked" CommandParameter="N" FontSize="13" Padding="8,4" Margin="0"/>
+                                                <Button x:Name="AdvantageBtn" Text="A" Style="{StaticResource PrimaryBtn}" Clicked="OnModifierClicked" CommandParameter="A" FontSize="13" Padding="8,4" Margin="0"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                        
+                                        <Border BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 6" Padding="6,4">
+                                            <Grid RowDefinitions="*,*" ColumnDefinitions="30,20">
+                                                <Label x:Name="BonusLabel" Text="0" FontSize="14" TextColor="{StaticResource TextDark}" HorizontalOptions="Center" VerticalOptions="Center" Grid.RowSpan="2"/>
+                                                <Button Text="+" Grid.Column="1" Grid.Row="0" Clicked="OnBonusUp" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
+                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
+                                            </Grid>
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                                <CollectionView x:Name="RollLogList" IsVisible="False" Margin="0,4,0,0">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Text="{Binding .}" Style="{StaticResource ItemSubtitleText}" Margin="4,2"/>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                
+                                <Button Text="ROLL" Style="{StaticResource RollBtn}" Padding="0, 20" BackgroundColor="#4F6367" Clicked="OnRollClicked"/>
+
+                                <Button Text="CLEAR" Style="{StaticResource RollBtn}" Padding="0, 20" Clicked="OnClearClicked"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>    
+    </ContentPage.Content>
+</ContentPage>

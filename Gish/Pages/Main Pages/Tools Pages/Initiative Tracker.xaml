@@ -126,7 +126,8 @@
                                      BackgroundColor="#FE5F55" CornerRadius="50"
                                      HeightRequest="100" WidthRequest="100"
                                      BorderWidth="0" BorderColor="Transparent"
-                                     VerticalOptions="Center" HorizontalOptions="Center">
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     Clicked="GoToDiceRollPage">
                             <ImageButton.Shadow>
                                 <Shadow Brush="#000000" Offset="0,2" Radius="10" Opacity="0.4" />
                             </ImageButton.Shadow>

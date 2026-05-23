@@ -231,4 +231,19 @@ public partial class Initiative_Tracker : ContentPage
             }
         }
     }
+
+    private async void GoToDiceRollPage(object? sender, EventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+
+            await Navigation.PushModalAsync(new DiceRollPage());
+
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
 }
