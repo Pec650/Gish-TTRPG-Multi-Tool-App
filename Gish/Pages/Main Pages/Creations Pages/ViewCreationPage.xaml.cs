@@ -10,10 +10,20 @@ public partial class ViewCreationPage : ContentPage
     private List<Button> cachedButtons = new List<Button>();
     private List<ImageButton> cachedImgButtons = new List<ImageButton>();
     
-    public ViewCreationPage()
+    public ViewCreationPage(Creations creation)
     {
         InitializeComponent();
-        CreationTypeInput.ItemsSource = Enum.GetNames(typeof(Creations.CreationTypeEnum));
+        
+        if (creation is not null) UpdateUI(creation);
+    }
+
+    private void UpdateUI(Creations creation)
+    {
+        CreationTitle.Text = creation.Title;
+        CreationType.Text = "Type: " + creation.CreationType.ToString();
+        CreationSubType.Text = "Subtype: " + creation.CreationSubtype;
+        CreationDesc.Text = (!IsEmptyInput(creation.Description)) ? creation.Description : "[Empty]";
+        CreationFeature.Text = (!IsEmptyInput(creation.RPGSystem)) ? creation.RPGSystem : "[Empty]";
     }
     
     protected override void OnAppearing()

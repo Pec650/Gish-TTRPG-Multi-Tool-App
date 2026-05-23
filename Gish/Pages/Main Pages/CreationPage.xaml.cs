@@ -21,8 +21,12 @@ public partial class CreationsPage : ContentPage
         base.OnAppearing();
         
         setAllButtonState(true);
+
+        try
+        {
+            CreationsListView.ItemsSource = await _database.GetAllCreations();
+        } catch {}
         
-        CreationsListView.ItemsSource = await _database.GetAllCreations();
     }
     
     protected override void OnHandlerChanged()
@@ -135,5 +139,33 @@ public partial class CreationsPage : ContentPage
         {
             setAllButtonState(true);
         }
+    }
+
+    private async void OnCreationTapped(object? sender, TappedEventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+
+            var layout = sender as BindableObject;
+            if (layout == null) {
+                setAllButtonState(true);
+                return;
+            }
+
+            var selectedCreation = layout.BindingContext as Creations;
+            if (selectedCreation == null)
+            {
+                setAllButtonState(true);
+                return;
+            }
+
+            await Navigation.PushModalAsync(new ViewCreationPage(selectedCreation));
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+        
     }
 }

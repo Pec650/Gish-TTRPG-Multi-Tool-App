@@ -87,12 +87,15 @@
         
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame CornerRadius="8" 
+                                <Border StrokeShape="RoundRectangle 8"
                                        Margin="0,0,0,10" 
                                        Padding="15" 
                                        BackgroundColor="#D4C4B2"
-                                       HasShadow="False"
                                        VerticalOptions="Start">
+                                    
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCreationTapped" />
+                                    </Border.GestureRecognizers>
                                     
                                     <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                                         
@@ -140,7 +143,7 @@
                                                HorizontalOptions="Start"/>
                                         
                                     </VerticalStackLayout>
-                                </Frame>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
