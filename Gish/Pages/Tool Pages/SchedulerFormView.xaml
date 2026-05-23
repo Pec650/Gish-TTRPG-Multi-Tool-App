@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.ToolPages.SessionFormView"
+             BackgroundColor="{StaticResource PageBackground}">
+
+    <Grid RowDefinitions="Auto, *" Padding="0" RowSpacing="0">
+        
+        <Border Grid.Row="0" BackgroundColor="#E8A984" HeightRequest="60" Stroke="Transparent" Margin="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <ImageButton Source="back_arrow_icon.png" WidthRequest="24" HeightRequest="24" Margin="16,0" Clicked="OnCancelClicked"/>
+                <Label Grid.Column="1" x:Name="FormHeaderTitle" Text="Schedule New Session" FontFamily="Faustina-Bold.ttf" FontSize="20" TextColor="#424C44" VerticalOptions="Center"/>
+                <Button Grid.Column="2" x:Name="DeleteButton" Text="Delete" TextColor="Red" BackgroundColor="Transparent" Clicked="OnDeleteClicked" IsVisible="False" Margin="0,0,10,0"/>
+            </Grid>
+        </Border>
+
+        <ScrollView Grid.Row="1" Padding="24">
+            <VerticalStackLayout Spacing="18">
+                
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Session Title" FontAttributes="Bold" TextColor="#424C44"/>
+                    <Entry x:Name="TitleEntry" Placeholder="e.g., Epic Boss Fight Finale" BackgroundColor="White"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Campaign Title" FontAttributes="Bold" TextColor="#424C44"/>
+                    <Entry x:Name="CampaignEntry" Placeholder="e.g., Curse of Strahd" BackgroundColor="White"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="RPG System" FontAttributes="Bold" TextColor="#424C44"/>
+                    <Entry x:Name="SystemEntry" Placeholder="e.g., Dungeons &amp; Dragons 5.5e" BackgroundColor="White"/>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Date" FontAttributes="Bold" TextColor="#424C44"/>
+                        <DatePicker x:Name="SessionDatePicker" MinimumDate="2026-01-01" BackgroundColor="White"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Start Time" FontAttributes="Bold" TextColor="#424C44"/>
+                        <TimePicker x:Name="SessionTimePicker" BackgroundColor="White"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Button Text="Save Session Layout" 
+                        BackgroundColor="#A2C9B4" 
+                        TextColor="#1E2420" 
+                        FontAttributes="Bold"
+                        Margin="0,20,0,0"
+                        HeightRequest="50"
+                        Clicked="OnSaveClicked"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

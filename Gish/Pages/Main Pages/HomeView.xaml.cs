@@ -71,7 +71,7 @@ public partial class HomeView : ContentView
         {
             if (Application.Current?.MainPage is Page mainPage)
             {
-                await mainPage.DisplayAlert("Homebrew", $"Tapped: {item.Name}", "OK");
+                await mainPage.DisplayAlertAsync("Homebrew", $"Tapped: {item.Name}", "OK");
             }
             ((CollectionView)sender).SelectedItem = null;
         }

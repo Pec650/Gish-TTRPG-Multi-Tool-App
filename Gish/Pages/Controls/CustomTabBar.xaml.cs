@@ -45,22 +45,8 @@ public partial class CustomTabBar : ContentView
 
             if (!string.IsNullOrEmpty(targetTab))
             {
-                // 1. Grab the current root MainPage
-                var rootPage = Application.Current?.MainPage;
-                MainContainerPage mainContainer = null;
-
-                // 2. Safely extract your container whether it is wrapped in a NavigationPage or loose
-                if (rootPage is NavigationPage navPage)
-                {
-                    mainContainer = navPage.CurrentPage as MainContainerPage;
-                }
-                else if (rootPage is MainContainerPage directContainer)
-                {
-                    mainContainer = directContainer;
-                }
-
-                // 3. Execute the tab swap
-                if (mainContainer != null)
+                // Direct extraction since MainContainerPage is now the true structural root page
+                if (Application.Current?.MainPage is MainContainerPage mainContainer)
                 {
                     mainContainer.SwitchToTab(targetTab);
                 }

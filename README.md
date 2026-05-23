@@ -64,7 +64,14 @@
   * Refactored many files to be ContentViews instead of ContentPages for seamless navigation
   * Used AuthContainerPage and MainContainerPage to contain the views 
   * IMPORTANT! Must fix the navigation from Sign In and Sign Up to the Main Pages
-* Fixed the Login Issue and new Header /[05/22/2026]
+* Fixed the Login Issue and new Header \[05/22/2026]
 
   * Made the header its own separate component to be manipulated
   * Fixed issue with logging in
+* Added Base Scheduler Model and Database Modifications \[05/23/2026]
+
+  * Added the Session Scheduler
+  * Added the Session Table to the Database Schema
+  * Fixed the navigation logic of the tab bar, now HomeView is the root page of the app
+  * Fixed the navigation logic when pressing hardware back button
+  * Modified the Database Schema, RPGSystem and Campaign are its own classes. References to RPGSystem and Campaign are referenced back to their respective classes

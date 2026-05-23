@@ -57,7 +57,7 @@ public partial class RulesView : ContentView
         {
             if (Application.Current?.MainPage is Page mainPage)
             {
-                await mainPage.DisplayAlert("Error", "Could not open the link.", "OK");
+                await mainPage.DisplayAlertAsync("Error", "Could not open the link.", "OK");
             }
         }
     }

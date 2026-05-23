@@ -205,7 +205,10 @@ public partial class EditProfilePage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            if (Application.Current?.Windows.Count > 0 && Application.Current.Windows[0].Page is Page activePage)
+            {
+                await DisplayAlertAsync("Error", ex.Message, "OK");
+            }
         }
     }
 }

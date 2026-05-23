@@ -16,13 +16,14 @@ public partial class App : Application
 
         if (!isLoggedIn())
         {
-            MainPage = new NavigationPage(new Gish.Pages.Authentication.AuthContainerPage());
+            // REMOVED NavigationPage wrapper
+            MainPage = new Gish.Pages.Authentication.AuthContainerPage();
         }
         else
         {
-            MainPage = new NavigationPage(new Gish.Pages.MainPages.MainContainerPage());
+            // REMOVED NavigationPage wrapper
+            MainPage = new Gish.Pages.MainPages.MainContainerPage();
         }
-
     }
 
     protected override async void OnStart()
@@ -133,19 +134,23 @@ public partial class App : Application
     {
         if (Application.Current is not null)
         {
-            Application.Current.MainPage = new NavigationPage(rootPage);
+            // REMOVED NavigationPage wrapper
+            Application.Current.MainPage = rootPage;
         }
     }
 
     public static async Task PushToCurrentStackAsync(Page pageToPush)
     {
-        if (Application.Current?.MainPage?.Navigation is INavigation currentNav)
+        if (Application.Current?.MainPage is NavigationPage navPage)
         {
-            await currentNav.PushAsync(pageToPush);
+            await navPage.Navigation.PushAsync(pageToPush);
         }
         else
         {
-            Application.Current.MainPage = new NavigationPage(pageToPush);
+            // Don't silently wrap — throw so you catch this during development
+            throw new InvalidOperationException(
+                "PushToCurrentStackAsync requires a NavigationPage root. " +
+                "Use SwitchToTab or your container's own navigation instead.");
         }
     }
 }

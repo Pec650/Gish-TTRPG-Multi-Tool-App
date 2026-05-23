@@ -3,26 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
              x:Class="Gish.Pages.MainPages.ToolsView">
-    
-    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
+
+    <Grid x:Name="LocalStackContainer">
         
-        <controls:CustomHeader Grid.Row="0" Title="Tools" />
+        <Grid x:Name="DefaultToolsMenu" RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
+            
+            <controls:CustomHeader Grid.Row="0" Title="Tools" />
+
+            <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
+                <VerticalStackLayout Padding="20" Spacing="25" HorizontalOptions="Fill">
+                    
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10,0,5">
+                        <Label Text="Tool Selection" 
+                               FontFamily="Faustina-Bold.ttf" 
+                               FontSize="28" 
+                               TextColor="#424C44" 
+                               HorizontalOptions="Center"/>
+                        <Label Text="Dice roller and other utilities" 
+                               FontSize="15" 
+                               TextColor="#5D6660" 
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="16" Margin="10,0">
+                        
+                        <Button x:Name="SessionScheduleDIR" 
+                                Text="Session Scheduler" 
+                                Style="{StaticResource ToolsButton}"
+                                Clicked="OnSessionScheduleClicked"/>
+                        
+                        <Button x:Name="InitiativeTrackerDIR" 
+                                Text="Initiative Tracker" 
+                                Style="{StaticResource ToolsButton}"/>
+                        
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <ContentView x:Name="NestedStackPresenter" 
+                     IsVisible="False" 
+                     HorizontalOptions="Fill" 
+                     VerticalOptions="Fill" />
         
-        <ScrollView Grid.Row="1"
-                    BackgroundColor="{StaticResource PageBackground}"
-                    VerticalOptions="Fill"
-                    HorizontalOptions="Fill">
-            <VerticalStackLayout Padding="20" Spacing="20">
-                <Label Style="{StaticResource SubTitle}" Text="Tool Selection" HorizontalOptions="Center" />
-                <Label Style="{StaticResource SubTitleText}" Text="Dice roller and other utilities" HorizontalOptions="Center" />
-                
-                <Button x:Name="SessionScheduleDIR" Text="Session Scheduler" Style="{StaticResource ToolsButton}"/>
-                <Button x:Name="InitiativeTrackerDIR" Text="Initiative Tracker" Style="{StaticResource ToolsButton}"/>
-                <Button x:Name="SpellDirectoryDIR" Text="Spell Directory" Style="{StaticResource ToolsButton}"/>
-                <Button x:Name="CRCalculatorDIR" Text="CR Calculator" Style="{StaticResource ToolsButton}"/>
-                <Button x:Name="BestiaryDIR" Text="Bestiary" Style="{StaticResource ToolsButton}"/>
-                
-            </VerticalStackLayout>
-        </ScrollView>
     </Grid>
 </ContentView>
