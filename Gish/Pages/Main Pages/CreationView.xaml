@@ -88,6 +88,9 @@
             <Label Text="+" TextColor="White" FontSize="60" FontAttributes="Bold" TranslationY="-3"
                    HorizontalOptions="Center" VerticalOptions="Center"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="GoToNewCreatePage"></TapGestureRecognizer>
+            </Border.GestureRecognizers>
         </Border>
         
     </Grid>

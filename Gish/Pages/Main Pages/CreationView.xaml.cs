@@ -78,4 +78,9 @@ public partial class CreationsView : ContentView
             }
         }
     }
+
+    private void GoToNewCreatePage(object? sender, TappedEventArgs e)
+    {
+        App.SetMainPage(new Gish.Pages.Creations_Pages.NewCreationPage());
+    }
 }

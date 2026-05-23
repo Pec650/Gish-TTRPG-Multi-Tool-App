@@ -14,8 +14,15 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // Launch the core window context framework natively through our container page
-        MainPage = new Gish.Pages.Authentication.AuthContainerPage();
+        if (!isLoggedIn())
+        {
+            MainPage = new Gish.Pages.Authentication.AuthContainerPage();
+        }
+        else
+        {
+            MainPage = new Gish.Pages.MainPages.MainContainerPage();
+        }
+        
     }
     
     // Direct view swapper that guarantees zero purple platform title bars
