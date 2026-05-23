@@ -37,6 +37,7 @@
                             <Entry x:Name="SearchInput"
                                    Placeholder="Search by name..."
                                    ReturnType="Go"
+                                   TextChanged="SearchInputChange"
                                    Style="{StaticResource InputTextEntry}"></Entry>
                         </Border>
                         <Label Text="Tags" Style="{StaticResource SearchTitle}"></Label>

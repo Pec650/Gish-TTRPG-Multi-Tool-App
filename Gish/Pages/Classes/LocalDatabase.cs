@@ -106,10 +106,31 @@ public class LocalDatabase
         return creation;
     }
     
-    public async Task<List<Creations>> GetAllCreations()
+    public async Task<List<Creations>> GetAllCreations(string searchString, bool hasSubclass, bool hasLineage, bool hasMonster, bool hasSpell, bool hasFeat)
     {
         await Init();
-        List<Creations> creations = await _connection.Table<Creations>().OrderByDescending(c => c.ID).ToListAsync();
+        var query = _connection.Table<Creations>();
+
+        if (!string.IsNullOrWhiteSpace(searchString))
+        {
+            query = query.Where(c => c.Title.ToLower().Contains(searchString.ToLower()));
+        }
+
+        bool isAnyFilterActive = hasSubclass || hasLineage || hasMonster || hasSpell || hasFeat;
+
+        if (isAnyFilterActive)
+        {
+            query = query.Where(c => 
+                (hasSubclass && c.CreationType == Creations.CreationTypeEnum.Subclass) ||
+                (hasLineage  && c.CreationType == Creations.CreationTypeEnum.Lineage)  ||
+                (hasMonster  && c.CreationType == Creations.CreationTypeEnum.Monster)  ||
+                (hasSpell    && c.CreationType == Creations.CreationTypeEnum.Spell)    ||
+                (hasFeat     && c.CreationType == Creations.CreationTypeEnum.Feat)
+            );
+        }
+        
+        List<Creations> creations = await query.OrderByDescending(c => c.ID).ToListAsync();
+        
         return creations;
     }
     

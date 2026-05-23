@@ -10,6 +10,13 @@ public partial class CreationsPage : ContentPage
     
     private List<Button> cachedButtons = new List<Button>();
     private List<ImageButton> cachedImgButtons = new List<ImageButton>();
+
+    private string searchString = "";
+    private bool hasSubclass = true;
+    private bool hasLineage = true;
+    private bool hasMonster = true;
+    private bool hasSpell = true;
+    private bool hasFeat = true;
     
     public CreationsPage()
     {
@@ -24,7 +31,7 @@ public partial class CreationsPage : ContentPage
 
         try
         {
-            CreationsListView.ItemsSource = await _database.GetAllCreations();
+            CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
         } catch {}
         
     }
@@ -79,7 +86,7 @@ public partial class CreationsPage : ContentPage
         App.setImageButtonState(cachedImgButtons, enable);
     }
 
-    private void UpdateActiveTags(object? sender, TappedEventArgs e)
+    private async void UpdateActiveTags(object? sender, TappedEventArgs e)
     {
         if (sender is ContentView)
         {
@@ -110,20 +117,30 @@ public partial class CreationsPage : ContentPage
                 {
                     case "Subclass":
                         icon.Source = ((isActive) ? "" : "active_") + "subclass_tag_icon.svg";
+                        hasSubclass = !isActive;
                         break;
                     case "Lineage":
                         icon.Source = ((isActive) ? "" : "active_") + "lineage_tag_icon.svg";
+                        hasLineage = !isActive;
                         break;
                     case "Monster":
                         icon.Source = ((isActive) ? "" : "active_") + "monster_tag_icon.svg";
+                        hasMonster = !isActive;
                         break;
                     case "Spell":
                         icon.Source = ((isActive) ? "" : "active_") + "spells_tag_icon.svg";
+                        hasSpell = !isActive;
                         break;
                     case "Feat":
                         icon.Source = ((isActive) ? "" : "active_") + "feat_tag_icon.svg";
+                        hasFeat = !isActive;
                         break;
                 }
+                
+                try
+                {
+                    CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
+                } catch {}
             }
         }
     }
@@ -167,5 +184,15 @@ public partial class CreationsPage : ContentPage
             setAllButtonState(true);
         }
         
+    }
+
+    private async void SearchInputChange(object? sender, TextChangedEventArgs e)
+    {
+        searchString = SearchInput.Text;
+        
+        try
+        {
+            CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
+        } catch {}
     }
 }
