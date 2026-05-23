@@ -1,11 +1,14 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ResourceDictionary 
+﻿<ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- PAGE -->
     <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
         <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}" />
+        
+        <Setter Property="NavigationPage.HasNavigationBar" Value="False" />
+        <Setter Property="NavigationPage.HasBackButton" Value="False" />
+        <Setter Property="NavigationPage.BarBackgroundColor" Value="Transparent" />
+        <Setter Property="NavigationPage.BarTextColor" Value="Transparent" />
     </Style>
 
     <!-- SECTION HEADER -->
@@ -95,7 +98,7 @@
         <Setter Property="StrokeShape"     Value="RoundRectangle 8" />
         <Setter Property="Padding"         Value="10" />
     </Style>
-    
+
     <!-- ITEM TITLE -->
     <Style x:Key="ItemTitle" TargetType="Label">
         <Setter Property="FontSize"       Value="24" />
@@ -114,6 +117,28 @@
     <!-- ITEM SMALLER TEXT -->
     <Style x:Key="ItemSubtitleText" TargetType="Label">
         <Setter Property="FontSize"   Value="12" />
+        <Setter Property="TextColor"  Value="{StaticResource TextMid}" />
+        <Setter Property="FontFamily" Value="Commissioner-Medium.ttf" />
+    </Style>
+
+    <!-- RULES CARD -->
+    <Style x:Key="RulesCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="#EEE0CB" />
+        <Setter Property="Stroke"          Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape"     Value="RoundRectangle 12" />
+        <Setter Property="Padding"         Value="15" />
+    </Style>
+
+    <Style x:Key="RulesTitle" TargetType="Label">
+        <Setter Property="FontSize"       Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor"      Value="{StaticResource TextDark}" />
+        <Setter Property="FontFamily"     Value="Faustina-Bold.ttf" />
+    </Style>
+
+    <Style x:Key="RulesDescription" TargetType="Label">
+        <Setter Property="FontSize"   Value="16" />
         <Setter Property="TextColor"  Value="{StaticResource TextMid}" />
         <Setter Property="FontFamily" Value="Commissioner-Medium.ttf" />
     </Style>
@@ -177,31 +202,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <!-- RULES CARD -->
-    <Style x:Key="RulesCard" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="#EEE0CB" />
-        <Setter Property="Stroke"          Value="Transparent" />
-        <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="StrokeShape"     Value="RoundRectangle 12" />
-        <Setter Property="Padding"         Value="15" />
-    </Style>
-    
-    <!-- RULES TITLE -->
-    <Style x:Key="RulesTitle" TargetType="Label">
-        <Setter Property="FontSize"                Value="18" />
-        <Setter Property="TextColor"               Value="Black" />
-        <Setter Property="FontFamily"              Value="Merriweather-Bold.ttf" />
-        <Setter Property="HorizontalTextAlignment" Value="Start" />
-    </Style>
-    
-    <!-- RULES DESCRIPTION -->
-    <Style x:Key="RulesDescription" TargetType="Label">
-        <Setter Property="FontSize"                Value="16" />
-        <Setter Property="TextColor"               Value="Black" />
-        <Setter Property="FontFamily"              Value="Commissioner-Medium.ttf" />
-        <Setter Property="HorizontalTextAlignment" Value="Start" />
-    </Style>
 
     <!-- CHEVRON -->
     <Style x:Key="Chevron" TargetType="Label">
@@ -248,6 +248,17 @@
         <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="StrokeShape"     Value="RoundRectangle 8" />
         <Setter Property="Padding"         Value="10,8" />
+    </Style>
+
+    <!-- ROLL / CLEAR DICE BUTTON -->
+    <Style x:Key="RollBtn" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource AccentRed}" />
+        <Setter Property="TextColor"       Value="{StaticResource White}" />
+        <Setter Property="FontFamily"      Value="Faustina-Bold.ttf" />
+        <Setter Property="CornerRadius"    Value="8" />
+        <Setter Property="FontSize"        Value="18" />
+        <Setter Property="Padding"         Value="12,8" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
     </Style>
     
     <!-- TOOLS BUTTON -->

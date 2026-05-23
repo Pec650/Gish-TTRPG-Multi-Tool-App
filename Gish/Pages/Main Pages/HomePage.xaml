@@ -28,177 +28,130 @@
             </HorizontalStackLayout>
         </Grid>
 
-        <!-- CREAM CONTENT AREA -->
-        <Border Grid.Row="1"
-                BackgroundColor="{StaticResource PageBackground}"
-                Stroke="Transparent">
-            <ScrollView>
-                <VerticalStackLayout Padding="16,16,16,0" Spacing="4"
-                                     HorizontalOptions="Fill"
-                                     VerticalOptions="Fill">
+        <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
+            <VerticalStackLayout Padding="16,20,16,16" Spacing="16">
 
-                    <!-- SESSION REMINDER -->
-                    <Label Text="Session Reminder" Style="{StaticResource SectionHeader}" Margin="0,16,0,0"/>
-                    <Border Style="{StaticResource CardOuter}" Margin="0,6,0,0">
-                        <Grid ColumnDefinitions="48,*">
-                            <Image Source="discord_icon.png" WidthRequest="36" HeightRequest="36" VerticalOptions="Center"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
-                                <Label x:Name="SessionTitle" Text="D&amp;D Session"
-                                       Style="{StaticResource ItemTitle}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionDate" Text="May 2, 2026"
-                                       Style="{StaticResource ItemSubtitle}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
-                                       Style="{StaticResource ItemSubtitle}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
-                                       Style="{StaticResource ItemSubtitleText}"
-                                       HorizontalOptions="Center"/>
-                                <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
-                                       Style="{StaticResource ItemSubtitleText}"
-                                       HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Session Reminder" Style="{StaticResource SectionHeader}"/>
+                    <Border Style="{StaticResource CardOuter}">
+                        <VerticalStackLayout Spacing="4">
+                            <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Padding="4">
+                                    <Image Source="discord_icon.png" WidthRequest="36" HeightRequest="36" VerticalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label x:Name="SessionTitle" Text="D&amp;D Session"
+                                               FontFamily="Faustina-Bold.ttf" FontSize="36" TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="End"/>
+                                        <Label x:Name="SessionDate" Text="May 2, 2026"
+                                               Style="{StaticResource ItemSubtitle}"
+                                               HorizontalOptions="End"/>
+                                        <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
+                                               Style="{StaticResource ItemSubtitle}"
+                                               HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                            
+                            <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
+                                   Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
+                                   HorizontalOptions="End"/>
+                            <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
+                                   Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4"
+                                   HorizontalOptions="End"/>
+                        </VerticalStackLayout>
                     </Border>
+                </VerticalStackLayout>
 
-                    <!-- QUICK ROLL -->
-                    <Label Text="Quick Roll" Style="{StaticResource SectionHeader}" Margin="0,16,0,0"/>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Quick Roll" Style="{StaticResource SectionHeader}"/>
+                    <Grid>
+                        <Border Style="{StaticResource CardOuter}" Margin="0,4,0,0">
+                            <VerticalStackLayout Spacing="12" Padding="8">
 
-                    <Grid Margin="0,6,0,0">
-                        <!-- Card sits below with left padding to make room for overlapping d20 -->
-                        <Border Style="{StaticResource CardOuter}" Margin="50,20,0,0">
-                            <VerticalStackLayout Spacing="10" Padding="8,8,8,8">
+                                <Border Style="{StaticResource CardInner}" Padding="4">
+                                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
+                                        <ImageButton Source="dice/d4.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d6.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d8.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d10.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d12.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
+                                        <ImageButton Source="dice/d100.svg" WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
+                                    </FlexLayout>
+                                </Border>
+                                
+                                <Label x:Name="DiceQueueLabel" Text="Tap dice to add, press d20 to roll"
+                                       Style="{StaticResource ItemTitle}" HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center"/>
 
-                                <!-- Dice row — starts after d20 space -->
-                                <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignItems="Center" Margin="60,0,0,0">
-                                    <ImageButton Source="dice/d4.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d6.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d8.svg"   WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d10.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d12.svg"  WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
-                                    <ImageButton Source="dice/d100.svg" WidthRequest="64" HeightRequest="64" Margin="4"
-                                                Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
-                                </FlexLayout>
-
-                                <Label x:Name="RollResultLabel" Text="Select a die and roll"
-                                    Style="{StaticResource ItemTitle}"
-                                    HorizontalOptions="Center"/>
+                                <Border x:Name="RollResult" IsVisible="False" Style="{StaticResource CardInner}" BackgroundColor="{StaticResource RollLogGreen}">
+                                    <Label x:Name="RollResultLabel" Text="Result: 0" Style="{StaticResource ItemTitle}" HorizontalOptions="Center"/>
+                                </Border>
 
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                                     <Border Style="{StaticResource RollLogBtn}">
-                                        <Label Text="ROLL LOG" HorizontalOptions="Center"
-                                            FontSize="18" TextColor="{StaticResource White}"
-                                            FontFamily="Faustina-Bold.ttf"/>
+                                        <Label Text="ROLL LOG" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FontSize="18" TextColor="{StaticResource White}"
+                                               FontFamily="Faustina-Bold.ttf"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnRollLogToggled"/>
+                                        </Border.GestureRecognizers>
                                     </Border>
+                                    
                                     <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
                                         <VerticalStackLayout VerticalOptions="Center">
-                                            <Label Text="Modifier" FontSize="11"
-                                                Style="{StaticResource ItemSubtitleText}"
-                                                HorizontalOptions="Center"/>
+                                            <Label Text="Modifier" FontSize="11" Style="{StaticResource ItemSubtitleText}" HorizontalOptions="Center"/>
                                             <HorizontalStackLayout Spacing="4">
-                                                <Button x:Name="DisadvantageBtn" Text="D"
-                                                        Style="{StaticResource DangerBtn}"
-                                                        Clicked="OnModifierClicked" CommandParameter="D"
-                                                        FontSize="13" Padding="8,4" Margin="0"/>
-                                                <Button x:Name="NormalBtn" Text="●"
-                                                        Style="{StaticResource DiceBtn}"
-                                                        Clicked="OnModifierClicked" CommandParameter="N"
-                                                        FontSize="13" Padding="8,4" Margin="0"/>
-                                                <Button x:Name="AdvantageBtn" Text="A"
-                                                        Style="{StaticResource PrimaryBtn}"
-                                                        Clicked="OnModifierClicked" CommandParameter="A"
-                                                        FontSize="13" Padding="8,4" Margin="0"/>
+                                                <Button x:Name="DisadvantageBtn" Text="D" Style="{StaticResource DangerBtn}" Clicked="OnModifierClicked" CommandParameter="D" FontSize="13" Padding="8,4" Margin="0"/>
+                                                <Button x:Name="NormalBtn" Text="●" Style="{StaticResource DiceBtn}" Clicked="OnModifierClicked" CommandParameter="N" FontSize="13" Padding="8,4" Margin="0"/>
+                                                <Button x:Name="AdvantageBtn" Text="A" Style="{StaticResource PrimaryBtn}" Clicked="OnModifierClicked" CommandParameter="A" FontSize="13" Padding="8,4" Margin="0"/>
                                             </HorizontalStackLayout>
                                         </VerticalStackLayout>
-                                        <Border BackgroundColor="{StaticResource White}"
-                                                StrokeShape="RoundRectangle 6"
-                                                Stroke="Transparent" Padding="6,4">
+                                        
+                                        <Border BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 6" Padding="6,4">
                                             <Grid RowDefinitions="*,*" ColumnDefinitions="30,20">
-                                                <Label x:Name="BonusLabel" Text="0"
-                                                    FontSize="14" TextColor="{StaticResource TextDark}"
-                                                    HorizontalOptions="Center" VerticalOptions="Center"
-                                                    Grid.RowSpan="2"/>
-                                                <Button Text="+" Grid.Column="1" Grid.Row="0"
-                                                        Clicked="OnBonusUp"
-                                                        FontSize="10" Padding="0" Margin="0"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="{StaticResource TextDark}"/>
-                                                <Button Text="-" Grid.Column="1" Grid.Row="1"
-                                                        Clicked="OnBonusDown"
-                                                        FontSize="10" Padding="0" Margin="0"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="{StaticResource TextDark}"/>
+                                                <Label x:Name="BonusLabel" Text="0" FontSize="14" TextColor="{StaticResource TextDark}" HorizontalOptions="Center" VerticalOptions="Center" Grid.RowSpan="2"/>
+                                                <Button Text="+" Grid.Column="1" Grid.Row="0" Clicked="OnBonusUp" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
+                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
                                             </Grid>
                                         </Border>
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Button Text="ROLL" Style="{StaticResource DangerBtn}"
-                                        Clicked="OnRollClicked" FontSize="18"
-                                        HorizontalOptions="Fill"/>
-
-                                <CollectionView x:Name="RollLogList" HeightRequest="120">
+                                <CollectionView x:Name="RollLogList" IsVisible="False" Margin="0,4,0,0">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <Label Text="{Binding .}" Padding="4,2"
-                                                FontSize="13" TextColor="{StaticResource TextMid}"
-                                                FontFamily="Harmattan-Bold.ttf"/>
+                                            <Label Text="{Binding .}" Style="{StaticResource ItemSubtitleText}" Margin="4,2"/>
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
 
+                                <Button Text="CLEAR" Style="{StaticResource RollBtn}" Clicked="OnClearClicked"/>
                             </VerticalStackLayout>
                         </Border>
-
-                        <!-- D20 floating button overlapping top-left of card -->
-                        <ImageButton Source="dice/d20.svg"
-                                    WidthRequest="90" HeightRequest="90"
-                                    CornerRadius="45"
-                                    VerticalOptions="Start"
-                                    HorizontalOptions="Start"
-                                    Clicked="OnDiceClicked" CommandParameter="20"
-                                    BackgroundColor="#FFFF0202"
-                                    Aspect="AspectFit"
-                                    Padding="12"/>
                     </Grid>
-
-                    <!-- RECENT HOMEBREW -->
-                    <Label Text="Recent Homebrew" Style="{StaticResource SectionHeader}"/>
-                    <Border Style="{StaticResource CardOuter}" Margin="0,6,0,16">
-                        <VerticalStackLayout Spacing="6">
-                            <CollectionView x:Name="RecentHomebrewList"
-                                            SelectionMode="Single"
-                                            SelectionChanged="OnHomebrewSelected">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Style="{StaticResource CardInner}" Margin="0,0,0,6">
-                                            <Grid ColumnDefinitions="36,*,Auto">
-                                                <Image Source="sword_icon.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center"/>
-                                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                                    <Label Text="{Binding Name}" Style="{StaticResource ItemTitle}"/>
-                                                    <HorizontalStackLayout Spacing="16">
-                                                        <Label Text="{Binding SubType}" Style="{StaticResource ItemSubtitle}"/>
-                                                        <Label Text="{Binding System}"  Style="{StaticResource ItemSubtitle}"/>
-                                                    </HorizontalStackLayout>
-                                                </VerticalStackLayout>
-                                                <Label Grid.Column="2" Text="›" Style="{StaticResource Chevron}"/>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </VerticalStackLayout>
-                    </Border>
-
                 </VerticalStackLayout>
-            </ScrollView>
-        </Border>
+
+                <VerticalStackLayout Spacing="6" Margin="0,0,0,12">
+                    <Label Text="Recent Homebrew" Style="{StaticResource SectionHeader}"/>
+                    <CollectionView x:Name="RecentHomebrewList" SelectionMode="Single" SelectionChanged="OnHomebrewSelected">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CardOuter}" Margin="0,4">
+                                    <Grid ColumnDefinitions="*, Auto" Padding="8">
+                                        <VerticalStackLayout VerticalOptions="Center">
+                                            <Label Text="{Binding Name}" Style="{StaticResource ItemTitle}"/>
+                                            <Label Text="{Binding SubType}" Style="{StaticResource ItemSubtitle}"/>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="1" Text="{Binding System}" Style="{StaticResource ItemSubtitleText}" VerticalOptions="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
 
     </Grid>
 </ContentPage>

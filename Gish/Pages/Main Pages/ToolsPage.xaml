@@ -43,20 +43,20 @@
                         Style="{StaticResource ToolsButton}"
                 />
                 
-                <Button x:Name="SpellDirectoryDIR"
-                        Text="Spell Directory"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="CRCalculatorDIR"
-                        Text="CR Calculator"
-                        Style="{StaticResource ToolsButton}"
-                />
-                
-                <Button x:Name="BestiaryDIR"
-                        Text="Bestiary"
-                        Style="{StaticResource ToolsButton}"
-                />
+                <!-- <Button x:Name="SpellDirectoryDIR" -->
+                <!--         Text="Spell Directory" -->
+                <!--         Style="{StaticResource ToolsButton}" -->
+                <!-- /> -->
+                <!-- -->
+                <!-- <Button x:Name="CRCalculatorDIR" -->
+                <!--         Text="CR Calculator" -->
+                <!--         Style="{StaticResource ToolsButton}" -->
+                <!-- /> -->
+                <!-- -->
+                <!-- <Button x:Name="BestiaryDIR" -->
+                <!--         Text="Bestiary" -->
+                <!--         Style="{StaticResource ToolsButton}" -->
+                <!-- /> -->
                 
             </VerticalStackLayout>
         </ScrollView>
