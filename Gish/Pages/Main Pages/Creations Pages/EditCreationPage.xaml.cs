@@ -121,12 +121,14 @@ public partial class EditCreationPage : ContentPage
             var newCreation = new Creations()
             {
                 ID = CreationID,
+                UserID = App.getUserID(),
                 Title = title,
                 CreationType = type,
                 TypeIconIMGSource = type_icon,
                 CreationSubtype = subtype,
                 Description = description,
-                RPGSystem = feature
+                RPGSystem = feature,
+                ModifyDate = DateTime.UtcNow
             };
 
             bool result = await _database.updatedCreationInfo(newCreation);

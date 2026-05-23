@@ -36,11 +36,12 @@
                 <Button x:Name="SessionScheduleDIR"
                         Text="Session Scheduler"
                         Style="{StaticResource ToolsButton}"
-                />
+                        />
                 
                 <Button x:Name="InitiativeTrackerDIR"
                         Text="Initiative Tracker"
                         Style="{StaticResource ToolsButton}"
+                        Clicked="GoToInitiativeTracker"
                 />
                 
                 <!-- <Button x:Name="SpellDirectoryDIR" -->

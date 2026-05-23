@@ -29,8 +29,10 @@ public partial class App : Application
         {
             currentUserID = userId;
         }
-
-        currentUserID = -1;
+        else
+        {
+            currentUserID = -1;
+        }
     }
 
     public static async void setUserID(int userID)

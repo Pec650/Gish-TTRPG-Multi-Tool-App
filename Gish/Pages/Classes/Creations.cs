@@ -1,4 +1,6 @@
-﻿namespace Gish.Pages.Classes;
+﻿using System.Runtime.InteropServices.JavaScript;
+
+namespace Gish.Pages.Classes;
 
 using SQLite;
 
@@ -16,6 +18,8 @@ public class Creations
     [PrimaryKey, AutoIncrement]
     public int ID { get; set; }
 
+    public int UserID { get; set;  }
+    
     [Unique]
     public string Title { get; set; }
     
@@ -29,5 +33,11 @@ public class Creations
     
     public string RPGSystem { get; set; }
     
-    public Creations() {}
+    public DateTime ModifyDate { get; set; }
+
+    public Creations()
+    {
+        UserID = App.getUserID();
+        ModifyDate = DateTime.UtcNow;
+    }
 }

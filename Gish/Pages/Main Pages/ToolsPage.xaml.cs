@@ -1,5 +1,6 @@
 using SQLite;
 using Gish.Pages.Classes;
+using Gish.Pages.Main_Pages.Tools_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -70,5 +71,18 @@ public partial class ToolsPage : ContentPage
     {
         App.setButtonState(cachedButtons, enable);
         App.setImageButtonState(cachedImgButtons, enable);
+    }
+
+    private async void GoToInitiativeTracker(object? sender, EventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+            await Navigation.PushModalAsync(new Initiative_Tracker());
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
     }
 }

@@ -1,9 +1,144 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.Main_Pages.Tools_Pages.Initiative_Tracker">
+             x:Class="Gish.Pages.Main_Pages.Tools_Pages.Initiative_Tracker"
+             Title="Initiative Tracker"
+             BackgroundColor="{StaticResource TabBar}">
+    
     <ContentPage.Content>
-        
-    </ContentPage.Content>
+        <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
+
+            <Grid Grid.Row="0"
+                  x:Name="Header"
+                  Padding="16,32,16,16"
+                  ColumnDefinitions="*,Auto">
+                
+                <HorizontalStackLayout Spacing="10">
+                    <ImageButton x:Name="ReturnButton"
+                                 Source="back_button.png"
+                                 HeightRequest="40"
+                                 WidthRequest="40"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Center"
+                                 Clicked="ReturnPage"/>
+                    <Label Style="{StaticResource PageTitle}"
+                           Text="Tools"
+                           TextColor="{StaticResource TextDark}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Grid>
+            
+            <Grid Grid.Row="1" 
+                  BackgroundColor="{StaticResource PageBackground}"
+                  RowDefinitions="Auto, *, Auto" 
+                  Padding="0, 20">
+    
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *" Padding="10, 0, 10, 10">
+                    <Label Grid.Column="0"
+                           Style="{StaticResource SubTitle}"
+                           Text="Initiative Tracker"
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"
+                           FontSize="25"
+                           Margin="0, 0, 0, 10"/>
+                    <Button x:Name="ToggleDeleteBtn" Text="Delete" 
+                            Grid.Column="1" HeightRequest="45"
+                            Padding="20, 0"
+                            BackgroundColor="#FE5F55" HorizontalOptions="End"
+                            FontFamily="Commissioner-Bold.ttf" Clicked="ToggleDeleteMode"/>
+                </Grid>
+                
+                <CollectionView x:Name="InitiativeLists" 
+                                Grid.Row="1"
+                                SelectionMode="None">
+                    
+                    <CollectionView.Header>
+                        <Grid RowDefinitions="Auto, Auto">
+                            <Grid Grid.Row="0" ColumnDefinitions="25*, 55*, 20*" Padding="10, 5">
+                                <Label Grid.Column="0" TextColor="Black" Text="INITIATIVE" FontAttributes="Bold" HorizontalOptions="Start" FontFamily="Commissioner-Bold.ttf" Padding="10, 0" />
+                                <Label Grid.Column="1" TextColor="Black" Text="NAME" FontAttributes="Bold" HorizontalOptions="Start" FontFamily="Commissioner-Bold.ttf" Padding="10, 0" />
+                                <Label x:Name="LastColumnHeader" Grid.Column="2" TextColor="Black" Text="TYPE" FontAttributes="Bold" HorizontalOptions="End" FontFamily="Commissioner-Bold.ttf" Padding="10, 0" />
+                            </Grid>
+                            <BoxView Grid.Row="1" HeightRequest="2" Color="Black" HorizontalOptions="Fill" Margin="0, 5, 0, 0" />
+                        </Grid>
+                    </CollectionView.Header>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="25*, 55*, 20*" Padding="10, 12" ColumnSpacing="10" BackgroundColor="{StaticResource PageBackground}">
+                                <Grid.Triggers>
+                                    <DataTrigger TargetType="Grid" Binding="{Binding isPlayer}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="LightCoral" />
+                                    </DataTrigger>
+                                </Grid.Triggers>
+                                
+                                <Border Grid.Column="0"
+                                        HorizontalOptions="Fill" VerticalOptions="Center"
+                                        Style="{StaticResource InputTextEntryBorder}"
+                                        Padding="-10, -10">
+                                    <Entry Text="{Binding InitiativeNum, Mode=TwoWay}" WidthRequest="60" Keyboard="Numeric" VerticalOptions="Center" FontSize="20" 
+                                           TextChanged="OnRowDataChanged" FontFamily="Harmattan-Bold.ttf" HorizontalTextAlignment="Center"/>
+                                </Border>
+                                
+                                <Border Grid.Column="1"
+                                        Style="{StaticResource InputTextEntryBorder}"
+                                        Padding="-10, -10"
+                                        HorizontalOptions="Fill" VerticalOptions="Center">
+                                    <Entry Text="{Binding Name, Mode=TwoWay}" Margin="10,0" VerticalOptions="Center" FontSize="20"
+                                           TextChanged="OnRowDataChanged" FontFamily="Harmattan-Bold.ttf"/>
+                                </Border>
+                                    
+                                <Grid x:Name="TypeLabelsContainer" Grid.Column="2" VerticalOptions="Center">
+                                    <Label x:Name="TypeLabel" Text="Player" TextColor="Black" FontSize="15" HorizontalOptions="End" FontAttributes="Bold"
+                                           IsVisible="{Binding ShowTypeLabel}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding isPlayer}" Value="False">
+                                                <Setter Property="Text" Value="Monster" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                                
+                                <ImageButton x:Name="TrashIcon" Grid.Column="2" 
+                                             Source="trash_can_icon.svg" HeightRequest="35" 
+                                             WidthRequest="35" VerticalOptions="Center" 
+                                             HorizontalOptions="End"
+                                             IsVisible="{Binding ShowDeleteIcon}"
+                                             Clicked="OnDeleteItemClicked"
+                                             CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Grid Grid.Row="2" RowDefinitions="Auto, Auto" Margin="0, 10, 0, 0">
+                    
+                    <BoxView Grid.Row="0" HeightRequest="2" Color="Black" HorizontalOptions="Fill" />
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*, Auto, *" ColumnSpacing="20" Padding="0, 30, 0, 15">
+
+                        <Grid RowDefinitions="Auto, Auto" RowSpacing="15" Grid.Column="0" Padding="10, 0, 0, 0">
+                            <Button Text="Add Player" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddPlayer"/>
+                            <Button Text="Add Enemy" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddEnemy"/>
+                        </Grid>
+
+                        <ImageButton Source="d20_big_die.svg" Grid.Column="1" 
+                                     BackgroundColor="#FE5F55" CornerRadius="50"
+                                     HeightRequest="100" WidthRequest="100"
+                                     BorderWidth="0" BorderColor="Transparent"
+                                     VerticalOptions="Center" HorizontalOptions="Center">
+                            <ImageButton.Shadow>
+                                <Shadow Brush="#000000" Offset="0,2" Radius="10" Opacity="0.4" />
+                            </ImageButton.Shadow>
+                        </ImageButton>
+
+                        <Grid RowDefinitions="Auto, Auto" RowSpacing="15" Grid.Column="2" Padding="0, 0, 10, 0">
+                            <Button Text="Order" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedOrder"/>
+                            <Button Text="Reset" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedReset"/>
+                        </Grid>
+                    </Grid>
+                </Grid>    
+            </Grid>
+        </Grid>
+    </ContentPage.Content>    
 </ContentPage>

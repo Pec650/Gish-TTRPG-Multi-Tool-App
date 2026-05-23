@@ -93,11 +93,13 @@ public partial class NewCreationPage : ContentPage
             var newCreation = new Creations()
             {
                 Title = title,
+                UserID = App.getUserID(),
                 CreationType = type,
                 TypeIconIMGSource = type_icon,
                 CreationSubtype = subtype,
                 Description = description,
-                RPGSystem = feature
+                RPGSystem = feature,
+                ModifyDate = DateTime.UtcNow
             };
 
             int result = await _database.SaveCreationAsync(newCreation);

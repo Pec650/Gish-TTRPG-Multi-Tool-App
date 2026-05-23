@@ -219,7 +219,7 @@
 
     <!-- DANGER BUTTON -->
     <Style x:Key="DangerBtn" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource AccentRed}" />
+        <Setter Property="BackgroundColor" Value="#FE5F55" />
         <Setter Property="TextColor"       Value="{StaticResource White}" />
         <Setter Property="FontFamily"      Value="Faustina-Bold.ttf" />
         <Setter Property="CornerRadius"    Value="8" />
@@ -249,7 +249,7 @@
 
     <!-- ROLL / CLEAR DICE BUTTON -->
     <Style x:Key="RollBtn" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource AccentRed}" />
+        <Setter Property="BackgroundColor" Value="#FE5F55" />
         <Setter Property="TextColor"       Value="{StaticResource White}" />
         <Setter Property="FontFamily"      Value="Faustina-Bold.ttf" />
         <Setter Property="CornerRadius"    Value="8" />

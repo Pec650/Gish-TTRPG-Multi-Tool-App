@@ -124,8 +124,10 @@
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
+                                
+                                <Button Text="ROLL" Style="{StaticResource RollBtn}" Padding="0, 20" BackgroundColor="#4F6367" Clicked="OnRollClicked"/>
 
-                                <Button Text="CLEAR" Style="{StaticResource RollBtn}" Clicked="OnClearClicked"/>
+                                <Button Text="CLEAR" Style="{StaticResource RollBtn}" Padding="0, 20" Clicked="OnClearClicked"/>
                             </VerticalStackLayout>
                         </Border>
                     </Grid>

@@ -15,6 +15,7 @@ public class LocalDatabase
         _connection = new SQLiteAsyncConnection(dbPath);
         await _connection.CreateTableAsync<UserAccount>();
         await _connection.CreateTableAsync<Creations>();
+        await _connection.CreateTableAsync<Initiative>();
     }
     
     public async Task<int> SaveUserAsync(UserAccount user)
@@ -129,7 +130,10 @@ public class LocalDatabase
             );
         }
         
-        List<Creations> creations = await query.OrderByDescending(c => c.ID).ToListAsync();
+        int userID = App.getUserID();
+        List<Creations> creations = await query.Where(c => c.UserID == userID)
+                                               .OrderByDescending(c => c.ModifyDate)
+                                               .ToListAsync();
         
         return creations;
     }
@@ -137,10 +141,12 @@ public class LocalDatabase
     public async Task<List<Creations>> GetRecentCreations()
     {
         await Init();
+        int userID = App.getUserID();
         List<Creations> creations = await _connection.Table<Creations>()
-                                               .OrderByDescending(c => c.ID)
-                                               .Take(3)
-                                               .ToListAsync();
+                                                     .Where(c => c.UserID == userID)
+                                                     .OrderByDescending(c => c.ModifyDate)
+                                                     .Take(3)
+                                                     .ToListAsync();
         return creations;
     }
     
@@ -162,5 +168,49 @@ public class LocalDatabase
     {
         await Init();
         return await _connection.DeleteAsync<Creations>(id) != 0;
+    }
+
+    public async Task<int> AddInitiative(bool isPlayer)
+    {
+        await Init();
+        Initiative newInitiative = new Initiative()
+        {
+            UserID = App.getUserID(),
+            isPlayer = isPlayer
+        };
+        return await _connection.InsertAsync(newInitiative);
+    }
+    
+    public async Task<int> UpdateInitiative(Initiative item)
+    {
+        await Init();
+        return await _connection.UpdateAsync(item);
+    }
+
+    public async Task<List<Initiative>> GetAllInitiativeInOrder()
+    {
+        await Init();
+        int userID = App.getUserID();
+        List<Initiative> orderedList = await _connection.Table<Initiative>()
+            .Where(i => i.UserID == userID)
+            .OrderByDescending(i => i.InitiativeNum)
+            .ToListAsync();
+        return orderedList;
+    }
+
+    public async Task<bool> DeleteAllInitiative()
+    {
+        await Init();
+        int userID = App.getUserID();
+        int rowsAffected = await _connection.ExecuteAsync("DELETE FROM Initiative WHERE UserID = ?", userID);
+        return rowsAffected > 0;
+    }
+    
+    public async Task<bool> DeleteInitiativeAsync(int id)
+    {
+        await Init();
+        int rowsAffected = await _connection.Table<Initiative>()
+            .DeleteAsync(x => x.ID == id);
+        return rowsAffected > 0;
     }
 }
