@@ -9,6 +9,8 @@ public partial class ViewCreationPage : ContentPage
     
     private List<Button> cachedButtons = new List<Button>();
     private List<ImageButton> cachedImgButtons = new List<ImageButton>();
+
+    private Creations SelectedCreation = null;
     
     public ViewCreationPage(Creations creation)
     {
@@ -19,6 +21,8 @@ public partial class ViewCreationPage : ContentPage
 
     private void UpdateUI(Creations creation)
     {
+        SelectedCreation = creation;
+        
         CreationTitle.Text = creation.Title;
         CreationType.Text = "Type: " + creation.CreationType.ToString();
         CreationSubType.Text = "Subtype: " + creation.CreationSubtype;
@@ -26,11 +30,17 @@ public partial class ViewCreationPage : ContentPage
         CreationFeature.Text = (!IsEmptyInput(creation.RPGSystem)) ? creation.RPGSystem : "[Empty]";
     }
     
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
         
         setAllButtonState(true);
+
+        if (SelectedCreation is not null)
+        {
+            SelectedCreation = await _database.GetCreationInfo(SelectedCreation.ID);
+            UpdateUI(SelectedCreation);
+        }
     }
     
     protected override void OnHandlerChanged()
@@ -58,5 +68,36 @@ public partial class ViewCreationPage : ContentPage
     private bool IsEmptyInput(String input)
     {
         return String.IsNullOrWhiteSpace(input);
+    }
+
+    private async void OnClickDeleteCreation(object? sender, EventArgs e)
+    {
+        if (SelectedCreation is not null)
+        {
+            try
+            {
+                await _database.DeleteCreationAsync(SelectedCreation.ID);
+            }
+            catch {}
+        }
+        Navigation.PopModalAsync();
+    }
+
+    private async void OnClickEditCreation(object? sender, EventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+
+            if (SelectedCreation is not null)
+            {
+                await Navigation.PushModalAsync(new EditCreationPage(SelectedCreation));
+            }
+
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
     }
 }

@@ -99,10 +99,37 @@ public class LocalDatabase
         return await _connection.InsertAsync(creation);
     }
     
+    public async Task<Creations> GetCreationInfo(int id)
+    {
+        await Init();
+        Creations creation = await _connection.Table<Creations>().FirstOrDefaultAsync(c => c.ID == id);
+        return creation;
+    }
+    
     public async Task<List<Creations>> GetAllCreations()
     {
         await Init();
-        List<Creations> creations = await _connection.Table<Creations>().ToListAsync();
+        List<Creations> creations = await _connection.Table<Creations>().OrderByDescending(c => c.ID).ToListAsync();
         return creations;
+    }
+    
+    public async Task<bool> updatedCreationInfo(Creations creation)
+    {
+        await Init();
+        
+        if (creation is null)
+        {
+            return false;
+        }
+
+        int rowsAffected = await _connection.UpdateAsync(creation);
+            
+        return rowsAffected > 0;
+    }
+    
+    public async Task<bool> DeleteCreationAsync(int id)
+    {
+        await Init();
+        return await _connection.DeleteAsync<Creations>(id) != 0;
     }
 }

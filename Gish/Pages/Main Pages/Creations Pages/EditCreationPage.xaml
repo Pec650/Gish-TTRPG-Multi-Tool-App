@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.Main_Pages.Creations_Pages.NewCreationPage"
-             Title="New Creation"
+             x:Class="Gish.Pages.Main_Pages.Creations_Pages.EditCreationPage"
+             Title="Edit Creation"
              BackgroundColor="{StaticResource TabBar}">
     <ContentPage.Content>
         
@@ -23,7 +24,7 @@
                                  VerticalOptions="Center"
                                  Clicked="ReturnPage"></ImageButton>
                     <Label Style="{StaticResource PageTitle}"
-                           Text="New Creation"
+                           Text="Edit Creation"
                            TextColor="{StaticResource TextDark}"
                            VerticalOptions="Center"/>
                 </HorizontalStackLayout>
@@ -84,7 +85,7 @@
                            Style="{StaticResource InputErrorText}"></Label>
                     
                     <Button x:Name="SubmitBtn"
-                            Text="Create"
+                            Text="Update"
                             Margin="0, 10"
                             Style="{StaticResource RedBtn}"
                             Clicked="SubmitCreation">

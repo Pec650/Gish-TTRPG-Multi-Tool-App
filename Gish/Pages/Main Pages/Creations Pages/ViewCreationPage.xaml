@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Main_Pages.Creations_Pages.ViewCreationPage"
-             Title="View Creations"
+             Title="View Creation"
              BackgroundColor="{StaticResource TabBar}">
     <ContentPage.Content>
         
@@ -23,7 +23,7 @@
                                  VerticalOptions="Center"
                                  Clicked="ReturnPage"></ImageButton>
                     <Label Style="{StaticResource PageTitle}"
-                           Text="View Creations"
+                           Text="View Creation"
                            TextColor="{StaticResource TextDark}"
                            VerticalOptions="Center"/>
                 </HorizontalStackLayout>
@@ -50,10 +50,12 @@
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="20" HorizontalOptions="Fill">
                            <Button Grid.Column="0" Text="EDIT" HorizontalOptions="Fill"
                                    CornerRadius="20" FontFamily="Commissioner-SemiBold.ttf"
-                                   BackgroundColor="#D4C4B2" TextColor="Black"></Button>
+                                   BackgroundColor="#D4C4B2" TextColor="Black"
+                                   Clicked="OnClickEditCreation"></Button>
                            <Button Grid.Column="1" Text="DELETE" HorizontalOptions="Fill"
                                    CornerRadius="20" FontFamily="Commissioner-SemiBold.ttf"
-                                   BackgroundColor="#FE5F55" TextColor="White"></Button>
+                                   BackgroundColor="#FE5F55" TextColor="White"
+                                   Clicked="OnClickDeleteCreation"></Button>
                     </Grid>
                     
                     <Label Style="{StaticResource SubTitle}"
