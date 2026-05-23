@@ -49,7 +49,7 @@ public partial class SignInPage
         }
     }
     
-    public async Task<bool> SigninUser(string email, string password)
+    private async Task<bool> SigninUser(string email, string password)
     {
         try
         {

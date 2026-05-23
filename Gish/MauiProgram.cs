@@ -32,6 +32,29 @@ public static class MauiProgram
 #endif
         });
 
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.Background = null;
+            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#elif IOS || MACCATALYST
+            handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+        });
+
+        Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.Background = null;
+            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#elif IOS || MACCATALYST
+            // iOS Editor doesn't have a BorderStyle property like Entry/Picker, 
+            // but it has a Layer border or background we might need to reset if styled.
+            // By default, iOS UITextView has no border/underline, but you can explicitly clear it:
+            handler.PlatformView.Layer.BorderWidth = 0;
+#endif
+        });
+
         return builder.Build();
     }
 }

@@ -1,8 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.Main_Pages.Creations_Pages.NewCreationPage">
+             x:Class="Gish.Pages.Main_Pages.Creations_Pages.NewCreationPage"
+             Title="New Creations"
+             BackgroundColor="{StaticResource TabBar}">
     <ContentPage.Content>
         
+        <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
+
+            <!-- HEADER -->
+            <Grid Grid.Row="0"
+                  x:Name="Header"
+                  Padding="16,32,16,16"
+                  ColumnDefinitions="*,Auto">
+                
+                <HorizontalStackLayout Spacing="10">
+                    <ImageButton x:Name="ReturnButton"
+                                 Source="back_button.png"
+                                 HeightRequest="40"
+                                 WidthRequest="40"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Center"
+                                 Clicked="ReturnPage"></ImageButton>
+                    <Label Style="{StaticResource PageTitle}"
+                           Text="Your Creations"
+                           TextColor="{StaticResource TextDark}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Grid>
+            
+            <ScrollView Grid.Row="1"
+                        BackgroundColor="{StaticResource PageBackground}"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill">
+                <VerticalStackLayout Padding="20" Spacing="20">
+                    
+                    <Label Style="{StaticResource SubTitle}" Text="Creation Title" HorizontalOptions="Start"
+                           Margin="0, 0, 0, -10"/>
+                    
+                    <Border Style="{StaticResource InputTextEntryBorder}">
+                        <Entry x:Name="TitleInput" Placeholder="Enter title" ReturnType="Done" Style="{StaticResource InputTextEntry}"/>
+                    </Border>
+                    
+                    <Label Style="{StaticResource SubTitle}" Text="Metadata" HorizontalOptions="Start"
+                           Margin="0, 0, 0, -10"/>
+                    
+                    <Label Text="Creation Type" Style="{StaticResource InputTextLabel}"></Label>
+                    
+                    <Border Style="{StaticResource InputTextEntryBorder}"
+                            Margin="0, 5, 0, -10">
+                        <Picker x:Name="CreationTypeInput" 
+                                Title="Choose creation type"
+                                TextColor="{StaticResource TextDark}"/>
+                    </Border>
+                    
+                    <Label Text="Creation Subtype" Style="{StaticResource InputTextLabel}"></Label>
+                    
+                    <Border Style="{StaticResource InputTextEntryBorder}"
+                            Margin="0, 5, 0, 0">
+                        <Entry x:Name="SubtypeInput" Placeholder="Enter creation subtype" ReturnType="Done" Style="{StaticResource InputTextEntry}"/>
+                    </Border>
+                    
+                    <Label Style="{StaticResource SubTitle}" Text="Description" HorizontalOptions="Start"
+                           Margin="0, 0, 0, -10"/>
+                    
+                    <Border Style="{StaticResource InputTextEntryBorder}"
+                            Margin="0, 0, 0, -10">
+                        <Editor x:Name="CreationDesc" Placeholder="Enter description..."
+                                Style="{StaticResource InputEditorStyle}"/>
+                    </Border>
+                    
+                    <Label Style="{StaticResource SubTitle}" Text="Features" HorizontalOptions="Start"
+                           Margin="0, 0, 0, -10"/>
+                    
+                    <Border Style="{StaticResource InputTextEntryBorder}"
+                            Margin="0, 0, 0, 0">
+                        <Editor x:Name="CreationFeature" Placeholder="Enter features..."
+                                Style="{StaticResource InputEditorStyle}"/>
+                    </Border>
+                    
+                    <Label x:Name="InputError" IsVisible="False"
+                           Margin="0, -10, 0, -20"
+                           Style="{StaticResource InputErrorText}"></Label>
+                    
+                    <Button x:Name="SubmitBtn"
+                            Text="Create"
+                            Margin="0, 10"
+                            Style="{StaticResource RedBtn}"
+                            Clicked="SubmitCreation">
+                    </Button>
+                        
+                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" VerticalOptions="Center" />
+                    
+                </VerticalStackLayout>
+            </ScrollView>
+            
+        </Grid>    
     </ContentPage.Content>
 </ContentPage>

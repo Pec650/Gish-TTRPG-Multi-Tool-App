@@ -14,6 +14,7 @@ public class LocalDatabase
         
         _connection = new SQLiteAsyncConnection(dbPath);
         await _connection.CreateTableAsync<UserAccount>();
+        await _connection.CreateTableAsync<Creations>();
     }
     
     public async Task<int> SaveUserAsync(UserAccount user)
@@ -66,36 +67,6 @@ public class LocalDatabase
         return rowsAffected > 0;
     }
     
-    // public async Task<bool> setProfileImage(int id, FileResult img)
-    // {
-    //     try
-    //     {
-    //         byte[] newProfilePic = await UserAccount.convertImageToByte(img);
-    //
-    //         if (newProfilePic is null)
-    //         {
-    //             return false;
-    //         }
-    //         
-    //         await Init();
-    //         var user = await _connection.Table<UserAccount>()
-    //             .FirstOrDefaultAsync(u => u.ID == id);
-    //
-    //         if (user is null)
-    //         {
-    //             return false;
-    //         }
-    //
-    //         user.ProfileImage = newProfilePic;
-    //         await this.UpdateAsync(user);
-    //     }
-    //     catch
-    //     {
-    //         return false;
-    //     }
-    //     return false;
-    // }
-    
     public async Task<byte[]> convertImageToByte(FileResult img)
     {
         if (isFileImage(img.FileName))
@@ -120,5 +91,18 @@ public class LocalDatabase
         string[] allowedExtensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp" };
         string extension = Path.GetExtension(fileName).ToLower();
         return allowedExtensions.Contains(extension);
+    }
+    
+    public async Task<int> SaveCreationAsync(Creations creation)
+    {
+        await Init();
+        return await _connection.InsertAsync(creation);
+    }
+    
+    public async Task<List<Creations>> GetAllCreations()
+    {
+        await Init();
+        List<Creations> creations = await _connection.Table<Creations>().ToListAsync();
+        return creations;
     }
 }

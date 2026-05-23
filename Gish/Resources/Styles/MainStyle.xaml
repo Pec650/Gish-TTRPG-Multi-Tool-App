@@ -159,9 +159,6 @@
         <Setter Property="FontFamily"     Value="Harmattan-Bold.ttf" />
     </Style>
     
-    <!-- SEARCH INPUT -->
-    <Style x:Key="SearchInput" TargetType="Entry"></Style>
-    
     <!-- SEARCH TAGS BUTTONS -->
     <Style x:Key="SearchTagButtonStyle" TargetType="ContentView">
         <Setter Property="HorizontalOptions" Value="Fill" />
@@ -313,6 +310,30 @@
         <Setter Property="HorizontalTextAlignment" Value="Start" />
         <Setter Property="VerticalOptions"      Value="Center" />
         <Setter Property="FontFamily"           Value="Harmattan-Bold.ttf" />
+    </Style>
+    
+    <Style x:Key="InputPickerStyle" TargetType="Picker">
+        <Setter Property="TextColor"            Value="{StaticResource TextDark}" />
+        <Setter Property="BackgroundColor"      Value="{StaticResource White}" />
+        <Setter Property="FontSize"             Value="20" />
+        <Setter Property="HorizontalOptions"    Value="Fill" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalOptions"      Value="Center" />
+        <Setter Property="FontFamily"           Value="Harmattan-Bold.ttf" />
+    </Style>
+    
+    <Style x:Key="InputEditorStyle" TargetType="Editor">
+        <Setter Property="TextColor"               Value="{StaticResource TextDark}" />
+        <Setter Property="BackgroundColor"         Value="{StaticResource White}" />
+        <Setter Property="PlaceholderColor"        Value="#747474" />
+        <Setter Property="FontSize"                Value="20" />
+        <Setter Property="HorizontalOptions"       Value="Fill" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalOptions"         Value="Center" />
+        <Setter Property="FontFamily"              Value="Harmattan-Bold.ttf" />
+        <Setter Property="AutoSize"                Value="TextChanges"></Setter>
+        <Setter Property="HeightRequest"           Value="300"></Setter>
+        <Setter Property="VerticalOptions"         Value="FillAndExpand"></Setter>
     </Style>
 
     <Style x:Key="PasswordEyeIcon" TargetType="ImageButton">

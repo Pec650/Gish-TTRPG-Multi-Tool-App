@@ -60,7 +60,7 @@ public partial class SignUpPage
         }
     }
 
-    public async Task<bool> SignupUser(string username, string email, string password)
+    private async Task<bool> SignupUser(string username, string email, string password)
     {
         try
         {

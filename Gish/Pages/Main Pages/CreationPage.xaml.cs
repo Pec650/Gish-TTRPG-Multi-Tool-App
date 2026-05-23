@@ -1,5 +1,6 @@
 using SQLite;
 using Gish.Pages.Classes;
+using Gish.Pages.Main_Pages.Creations_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -15,11 +16,13 @@ public partial class CreationsPage : ContentPage
         InitializeComponent();
     }
     
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
         
         setAllButtonState(true);
+        
+        CreationsListView.ItemsSource = await _database.GetAllCreations();
     }
     
     protected override void OnHandlerChanged()
@@ -118,6 +121,19 @@ public partial class CreationsPage : ContentPage
                         break;
                 }
             }
+        }
+    }
+
+    private async void GoToNewCreation(object? sender, TappedEventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+            await Navigation.PushModalAsync(new NewCreationPage());
+        }
+        catch
+        {
+            setAllButtonState(true);
         }
     }
 }

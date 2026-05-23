@@ -81,11 +81,78 @@
                 </Border>
                 
                 <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
-                    <Label Text="You currently have no creations"
-                           Style="{StaticResource SubTitleText}"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"></Label>
+                    
+                    <CollectionView x:Name="CreationsListView" 
+                                    SelectionMode="None">
+        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="8" 
+                                       Margin="0,0,0,10" 
+                                       Padding="15" 
+                                       BackgroundColor="#D4C4B2"
+                                       HasShadow="False"
+                                       VerticalOptions="Start">
+                                    
+                                    <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                                        
+                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" VerticalOptions="Center">
+                                            
+                                            <Image Grid.Column="0"
+                                                   Source="{Binding TypeIconIMGSource}"
+                                                   HeightRequest="50"
+                                                   WidthRequest="50"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"/>
+                    
+                                            <Label Grid.Column="1" 
+                                                   Text="{Binding Title}"
+                                                   Style="{StaticResource SubTitle}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1" 
+                                                   WidthRequest="250"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start"/>
+                                            
+                                            <Label Grid.Column="2"
+                                                   Text=">"
+                                                   FontSize="25"
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="End"
+                                                   HorizontalTextAlignment="End"/>
+                                            
+                                        </Grid>
+                                    
+                                        <Label Text="{Binding CreationType, StringFormat='Type: {0}'}" 
+                                               TextColor="#4F6367"
+                                               FontFamily="Harmattan-Bold.ttf"
+                                               FontSize="25"
+                                               HorizontalOptions="Start"/>
+                                    
+                                        <Label Text="{Binding CreationSubtype, StringFormat='Subtype: {0}'}" 
+                                               TextColor="#4F6367"
+                                               FontFamily="Harmattan-Bold.ttf"
+                                               FontSize="20"
+                                               Margin="0, -20, 0, -10"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="1" 
+                                               WidthRequest="250"
+                                               HorizontalOptions="Start"/>
+                                        
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="50">
+                                <Label Text="You currently have no creations"
+                                       Style="{StaticResource SubTitleText}"
+                                       HorizontalTextAlignment="Center" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+
+                    </CollectionView>
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
@@ -110,6 +177,10 @@
             <Label Text="+" TextColor="White" FontSize="60" FontAttributes="Bold" TranslationY="-3"
                    HorizontalOptions="Center" VerticalOptions="Center"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="GoToNewCreation"></TapGestureRecognizer>
+            </Border.GestureRecognizers>
         </Border>
         
     </Grid>
