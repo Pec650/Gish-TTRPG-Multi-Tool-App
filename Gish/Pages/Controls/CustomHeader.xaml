@@ -3,24 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Controls.CustomHeader">
 
-    <Border BackgroundColor="#FEC7A2"
+    <Border BackgroundColor="{StaticResource TabBar}"
             Stroke="Transparent"
             Padding="16,0"
-            HeightRequest="64"
+            HeightRequest="120"
             Margin="0"
             VerticalOptions="Start">
         
-        <Grid ColumnDefinitions="*, Auto" RowSpacing="0">
+        <Grid ColumnDefinitions="Auto, *, Auto" RowSpacing="0" ColumnSpacing="12">
             
-            <Label x:Name="HeaderTitleLabel"
+            <ImageButton x:Name="BackBtn" 
+                         Grid.Column="0"
+                         Source="back_button.png" 
+                         WidthRequest="24" 
+                         HeightRequest="24" 
+                         VerticalOptions="Center"
+                         IsVisible="False"
+                         Clicked="OnBackClicked"/>
+            
+            <Label x:Name="HeaderTitleLabel" 
+                   Grid.Column="1"
                    Text="{Binding Title, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                    Style="{StaticResource PageTitle}"
                    TextColor="{StaticResource TextDark}"
                    VerticalOptions="Center"
                    VerticalTextAlignment="Center"/>
 
-            <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                <Border HeightRequest="36" 
+            <HorizontalStackLayout Grid.Column="2" Spacing="10" VerticalOptions="Center">
+                <Border x:Name="ProfileBorderContainer"
+                        HeightRequest="36" 
                         WidthRequest="36" 
                         Style="{StaticResource ProfileBorder}">
                     <ImageButton x:Name="ProfileBtn"

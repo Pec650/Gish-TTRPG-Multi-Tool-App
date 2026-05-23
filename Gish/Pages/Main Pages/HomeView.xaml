@@ -6,8 +6,6 @@
 
     <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
-        <controls:CustomHeader Grid.Row="0" Title="Home" />
-
         <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
             <VerticalStackLayout Padding="16,20,16,16" Spacing="16">
 

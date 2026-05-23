@@ -75,3 +75,8 @@
   * Fixed the navigation logic of the tab bar, now HomeView is the root page of the app
   * Fixed the navigation logic when pressing hardware back button
   * Modified the Database Schema, RPGSystem and Campaign are its own classes. References to RPGSystem and Campaign are referenced back to their respective classes
+* Added Notification Package and Modified header \[05/23/2026]
+
+  * Added Notification Package to link push notifications to the app
+  * no connection just yet
+  * fixed header and tabbar styling

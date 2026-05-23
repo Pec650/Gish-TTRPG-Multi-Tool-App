@@ -6,7 +6,6 @@
     
     <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
-        <controls:CustomHeader Grid.Row="0" Title="Rules" />
         
         <ScrollView Grid.Row="1"
                     BackgroundColor="{StaticResource PageBackground}"

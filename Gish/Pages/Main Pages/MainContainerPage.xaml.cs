@@ -29,7 +29,7 @@ public partial class MainContainerPage : ContentPage
         SwitchToTab("Home");
     }
 
-    public void SwitchToTab(string tabName)
+ public void SwitchToTab(string tabName)
     {
         ContentArea.Children.Clear();
 
@@ -37,26 +37,24 @@ public partial class MainContainerPage : ContentPage
         {
             if (tabName == "Home")
             {
-                // Clear out intermediate tab fluff but keep Home locked at the bottom
                 _tabHistory.Clear();
                 _tabHistory.Add("Home");
             }
             else
             {
-                // Remove existing instances so this tab can bubble up to the top of the history stack
                 _tabHistory.Remove(tabName);
                 _tabHistory.Add(tabName);
 
-                // Cap history tracking to 4 total elements maximum (Home + 3 unique tabs)
                 if (_tabHistory.Count > 4)
                 {
-                    _tabHistory.RemoveAt(1); // Remove the oldest tab step without touching Home at index 0
+                    _tabHistory.RemoveAt(1);
                 }
             }
         }
 
-        // Keep the custom UI tab bar states matching your current active window assignment
+        // Sync BOTH the bottom active states and top text title context
         AppTabBar.ActiveTab = tabName;
+        AppHeader.Title = tabName; // <-- Syncs header text dynamically!
 
         switch (tabName)
         {
@@ -72,7 +70,20 @@ public partial class MainContainerPage : ContentPage
             case "Rules":
                 ContentArea.Children.Add(_rulesView);
                 break;
+            case "Profile":
+                // Support your ProfileView mapping when clicking the header icon
+                AppHeader.Title = "My Profile";
+                // ContentArea.Children.Add(_profileView); 
+                break;
         }
+    }
+
+    public void SetTabBarVisibility(bool isVisible)
+    {
+        AppTabBar.IsVisible = isVisible;
+        
+        // Smoothly adjust content padding so scrolling fields take advantage of full-screen real estate when tabs are hidden
+        ContentArea.Padding = isVisible ? new Thickness(0, 0, 0, 64) : new Thickness(0);
     }
 
     protected override bool OnBackButtonPressed()

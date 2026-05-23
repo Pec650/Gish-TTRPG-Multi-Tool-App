@@ -9,6 +9,9 @@ namespace Gish.Pages.Controls;
 public partial class CustomHeader : ContentView
 {
     private readonly LocalDatabase _database = new();
+    
+    // Tracks what should happen when the back arrow is tapped
+    public Action? OnBackPressed { get; set; }
 
     public static readonly BindableProperty TitleProperty =
         BindableProperty.Create(
@@ -43,6 +46,19 @@ public partial class CustomHeader : ContentView
         }
     }
 
+    public void SetNavigationMode(bool isNavMode, Action? backAction = null)
+    {
+        BackBtn.IsVisible = isNavMode;
+        ProfileBorderContainer.IsVisible = !isNavMode;
+        OnBackPressed = backAction;
+    }
+
+    private void OnBackClicked(object sender, EventArgs e)
+    {
+        // Execute the custom back navigation route assigned by the active subview
+        OnBackPressed?.Invoke();
+    }
+
     private async void LoadProfileImage()
     {
         try
@@ -53,10 +69,7 @@ public partial class CustomHeader : ContentView
                 ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
             }
         }
-        catch
-        {
-            // Fallback gracefully if database context fails
-        }
+        catch { }
     }
 
     private void OnProfileClicked(object sender, EventArgs e)

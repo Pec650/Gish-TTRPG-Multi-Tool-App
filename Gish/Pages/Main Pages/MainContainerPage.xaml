@@ -8,11 +8,18 @@
              SafeAreaEdges="None"
              Padding="0">
 
-    <Grid RowDefinitions="*,Auto" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
+    <Grid x:Name="RootLayoutGrid" RowDefinitions="Auto, *" SafeAreaEdges="None" Padding="0" RowSpacing="0" Margin="0">
 
-        <Grid x:Name="ContentArea" Grid.Row="0" Margin="0" Padding="0"/>
+        <controls:CustomHeader x:Name="AppHeader" x:FieldModifier="public" Grid.Row="0" Title="Home" />
 
-        <controls:CustomTabBar x:Name="AppTabBar" Grid.Row="1" ActiveTab="Home"/>
+        <Grid Grid.Row="1" Margin="0" Padding="0">
+            
+            <Grid x:Name="ContentArea" Margin="0" Padding="0,0,0,64"/>
 
+            <controls:CustomTabBar x:Name="AppTabBar" 
+                                   VerticalOptions="End" 
+                                   HeightRequest="64"
+                                   ActiveTab="Home"/>
+        </Grid>
     </Grid>
 </ContentPage>

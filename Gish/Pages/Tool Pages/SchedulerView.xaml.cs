@@ -175,7 +175,7 @@ public partial class SchedulerView : ContentView
     private void OnDrawerAddSessionClicked(object sender, EventArgs e)
     {
         // Route user directly to the session creation form view, prefilled with the locked date selection context
-        var formView = new SessionFormView(_selectedDate);
+        var formView = new SchedulerFormView(_selectedDate);
         
         formView.OnDatabaseChanged = async () => {
             _allSessions = await _database.GetAllSessionsAsync();
@@ -202,14 +202,17 @@ public partial class SchedulerView : ContentView
 
     private void OnBackClicked(object sender, EventArgs e)
     {
+    // Find the structural parent wrapper host view
         Element currentParent = this.Parent;
         while (currentParent is not null && currentParent is not ToolsView)
         {
             currentParent = currentParent.Parent;
         }
-
+        
+        // Check if we found the true local stack owner
         if (currentParent is ToolsView toolsMenuHost)
         {
+            // Safely pull this page off the custom internal local view stack
             toolsMenuHost.PopLocalView();
         }
     }
@@ -217,7 +220,7 @@ public partial class SchedulerView : ContentView
     private void OnCreateSessionClicked(object sender, EventArgs e)
     {
         DateTime fallbackDate = _currentlySelectedDayView is not null ? _selectedDate : DateTime.Today;
-        var formView = new SessionFormView(fallbackDate);
+        var formView = new SchedulerFormView(fallbackDate);
         
         formView.OnDatabaseChanged = async () => {
             _allSessions = await _database.GetAllSessionsAsync();
@@ -229,7 +232,7 @@ public partial class SchedulerView : ContentView
 
     private void OpenFormForEdit(GameSession session)
     {
-        var formView = new SessionFormView(session);
+        var formView = new SchedulerFormView(session);
         formView.OnDatabaseChanged = async () => {
             _allSessions = await _database.GetAllSessionsAsync();
             BuildCalendar();

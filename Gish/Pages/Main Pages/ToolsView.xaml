@@ -8,7 +8,6 @@
         
         <Grid x:Name="DefaultToolsMenu" RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
             
-            <controls:CustomHeader Grid.Row="0" Title="Tools" />
 
             <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
                 <VerticalStackLayout Padding="20" Spacing="25" HorizontalOptions="Fill">

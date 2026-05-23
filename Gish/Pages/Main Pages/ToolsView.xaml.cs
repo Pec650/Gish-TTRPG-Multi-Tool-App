@@ -19,13 +19,20 @@ public partial class ToolsView : ContentView
     public void PushLocalView(ContentView childView)
     {
         _localNavigationStack.Push(childView);
-        
-        // Hide only the inner tools selector menu grid
         DefaultToolsMenu.IsVisible = false;
-        
-        // Mount and show the custom tool scheduler component safely
         NestedStackPresenter.Content = childView;
         NestedStackPresenter.IsVisible = true;
+
+        if (Application.Current?.Windows?[0]?.Page is MainContainerPage mainContainer)
+        {
+            // 1. Let the data binding update the text safely through the property channel
+            mainContainer.AppHeader.Title = "Session Reminder"; 
+            
+            // 2. Toggle only the structural arrow layout states
+            mainContainer.AppHeader.SetNavigationMode(isNavMode: true, backAction: () => PopLocalView());
+            
+            mainContainer.SetTabBarVisibility(false); 
+        }
     }
 
     public void PopLocalView()
@@ -41,10 +48,28 @@ public partial class ToolsView : ContentView
         }
         else
         {
-            // Fully return and clear back states safely
             NestedStackPresenter.Content = null;
             NestedStackPresenter.IsVisible = false;
             DefaultToolsMenu.IsVisible = true;
+
+            if (Application.Current?.Windows?[0]?.Page is MainContainerPage mainContainer)
+            {
+                mainContainer.AppHeader.Title = "Tools";
+                mainContainer.AppHeader.SetNavigationMode(isNavMode: false);
+                
+                // Cleanly restores visibility without causing layout calculation stuttering
+                mainContainer.SetTabBarVisibility(true); 
+            }
+        }
+    }
+
+    private void UpdateParentTabBarVisibility()
+    {
+        if (Application.Current?.MainPage is MainContainerPage mainContainer)
+        {
+            // If we have nested items on screen (SchedulerView, FormView, etc), hide the bar.
+            // Otherwise, make it visible.
+            mainContainer.SetTabBarVisibility(!HasNestedViews);
         }
     }
 

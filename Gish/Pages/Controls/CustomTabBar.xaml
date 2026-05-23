@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Controls.CustomTabBar">
 
-    <Border BackgroundColor="#FEC7A2"
+    <Border BackgroundColor="{StaticResource TabBar}"
             Stroke="Transparent"
             Padding="0,4,0,20"
-            HeightRequest="64"
+            HeightRequest="80"
             Margin="0"
             VerticalOptions="End">
         
