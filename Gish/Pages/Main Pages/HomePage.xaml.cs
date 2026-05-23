@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Maui.Controls;
+using SQLite;
+using Gish.Pages.Classes;
 
 namespace Gish.Pages.MainPages;
 
 public partial class HomePage : ContentPage
 {
+    private LocalDatabase _database = new LocalDatabase();
+    
     private string _modifier = "N";
     private int _bonus = 0;
     private readonly Random _rng = new();
@@ -46,11 +50,32 @@ public partial class HomePage : ContentPage
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+
+        SetUserInfo();
         
         cachedButtons = App.getAllButtons(this);
         cachedImgButtons = App.getAllImageButtons(this);
 
         setAllButtonState(true);
+    }
+    
+    public async void SetUserInfo()
+    {
+        try
+        {
+            UserAccount user = await _database.getUserInfo(App.getUserID());
+
+            if (user is not null)
+            {
+
+                if (user.ProfileImage is not null)
+                {
+                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
+                }
+            }
+        }
+        catch
+        {}
     }
 
     private void LoadMockData()

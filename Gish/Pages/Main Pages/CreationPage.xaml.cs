@@ -1,9 +1,6 @@
 using SQLite;
 using Gish.Pages.Classes;
 
-using System.Diagnostics;
-using Debug = System.Diagnostics.Debug;
-
 namespace Gish.Pages.MainPages;
 
 public partial class CreationsPage : ContentPage
