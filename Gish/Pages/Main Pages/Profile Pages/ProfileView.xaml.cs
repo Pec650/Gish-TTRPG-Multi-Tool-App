@@ -63,19 +63,16 @@ public partial class ProfileView : ContentView
         }
     }
 
-    private void ReturnPage(object? sender, EventArgs e)
+    private async void ReturnPage(object? sender, EventArgs e)
     {
         setAllButtonState(false);
         try
         {
-            // Direct parent view manager call to restore navigation back to your tab engine shell
-            if (Application.Current?.MainPage is MainPages.MainContainerPage container)
-            {
-                container.SwitchToTab("Home");
-            }
+            await Navigation.PopModalAsync();
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"Navigation failed: {ex.Message}");
             setAllButtonState(true);
         }
     }

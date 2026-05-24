@@ -8,7 +8,7 @@
             Padding="16,0"
             HeightRequest="120"
             Margin="0"
-            VerticalOptions="Start">
+            VerticalOptions="End">
         
         <Grid ColumnDefinitions="Auto, *, Auto" RowSpacing="0" ColumnSpacing="12">
             

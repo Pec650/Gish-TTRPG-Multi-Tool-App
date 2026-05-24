@@ -4,8 +4,7 @@
              xmlns:controls="clr-namespace:Gish.Pages.Controls"
              x:Class="Gish.Pages.MainPages.MainContainerPage"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="{StaticResource PageBackground}"
-             SafeAreaEdges="None"
+             BackgroundColor="{StaticResource TabBar}"
              Padding="0">
 
     <Grid x:Name="RootLayoutGrid" 
@@ -23,7 +22,7 @@
 
             <controls:CustomTabBar x:Name="AppTabBar" 
                                    VerticalOptions="End" 
-                                   HeightRequest="64"
+                                   HeightRequest="80"
                                    ActiveTab="Home"/>
         </Grid>
     </Grid>

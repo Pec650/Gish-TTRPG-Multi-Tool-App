@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages;
+using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.Controls;
 
@@ -72,11 +73,20 @@ public partial class CustomHeader : ContentView
         catch { }
     }
 
-    private void OnProfileClicked(object sender, EventArgs e)
+    private async void OnProfileClicked(object sender, EventArgs e)
     {
-        if (Application.Current?.MainPage is MainContainerPage mainContainer)
+        try
         {
-            mainContainer.SwitchToTab("Profile");
+            var profilePage = new ContentPage 
+            { 
+                Content = new ProfileView() 
+            };
+    
+            await Navigation.PushModalAsync(profilePage);
+        } 
+        catch (Exception ex) 
+        {
+            System.Diagnostics.Debug.WriteLine($"Navigation failed: {ex.Message}");
         }
     }
 }
