@@ -37,16 +37,28 @@
                         <VerticalStackLayout Spacing="4">
                             <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
                                 <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Padding="4">
-                                    <Image Source="discord_icon.png" WidthRequest="36" HeightRequest="36" VerticalOptions="Center"/>
+                                    <Border HeightRequest="80" 
+                                            WidthRequest="80"
+                                            Stroke="#839788"
+                                            StrokeThickness="5"
+                                            StrokeShape="RoundRectangle 40"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Start">
+    
+                                        <Image Source="discord_icon.png"
+                                               Aspect="AspectFill"    HeightRequest="80"
+                                               WidthRequest="80"/>
+                                    </Border>
                                     <VerticalStackLayout Grid.Column="1" Spacing="2">
                                         <Label x:Name="SessionTitle" Text="D&amp;D Session"
                                                FontFamily="Faustina-Bold.ttf" FontSize="36" TextColor="{StaticResource TextDark}"
-                                               HorizontalOptions="End"/>
+                                               HorizontalOptions="End" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" MaxLines="1" WidthRequest="200"/>
                                         <Label x:Name="SessionDate" Text="May 2, 2026"
                                                Style="{StaticResource ItemSubtitle}"
                                                HorizontalOptions="End"/>
                                         <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
                                                Style="{StaticResource ItemSubtitle}"
+                                               FontSize="20"
                                                HorizontalOptions="End"/>
                                     </VerticalStackLayout>
                                 </Grid>
@@ -54,10 +66,12 @@
                             
                             <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
                                    Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
-                                   HorizontalOptions="End"/>
+                                   HorizontalOptions="End" TextColor="White"
+                                   FontSize="21"/>
                             <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
                                    Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4"
-                                   HorizontalOptions="End"/>
+                                   HorizontalOptions="End" TextColor="White"
+                                   FontSize="15"/>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
@@ -135,24 +149,43 @@
 
                 <VerticalStackLayout Spacing="6" Margin="0,0,0,12">
                     <Label Text="Recent Homebrew" Style="{StaticResource SectionHeader}"/>
-                    <CollectionView x:Name="RecentHomebrewList" SelectionMode="None">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Style="{StaticResource CardOuter}" Margin="0,4">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnHomebrewTapped" />
-                                    </Border.GestureRecognizers>
-                                    
-                                    <Grid ColumnDefinitions="*, Auto" Padding="8">
-                                        <VerticalStackLayout VerticalOptions="Center">
-                                            <Label Text="{Binding Title}" Style="{StaticResource ItemTitle}"/>
-                                            <Label Text="{Binding CreationType}" Style="{StaticResource ItemSubtitle}"/>
-                                        </VerticalStackLayout>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                    <Border Style="{StaticResource CardOuter}" Margin="0,4">
+                        <CollectionView x:Name="RecentHomebrewList" SelectionMode="None" MinimumHeightRequest="150">
+                            <CollectionView.EmptyView>
+                                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                                    <Label Text="You currently don't have any homebrew"
+                                           Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
+                                           HorizontalOptions="Center" VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="White" FontSize="18"/>
+                                    <Button Text="CREATE HOMEBREW" Style="{StaticResource RollBtn}" Padding="20, 10" 
+                                            FontFamily="Commissioner-Bold.ttf" FontSize="15" HorizontalOptions="Center" Clicked="GoToNewCreation"/>
+                                </VerticalStackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardInner}" Margin="0,4">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnHomebrewTapped" />
+                                        </Border.GestureRecognizers>
+                                        
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15" Padding="8">
+                                            <Image Grid.Column="0"
+                                                   Source="{Binding TypeIconIMGSource}"
+                                                   HeightRequest="40"
+                                                   WidthRequest="40"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"/>
+                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                <Label Text="{Binding Title}" Style="{StaticResource ItemTitle}" TextColor="#4F6367"/>
+                                                <Label Text="{Binding CreationType}" Style="{StaticResource ItemSubtitle}" TextColor="#4F6367"/>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>    
                 </VerticalStackLayout>
 
             </VerticalStackLayout>

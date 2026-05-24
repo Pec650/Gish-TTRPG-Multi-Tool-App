@@ -35,7 +35,7 @@
                         <Label Text="Search Creations" Style="{StaticResource SearchTitle}"></Label>
                         <Border Style="{StaticResource InputTextEntryBorder}">
                             <Entry x:Name="SearchInput"
-                                   Placeholder="Search by name..."
+                                   Placeholder="Search by title..."
                                    ReturnType="Go"
                                    TextChanged="SearchInputChange"
                                    Style="{StaticResource InputTextEntry}"></Entry>
@@ -84,7 +84,8 @@
                 <VerticalStackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
                     
                     <CollectionView x:Name="CreationsListView" 
-                                    SelectionMode="None">
+                                    SelectionMode="None"
+                                    MinimumHeightRequest="350">
         
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -100,7 +101,7 @@
                                     
                                     <VerticalStackLayout Spacing="5" VerticalOptions="Center">
                                         
-                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" VerticalOptions="Center">
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="15" VerticalOptions="Center">
                                             
                                             <Image Grid.Column="0"
                                                    Source="{Binding TypeIconIMGSource}"
@@ -117,13 +118,6 @@
                                                    WidthRequest="250"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Start"/>
-                                            
-                                            <Label Grid.Column="2"
-                                                   Text=">"
-                                                   FontSize="25"
-                                                   FontAttributes="Bold"
-                                                   HorizontalOptions="End"
-                                                   HorizontalTextAlignment="End"/>
                                             
                                         </Grid>
                                     
@@ -148,11 +142,17 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
 
+                        
                         <CollectionView.EmptyView>
-                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="50">
-                                <Label Text="You currently have no creations"
+                            <VerticalStackLayout Spacing="15" VerticalOptions="Center" HorizontalOptions="Center" Padding="50">
+                                <Image Source="not_found_icon.svg" WidthRequest="150" HeightRequest="150"></Image>
+                                <Label Text="Creations not found"
                                        Style="{StaticResource SubTitleText}"
-                                       HorizontalTextAlignment="Center" />
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="20"
+                                       FontAttributes="Bold"/>
+                                <Button Text="CREATE HOMEBREW" Style="{StaticResource RollBtn}" Padding="20, 10" 
+                                        FontFamily="Commissioner-Bold.ttf" FontSize="18" HorizontalOptions="Center" Clicked="OnClickGoToNewCreation"/>
                             </VerticalStackLayout>
                         </CollectionView.EmptyView>
 

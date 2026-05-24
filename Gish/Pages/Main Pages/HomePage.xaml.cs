@@ -55,9 +55,28 @@ public partial class HomePage : ContentPage
 
         try
         {
-            RecentHomebrewList.ItemsSource = await _database.GetRecentCreations();
-        } catch {}
-        
+            var creations = await _database.GetRecentCreations();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (creations != null && creations.Any())
+                {
+                    RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>(creations);
+                }
+                else
+                {
+                    RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Database load failed: {ex.Message}");
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
+            });
+        }
     }
     
     protected override void OnHandlerChanged()
@@ -262,5 +281,13 @@ public partial class HomePage : ContentPage
         {
             setAllButtonState(true);
         }
+    }
+
+    private async void GoToNewCreation(object? sender, EventArgs e)
+    {
+        try
+        {
+            await Navigation.PushModalAsync(new NewCreationPage());
+        } catch {}
     }
 }

@@ -195,4 +195,17 @@ public partial class CreationsPage : ContentPage
             CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
         } catch {}
     }
+
+    private async void OnClickGoToNewCreation(object? sender, EventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+            await Navigation.PushModalAsync(new NewCreationPage());
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
 }

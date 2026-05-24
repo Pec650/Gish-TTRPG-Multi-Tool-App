@@ -20,7 +20,7 @@
     <Color x:Key="OffBlack">#1f1f1f</Color>
 
     <Color x:Key="PageBackground">#E8F0D8</Color>
-    <Color x:Key="CardOuter">#C8BA9A</Color>
+    <Color x:Key="CardOuter">#839788</Color>
     <Color x:Key="CardInner">#DDD3B5</Color>
     <Color x:Key="RollLogGreen">#C6ECBA</Color>
     <Color x:Key="AccentGreen">#4A6741</Color>
