@@ -10,7 +10,7 @@
             Margin="0"
             VerticalOptions="Start">
         
-        <Grid ColumnDefinitions="Auto, *, Auto" RowSpacing="0" ColumnSpacing="12" VerticalOptions="Fill">
+        <Grid ColumnDefinitions="Auto, *, Auto" RowSpacing="0" ColumnSpacing="12">
             
             <ImageButton x:Name="BackBtn" 
                          Grid.Column="0"
