@@ -15,7 +15,7 @@
     <Style x:Key="SectionHeader" TargetType="Label">
         <Setter Property="FontSize"        Value="28" />
         <Setter Property="FontAttributes"  Value="Bold" />
-        <Setter Property="TextColor"       Value="{StaticResource AccentGreen}" />
+        <Setter Property="TextColor"       Value="#4F6367" />
         <Setter Property="FontFamily"      Value="Merriweather-Bold.ttf" />
         <Setter Property="Margin"          Value="0,8,0,0" />
     </Style>

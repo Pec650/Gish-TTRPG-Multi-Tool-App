@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks>net10.0-android36.0;net10.0-ios26.0;net10.0-maccatalyst26.0</TargetFrameworks>
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 
         <!-- Note for MacCatalyst:
@@ -40,30 +40,32 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
         <!-- Splash Screen -->
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\**\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185"/>
+        <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*"/>
+        <MauiFont Include="Resources\Fonts\*" />
         <MauiFont Remove="Resources\Fonts\Commissioner-VariableFont.ttf" />
         <MauiFont Remove="Resources\Fonts\Faustina-VariableFont_wght.ttf" />
         <MauiFont Remove="Resources\Fonts\Faustina-Italic-VariableFont_wght.ttf" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
+        <PackageReference Include="Plugin.LocalNotification" Version="14.1.0" />
+        <PackageReference Include="Plugin.LocalNotification.Core" Version="1.1.0" />
         <PackageReference Include="sqlite-net-pcl" Version="1.10.196-beta" />
         <PackageReference Include="SQLitePCLRawEx.bundle_green" Version="2.1.2-pre20220801070813" />
         <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
