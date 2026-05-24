@@ -245,4 +245,9 @@ public partial class SchedulerFormPage : ContentPage
             await Navigation.PopModalAsync();
         } catch {}
     }
+    
+    private void ReturnPage(object? sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
+    }
 }

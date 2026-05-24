@@ -31,50 +31,56 @@
         <ScrollView Grid.Row="1" BackgroundColor="{StaticResource PageBackground}">
             <VerticalStackLayout Padding="16,20,16,16" Spacing="16">
 
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="Session Reminder" Style="{StaticResource SectionHeader}"/>
-                    <Border Style="{StaticResource CardOuter}">
-                        <VerticalStackLayout Spacing="4">
-                            <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
-                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Padding="4">
-                                    <Border HeightRequest="80" 
-                                            WidthRequest="80"
-                                            Stroke="#839788"
-                                            StrokeThickness="5"
-                                            StrokeShape="RoundRectangle 40"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="Start">
-    
-                                        <Image Source="discord_icon.png"
-                                               Aspect="AspectFill"    HeightRequest="80"
-                                               WidthRequest="80"/>
-                                    </Border>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                        <Label x:Name="SessionTitle" Text="D&amp;D Session"
-                                               FontFamily="Faustina-Bold.ttf" FontSize="36" TextColor="{StaticResource TextDark}"
-                                               HorizontalOptions="End" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" MaxLines="1" WidthRequest="200"/>
-                                        <Label x:Name="SessionDate" Text="May 2, 2026"
-                                               Style="{StaticResource ItemSubtitle}"
-                                               HorizontalOptions="End"/>
-                                        <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
-                                               Style="{StaticResource ItemSubtitle}"
-                                               FontSize="20"
-                                               HorizontalOptions="End"/>
+                <CollectionView x:Name="RecentSessionItem" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Session Reminder" Style="{StaticResource SectionHeader}"/>
+                                <Border Style="{StaticResource CardOuter}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
+                                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Padding="4">
+                                                <Border HeightRequest="80" 
+                                                        WidthRequest="80"
+                                                        Stroke="#839788"
+                                                        StrokeThickness="5"
+                                                        StrokeShape="RoundRectangle 40"
+                                                        HorizontalOptions="Start"
+                                                        VerticalOptions="Start">
+                
+                                                    <Image Source="discord_icon.png"
+                                                           Aspect="AspectFill"    HeightRequest="80"
+                                                           WidthRequest="80"/>
+                                                </Border>
+                                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                    <Label x:Name="SessionTitle" Text="D&amp;D Session"
+                                                           FontFamily="Faustina-Bold.ttf" FontSize="36" TextColor="{StaticResource TextDark}"
+                                                           HorizontalOptions="End" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" MaxLines="1" WidthRequest="200"/>
+                                                    <Label x:Name="SessionDate" Text="May 2, 2026"
+                                                           Style="{StaticResource ItemSubtitle}"
+                                                           HorizontalOptions="End"/>
+                                                    <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
+                                                           Style="{StaticResource ItemSubtitle}"
+                                                           FontSize="20"
+                                                           HorizontalOptions="End"/>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Border>
+                                        
+                                        <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
+                                               Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
+                                               HorizontalOptions="End" TextColor="White"
+                                               FontSize="21"/>
+                                        <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
+                                               Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4"
+                                               HorizontalOptions="End" TextColor="White"
+                                               FontSize="15"/>
                                     </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-                            
-                            <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
-                                   Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
-                                   HorizontalOptions="End" TextColor="White"
-                                   FontSize="21"/>
-                            <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
-                                   Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4"
-                                   HorizontalOptions="End" TextColor="White"
-                                   FontSize="15"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Quick Roll" Style="{StaticResource SectionHeader}"/>
