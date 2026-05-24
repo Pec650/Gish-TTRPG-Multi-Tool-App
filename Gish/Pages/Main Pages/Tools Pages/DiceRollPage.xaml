@@ -302,17 +302,15 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                             </Grid>
-                            <ScrollView MaximumHeightRequest="160" Margin="0,4,0,0">
-                                <CollectionView x:Name="RollLogList">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label Text="{Binding .}"
-                                                Style="{StaticResource ItemSubtitleText}"
-                                                Margin="4,2"/>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </ScrollView>
+                            <CollectionView x:Name="RollLogList" MaximumHeightRequest="160" Margin="0,4,0,0">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding .}"
+                                            Style="{StaticResource ItemSubtitleText}"
+                                            Margin="4,2"/>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
