@@ -7,6 +7,7 @@ using SQLite;
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
 using Gish.Pages.Main_Pages.Tools_Pages;
+using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -46,6 +47,8 @@ public partial class HomePage : ContentPage
         InitializeComponent();
 
         this.Loaded += (s, e) => setAllButtonState(true);
+        
+        RollLogList.ItemsSource = _rollLog;
     }
     
     protected override async void OnAppearing()
@@ -212,6 +215,7 @@ public partial class HomePage : ContentPage
         string logEntry = string.Join(" | ", results) + $" = {total}";
         RollResultLabel.Text = $"Result: {total}";
         _rollLog.Insert(0, logEntry);
+        RollLogList.ItemsSource = _rollLog;
 
         _hasRolledThisSession = true;
         foreach (var key in _diceQueue.Keys.ToList())
@@ -263,7 +267,7 @@ public partial class HomePage : ContentPage
         try
         {
             setAllButtonState(false);
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PushModalAsync(new ProfilePage());
         }
         catch
         {

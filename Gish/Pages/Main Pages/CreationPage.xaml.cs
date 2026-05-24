@@ -1,6 +1,7 @@
 using SQLite;
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
+using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -72,7 +73,7 @@ public partial class CreationsPage : ContentPage
         try
         {
             setAllButtonState(false);
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PushModalAsync(new ProfilePage());
         }
         catch
         {

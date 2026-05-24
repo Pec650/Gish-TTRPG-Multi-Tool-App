@@ -104,45 +104,67 @@ public partial class SchedulerFormPage : ContentPage
 
     private async Task RefreshCampaignListAsync(int systemId)
     {
-        // _availableCampaigns = await _database.GetCampaignsBySystemAsync(systemId);
-        //
-        // CampaignPicker.Items.Clear();
-        // foreach (var camp in _availableCampaigns)
-        // {
-        //     CampaignPicker.Items.Add(camp.Title);
-        // }
-        // CampaignPicker.Items.Add(CustomOptionText);
+        _availableCampaigns = await _database.GetCampaignsBySystemAsync(systemId);
+        
+        CampaignPicker.Items.Clear();
+        foreach (var camp in _availableCampaigns)
+        {
+            CampaignPicker.Items.Add(camp.Title);
+        }
+        CampaignPicker.Items.Add(CustomOptionText);
     }
 
     private async void OnSystemPickerChanged(object sender, EventArgs e)
     {
-        // if (SystemPicker.SelectedIndex == -1) return;
-        //
-        // string selectedText = SystemPicker.Items[SystemPicker.SelectedIndex];
-        //
-        // if (selectedText == CustomOptionText)
-        // {
-        //     CustomSystemEntry.IsVisible = true;
-        //     CampaignPicker.Items.Clear();
-        //     CampaignPicker.Items.Add(CustomOptionText);
-        //     CampaignPicker.SelectedItem = CustomOptionText;
-        // }
-        // else
-        // {
-        //     CustomSystemEntry.IsVisible = false;
-        //     var targetSys = _availableSystems.FirstOrDefault(s => s.Name == selectedText);
-        //     if (targetSys != null)
-        //     {
-        //         await RefreshCampaignListAsync(targetSys.ID);
-        //     }
-        // }
+        if (SystemPicker.SelectedIndex == -1) return;
+    
+        string selectedText = SystemPicker.Items[SystemPicker.SelectedIndex];
+    
+        try
+        {
+            // Detach CampaignPicker event to prevent clearing items from triggering a ghost change event
+            CampaignPicker.SelectedIndexChanged -= OnCampaignPickerChanged;
+
+            if (selectedText == CustomOptionText)
+            {
+                CustomSystemEntry.IsVisible = true;
+                CampaignPicker.Items.Clear();
+                CampaignPicker.Items.Add(CustomOptionText);
+                CampaignPicker.SelectedItem = CustomOptionText;
+            
+                // Explicitly show the entry field since we know it's a custom option
+                CustomCampaignEntry.IsVisible = true;
+            }
+            else
+            {
+                CustomSystemEntry.IsVisible = false;
+                CustomCampaignEntry.IsVisible = false;
+            
+                var targetSys = _availableSystems.FirstOrDefault(s => s.Name == selectedText);
+                if (targetSys != null)
+                {
+                    // Refresh campaigns safely without firing the other picker's logic midway
+                    await RefreshCampaignListAsync(targetSys.ID);
+                }
+            }
+        }
+        finally
+        {
+            // Re-attach event handler so human clicks still work normally
+            CampaignPicker.SelectedIndexChanged += OnCampaignPickerChanged;
+        }
     }
 
     private void OnCampaignPickerChanged(object sender, EventArgs e)
     {
-        // if (CampaignPicker.SelectedIndex == -1) return;
-        // string selectedText = CampaignPicker.Items[CampaignPicker.SelectedIndex];
-        // CustomCampaignEntry.IsVisible = (selectedText == CustomOptionText);
+        if (CampaignPicker.SelectedIndex == -1) 
+        {
+            CustomCampaignEntry.IsVisible = false;
+            return;
+        }
+    
+        string selectedText = CampaignPicker.Items[CampaignPicker.SelectedIndex];
+        CustomCampaignEntry.IsVisible = (selectedText == CustomOptionText);
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -191,8 +213,7 @@ public partial class SchedulerFormPage : ContentPage
             _currentSession.CampaignID = resolvedCampaignId;
 
             // Save FIRST so SessionID is assigned before we use it as the tracking key
-            if (!_isEditMode)
-                await _database.SaveSessionWithValidationAsync(_currentSession);
+            await _database.SaveSessionWithValidationAsync(_currentSession);
 
             // Now SessionID is guaranteed to be populated for both new and edited sessions
             string trackingId = _currentSession.SessionID.ToString();
@@ -220,7 +241,7 @@ public partial class SchedulerFormPage : ContentPage
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
-         if (_isEditMode && _currentSession is not null)
+        if (_isEditMode && _currentSession is not null)
         {
             var mainPage = Application.Current?.Windows?[0]?.Page;
             if (mainPage is not null && await mainPage.DisplayAlertAsync("Delete Session", "Remove this session?", "Yes", "No"))

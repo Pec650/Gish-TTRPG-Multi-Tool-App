@@ -181,7 +181,8 @@ public class LocalDatabase
             UserID = App.getUserID(),
             isPlayer = isPlayer
         };
-        return await _connection.InsertAsync(newInitiative);
+        int result = await _connection.InsertAsync(newInitiative);
+        return (result != 0) ? newInitiative.ID : -1;
     }
     
     public async Task<int> UpdateInitiative(Initiative item)

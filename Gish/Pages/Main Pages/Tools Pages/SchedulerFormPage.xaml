@@ -88,6 +88,14 @@
                             Margin="0,20,0,0"
                             HeightRequest="50"
                             Clicked="OnSaveClicked"/>
+                    
+                    <Button Text="Remove Session" 
+                            BackgroundColor="#FE5F55" 
+                            TextColor="White" 
+                            FontAttributes="Bold"
+                            Margin="0,20,0,0"
+                            HeightRequest="50"
+                            Clicked="OnDeleteClicked"/>
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

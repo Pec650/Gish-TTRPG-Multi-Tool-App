@@ -59,13 +59,16 @@ public partial class Initiative_Tracker : ContentPage
 
     private void ReturnPage(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         Navigation.PopModalAsync();
     }
 
     private void ToggleDeleteMode(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         deleteMode = !deleteMode;
         UpdateDeleteItems();
+        setAllButtonState(true);
     }
 
     private void UpdateDeleteItems()
@@ -74,7 +77,6 @@ public partial class Initiative_Tracker : ContentPage
         {
             ToggleDeleteBtn.BackgroundColor = Color.FromArgb("#839788");
             LastColumnHeader.Text = "DELETE";
-                
         }
         else
         {
@@ -93,68 +95,88 @@ public partial class Initiative_Tracker : ContentPage
 
     private async void ClickedAddPlayer(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         try
         {
-            int result = await _database.AddInitiative(true);
+            int newID = await _database.AddInitiative(true);
 
-            if (result > 0)
+            if (newID != -1)
             {
                 Initiative newItem = new Initiative()
                 {
-                    ID = result,
+                    ID = newID,
                     UserID = App.getUserID(),
                     isPlayer = true,
                     ShowDeleteIcon = deleteMode
                 };
-            
+
                 MyDataList.Add(newItem);
             }
-        } catch {}
+        }
+        catch {}
+        finally
+        {
+            setAllButtonState(true);
+        }
     }
 
     private async void ClickedAddEnemy(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         try
         {
-            int result = await _database.AddInitiative(false);
+            int newID = await _database.AddInitiative(false);
 
-            if (result > 0)
+            if (newID != -1)
             {
                 Initiative newItem = new Initiative()
                 {
-                    ID = result,
+                    ID = newID,
                     UserID = App.getUserID(),
                     isPlayer = false,
                     ShowDeleteIcon = deleteMode
                 };
-            
+
                 MyDataList.Add(newItem);
             }
-        } catch {}
+        }
+        catch {}
+        finally
+        {
+            setAllButtonState(true);
+        }
     }
 
     private async void ClickedOrder(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         try
         {
             var rawList = await _database.GetAllInitiativeInOrder();
-        
+
             MyDataList.Clear();
-        
+
             foreach (var item in rawList)
             {
                 MyDataList.Add(item);
             }
-            
+
             deleteMode = false;
             UpdateDeleteItems();
-        
+
             InitiativeLists.ItemsSource = MyDataList;
-        } catch {}
+        }
+        catch {}
+        finally
+        {
+            setAllButtonState(true);
+        }
     }
 
     private async void ClickedReset(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
+        
         bool isConfirmed = await DisplayAlert(
             "Reset Tracker?",
             "Are you sure you want to clear all initiatives? This cannot be undone.",
@@ -187,10 +209,13 @@ public partial class Initiative_Tracker : ContentPage
                 }
             } catch {}
         }
+        
+        setAllButtonState(true);
     }
     
     private async void OnRowDataChanged(object? sender, TextChangedEventArgs textChangedEventArgs)
     {
+        setAllButtonState(false);
         if (sender is Entry entry)
         {
             if (entry.BindingContext is Initiative alteredItem)
@@ -202,13 +227,15 @@ public partial class Initiative_Tracker : ContentPage
                 catch {}
             }
         }
+        setAllButtonState(true);
     }
 
     private async void OnDeleteItemClicked(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         if (sender is ImageButton button)
         {
-            if (button.CommandParameter is Initiative selectedItem)
+            if (button.BindingContext is Initiative selectedItem)
             {
                 bool answer = await DisplayAlert("Delete Entry", $"Are you sure you want to remove this entry?", "Yes", "No");
                 if (!answer) return;
@@ -230,16 +257,15 @@ public partial class Initiative_Tracker : ContentPage
                 }
             }
         }
+        setAllButtonState(true);
     }
 
     private async void GoToDiceRollPage(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         try
         {
-            setAllButtonState(false);
-
             await Navigation.PushModalAsync(new DiceRollPage());
-
         }
         catch
         {
