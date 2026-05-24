@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.ToolPages.CRCalculatorView"
+             BackgroundColor="{StaticResource PageBackground}">
+
+    <Grid RowDefinitions="Auto, *" Padding="0" RowSpacing="0">
+
+        <ScrollView Grid.Row="1" Padding="16,20,16,16">
+            <VerticalStackLayout Spacing="16">
+
+                <Border Style="{StaticResource CardOuter}">
+                    <VerticalStackLayout Spacing="12" Padding="8">
+
+                        <Label Text="Monster Stats" FontFamily="Faustina-Bold.ttf"
+                               FontSize="20" TextColor="{StaticResource TextDark}"/>
+
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="8">
+
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Hit Points" FontSize="12"
+                                       Style="{StaticResource ItemSubtitleText}"
+                                       HorizontalOptions="Center"/>
+                                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8"
+                                        Stroke="Transparent" Padding="8,4">
+                                    <Entry x:Name="HPEntry"
+                                           Placeholder="120"
+                                           Keyboard="Numeric"
+                                           FontSize="18" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextDark}"
+                                           BackgroundColor="Transparent"
+                                           HorizontalTextAlignment="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Damage/Round" FontSize="12"
+                                       Style="{StaticResource ItemSubtitleText}"
+                                       HorizontalOptions="Center"/>
+                                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8"
+                                        Stroke="Transparent" Padding="8,4">
+                                    <Entry x:Name="DPREntry"
+                                           Placeholder="45"
+                                           Keyboard="Numeric"
+                                           FontSize="18" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextDark}"
+                                           BackgroundColor="Transparent"
+                                           HorizontalTextAlignment="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" Spacing="4">
+                                <Label Text="Armor Class" FontSize="12"
+                                       Style="{StaticResource ItemSubtitleText}"
+                                       HorizontalOptions="Center"/>
+                                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8"
+                                        Stroke="Transparent" Padding="8,4">
+                                    <Entry x:Name="ACEntry"
+                                           Placeholder="15"
+                                           Keyboard="Numeric"
+                                           FontSize="18" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextDark}"
+                                           BackgroundColor="Transparent"
+                                           HorizontalTextAlignment="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Weapon Ability" FontSize="12"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Border Style="{StaticResource CardInner}" StrokeShape="RoundRectangle 8"
+                                    Stroke="Transparent" HeightRequest="46" Padding="2">
+                                <Grid ColumnDefinitions="*, *">
+                                    <Border x:Name="WeaponSTRBlock" Grid.Column="0"
+                                            BackgroundColor="{StaticResource AccentGreen}"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="STR" FontAttributes="Bold" FontSize="15"
+                                               TextColor="White"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnWeaponSTR"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                    <Border x:Name="WeaponDEXBlock" Grid.Column="1"
+                                            BackgroundColor="Transparent"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="DEX" FontAttributes="Bold" FontSize="15"
+                                               TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnWeaponDEX"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Spellcasting Ability" FontSize="12"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Border Style="{StaticResource CardInner}" StrokeShape="RoundRectangle 8"
+                                    Stroke="Transparent" HeightRequest="46" Padding="2">
+                                <Grid ColumnDefinitions="*, *, *, *">
+                                    <Border x:Name="SpellNoneBlock" Grid.Column="0"
+                                            BackgroundColor="{StaticResource AccentGreen}"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="—" FontAttributes="Bold" FontSize="15"
+                                               TextColor="White"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSpellNone"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                    <Border x:Name="SpellINTBlock" Grid.Column="1"
+                                            BackgroundColor="Transparent"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="INT" FontAttributes="Bold" FontSize="15"
+                                               TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSpellINT"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                    <Border x:Name="SpellWISBlock" Grid.Column="2"
+                                            BackgroundColor="Transparent"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="WIS" FontAttributes="Bold" FontSize="15"
+                                               TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSpellWIS"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                    <Border x:Name="SpellCHABlock" Grid.Column="3"
+                                            BackgroundColor="Transparent"
+                                            StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                        <Label Text="CHA" FontAttributes="Bold" FontSize="15"
+                                               TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSpellCHA"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Button Text="CALCULATE CR"
+                                Clicked="OnCalculateClicked"
+                                Style="{StaticResource PrimaryBtn}"
+                                FontSize="16"
+                                HeightRequest="50"
+                                HorizontalOptions="Fill"/>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="ResultCard" IsVisible="False" Style="{StaticResource CardOuter}">
+                    <VerticalStackLayout Spacing="12" Padding="8">
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="Estimated Challenge Rating"
+                                       FontSize="13" Style="{StaticResource ItemSubtitleText}"/>
+                                <Label x:Name="CRLabel" Text="CR 5"
+                                       FontFamily="Faustina-Bold.ttf"
+                                       FontSize="40" TextColor="{StaticResource AccentGreen}"/>
+                            </VerticalStackLayout>
+                            <Border Grid.Column="1"
+                                    StrokeShape="RoundRectangle 12"
+                                    BackgroundColor="{StaticResource AccentGreen}"
+                                    Padding="16,8" VerticalOptions="Center">
+                                <VerticalStackLayout>
+                                    <Label x:Name="CRBadgeLabel" Text="5"
+                                           FontFamily="Faustina-Bold.ttf"
+                                           FontSize="36" TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="CR" FontSize="12" TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                            <Border Grid.Column="0" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="HP-based CR" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="HPCRLabel" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="DPR-based CR" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="DPRCRLabel" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#D4C5B3" Margin="0,4"/>
+
+                        <Label Text="CR Stat Block"
+                               FontFamily="Faustina-Bold.ttf"
+                               FontSize="16" TextColor="{StaticResource TextDark}"/>
+
+                        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                              ColumnSpacing="8" RowSpacing="6">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Proficiency Bonus"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="0" Grid.Column="1" x:Name="StatProfBonus"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Armor Class"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="1" Grid.Column="1" x:Name="StatAC"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="Hit Points"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="2" Grid.Column="1" x:Name="StatHP"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="Attack Bonus"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="3" Grid.Column="1" x:Name="StatAttackBonus"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="4" Grid.Column="0" Text="Damage / Round"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="4" Grid.Column="1" x:Name="StatDPR"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto,Auto"
+                              ColumnSpacing="8" RowSpacing="6">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Save DC"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="0" Grid.Column="1" x:Name="StatSaveDC"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Average HP"
+                                   Style="{StaticResource ItemSubtitleText}"/>
+                            <Label Grid.Row="1" Grid.Column="1" x:Name="StatAvgHP"
+                                   Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextDark}" FontSize="14"
+                                   HorizontalOptions="End"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#D4C5B3" Margin="0,4"/>
+
+                        <Label Text="Ability Scores"
+                               FontFamily="Faustina-Bold.ttf"
+                               FontSize="16" TextColor="{StaticResource TextDark}"/>
+
+                        <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, Auto"
+                              ColumnSpacing="6" RowSpacing="6">
+
+                            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label x:Name="STRLabel" Text="STR" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="STRScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="STRMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label x:Name="DEXLabel" Text="DEX" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="DEXScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="DEXMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="CON" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="CONScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="CONMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="INT" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="INTScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="INTMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="WIS" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="WISScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="WISMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="CHA" FontSize="11" FontAttributes="Bold"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="CHAScore" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="CHAMod" Text="(+0)" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

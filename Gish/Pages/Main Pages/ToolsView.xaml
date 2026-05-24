@@ -35,6 +35,11 @@
                                 Text="Initiative Tracker" 
                                 Style="{StaticResource ToolsButton}"/>
                         
+                        <Button x:Name="CRCalculatorDIR" 
+                                Text="CR Calculator" 
+                                Style="{StaticResource ToolsButton}"
+                                Clicked="OnCRCalculatorClicked"/>
+                        
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>

@@ -252,7 +252,7 @@ public partial class SchedulerView : ContentView
 
         if (currentParent is ToolsView toolsMenuHost)
         {
-            toolsMenuHost.PushLocalView(form);
+            toolsMenuHost.PushLocalView(form, "New Session");
         }
     }
 }

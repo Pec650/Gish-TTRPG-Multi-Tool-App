@@ -16,7 +16,7 @@ public partial class ToolsView : ContentView
         InitializeComponent();
     }
 
-    public void PushLocalView(ContentView childView)
+    public void PushLocalView(ContentView childView, string viewTitle)
     {
         _localNavigationStack.Push(childView);
         DefaultToolsMenu.IsVisible = false;
@@ -25,16 +25,17 @@ public partial class ToolsView : ContentView
 
         if (Application.Current?.Windows?[0]?.Page is MainContainerPage mainContainer)
         {
-            // 1. Let the data binding update the text safely through the property channel
-            mainContainer.AppHeader.Title = "Session Reminder"; 
+            // Update the text safely using the passed parameter
+            mainContainer.AppHeader.Title = viewTitle; 
             
-            // 2. Toggle only the structural arrow layout states
+            // Toggle only the structural arrow layout states
             mainContainer.AppHeader.SetNavigationMode(isNavMode: true, backAction: () => PopLocalView());
             
             mainContainer.SetTabBarVisibility(false); 
         }
     }
 
+    // Example if tracking titles via a tuple stack or simple type checking:
     public void PopLocalView()
     {
         if (_localNavigationStack.Count > 0)
@@ -42,23 +43,25 @@ public partial class ToolsView : ContentView
             _localNavigationStack.Pop();
         }
 
-        if (_localNavigationStack.Count > 0)
+        if (Application.Current?.Windows?[0]?.Page is MainContainerPage mainContainer)
         {
-            NestedStackPresenter.Content = _localNavigationStack.Peek();
-        }
-        else
-        {
-            NestedStackPresenter.Content = null;
-            NestedStackPresenter.IsVisible = false;
-            DefaultToolsMenu.IsVisible = true;
-
-            if (Application.Current?.Windows?[0]?.Page is MainContainerPage mainContainer)
+            if (_localNavigationStack.Count > 0)
             {
-                mainContainer.AppHeader.Title = "Tools";
-                mainContainer.AppHeader.SetNavigationMode(isNavMode: false);
+                var previousView = _localNavigationStack.Peek();
+                NestedStackPresenter.Content = previousView;
                 
-                // Cleanly restores visibility without causing layout calculation stuttering
-                mainContainer.SetTabBarVisibility(true); 
+                // Set title based on what view we returned to
+                mainContainer.AppHeader.Title = previousView is HomeView ? "Session Reminder" : "Tools";
+            }
+            else
+            {
+                // Reached the base layout level
+                NestedStackPresenter.IsVisible = false;
+                DefaultToolsMenu.IsVisible = true;
+                
+                mainContainer.AppHeader.Title = "Tools"; 
+                mainContainer.AppHeader.SetNavigationMode(isNavMode: false, backAction: null);
+                mainContainer.SetTabBarVisibility(true);
             }
         }
     }
@@ -76,6 +79,12 @@ public partial class ToolsView : ContentView
     private void OnSessionScheduleClicked(object sender, EventArgs e)
     {
         var schedulerView = new SchedulerView();
-        PushLocalView(schedulerView);
+        PushLocalView(schedulerView, "Session Reminder");
+    }
+
+    private void OnCRCalculatorClicked(object sender, EventArgs e)
+    {
+        var crCalculatorView = new CRCalculatorView();
+        PushLocalView(crCalculatorView, "CR Calculator");
     }
 }

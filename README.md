@@ -80,3 +80,4 @@
   * Added Notification Package to link push notifications to the app
   * no connection just yet
   * fixed header and tabbar styling
+* Added CR Calculator \[05/24/2026]
