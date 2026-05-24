@@ -16,6 +16,9 @@ public class LocalDatabase
         await _connection.CreateTableAsync<UserAccount>();
         await _connection.CreateTableAsync<Creations>();
         await _connection.CreateTableAsync<Initiative>();
+        await _connection.CreateTableAsync<GameSession>();
+        await _connection.CreateTableAsync<RPGSystem>();
+        await _connection.CreateTableAsync<Campaign>();
     }
     
     public async Task<int> SaveUserAsync(UserAccount user)
@@ -212,5 +215,91 @@ public class LocalDatabase
         int rowsAffected = await _connection.Table<Initiative>()
             .DeleteAsync(x => x.ID == id);
         return rowsAffected > 0;
+    }
+    
+    public async Task<List<RPGSystem>> GetAllSystemsAsync()
+    {
+        await Init();
+        return await _connection.Table<RPGSystem>().ToListAsync();
+    }
+
+    public async Task<List<Campaign>> GetCampaignsBySystemAsync(int systemId)
+    {
+        await Init();
+        return await _connection.Table<Campaign>().Where(c => c.RPGSystemID == systemId).ToListAsync();
+    }
+
+    public async Task<List<GameSession>> GetSessionsByCampaignAsync(int campaignId)
+    {
+        await Init();
+        return await _connection.Table<GameSession>().Where(s => s.CampaignID == campaignId).ToListAsync();
+    }
+
+    // --- GAME SESSION CORE ENGINES WITH 3-HOUR VALIDATION ANCHORS ---
+
+    public async Task<List<GameSession>> GetAllSessionsAsync()
+    {
+        await Init();
+        return await _connection.Table<GameSession>().OrderBy(s => s.Date).ToListAsync();
+    }
+
+    public async Task<List<GameSession>> GetSessionsForDayAsync(DateTime targetDate)
+    {
+        await Init();
+        return await _connection.Table<GameSession>()
+                                 .Where(s => s.Date == targetDate.Date)
+                                 .ToListAsync();
+    }
+
+    public async Task<bool> IsSessionTimeValidAsync(DateTime targetDate, TimeSpan proposedStart, int currentSessionId = 0)
+    {
+        await Init();
+        
+        // Pull down all booked sessions occurring on that specific target day
+        var daysSessions = await GetSessionsForDayAsync(targetDate);
+
+        foreach (var bookedSession in daysSessions)
+        {
+            // If editing an existing session, ignore self-evaluation check triggers
+            if (bookedSession.SessionID == currentSessionId)
+                continue;
+
+            // Calculate the absolute distance delta separating the two times
+            TimeSpan delta = (proposedStart - bookedSession.StartTime).Duration();
+
+            if (delta.TotalHours < 3.0)
+            {
+                return false; // Collision detected! Violates the 3-hour buffer constraint
+            }
+        }
+
+        return true; // Safe to book! No scheduling overlap conflicts found
+    }
+
+    public async Task<int> SaveSessionWithValidationAsync(GameSession session)
+    {
+        await Init();
+
+        // Enforce the 3-hour calendar rule check
+        bool isValid = await IsSessionTimeValidAsync(session.Date, session.StartTime, session.SessionID);
+        if (!isValid)
+        {
+            throw new InvalidOperationException("Scheduling conflict: Sessions must be spaced at least 3 hours apart.");
+        }
+
+        if (session.SessionID != 0)
+        {
+            return await _connection.UpdateAsync(session);
+        }
+        else
+        {
+            return await _connection.InsertAsync(session);
+        }
+    }
+
+    public async Task<int> DeleteSessionAsync(GameSession session)
+    {
+        await Init();
+        return await _connection.DeleteAsync(session);
     }
 }

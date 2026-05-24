@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages;
-#if ANDROID
-using Gish.Services;
-#endif
+// #if ANDROID
+// using Gish.Services;
+// #endif
 
-namespace Gish.Pages.ToolPages;
+namespace Gish.Pages.Main_Pages.Tools_Pages;
 
 public partial class SchedulerFormPage : ContentPage
 {
@@ -131,123 +131,118 @@ public partial class SchedulerFormPage : ContentPage
 
     private async void OnSaveClicked(object sender, EventArgs e)
     {
-        string sessionTitle = string.IsNullOrWhiteSpace(TitleEntry.Text) ? "Untitled Session" : TitleEntry.Text.Trim();
-        _currentSession.Title = sessionTitle;
-        _currentSession.Date = SessionDatePicker.Date ?? DateTime.Today;
-        _currentSession.StartTime = SessionTimePicker.Time ?? TimeSpan.Zero;
-
-        try
-        {
-            int resolvedSystemId = 0;
-            string sysName = "";
-
-            if (SystemPicker.SelectedItem?.ToString() == CustomOptionText)
-            {
-                sysName = CustomSystemEntry.Text?.Trim() ?? "Custom System";
-                var newSys = new RPGSystem { Name = sysName };
-                await _database._connection.InsertAsync(newSys);
-                resolvedSystemId = newSys.ID;
-            }
-            else if (SystemPicker.SelectedIndex != -1)
-            {
-                sysName = SystemPicker.Items[SystemPicker.SelectedIndex];
-                var sysObj = _availableSystems.FirstOrDefault(s => s.Name == sysName);
-                resolvedSystemId = sysObj?.ID ?? 0;
-            }
-
-            int resolvedCampaignId = 0;
-            string campaignTitle = "Custom Campaign";
-
-            if (CampaignPicker.SelectedItem?.ToString() == CustomOptionText)
-            {
-                campaignTitle = CustomCampaignEntry.Text?.Trim() ?? "Custom Campaign";
-                var newCamp = new Campaign { Title = campaignTitle, RPGSystemID = resolvedSystemId };
-                await _database._connection.InsertAsync(newCamp);
-                resolvedCampaignId = newCamp.ID;
-            }
-            else if (CampaignPicker.SelectedIndex != -1)
-            {
-                campaignTitle = CampaignPicker.Items[CampaignPicker.SelectedIndex];
-                var campObj = _availableCampaigns.FirstOrDefault(c => c.Title == campaignTitle && c.RPGSystemID == resolvedSystemId);
-                resolvedCampaignId = campObj?.ID ?? 0;
-            }
-
-            _currentSession.CampaignID = resolvedCampaignId;
-
-            // Save FIRST so SessionID is assigned before we use it as the tracking key
-            await _database.SaveSessionWithValidationAsync(_currentSession);
-
-            // Now SessionID is guaranteed to be populated for both new and edited sessions
-            string trackingId = _currentSession.SessionID.ToString();
-
-            bool isReminderEnabled = ReminderSwitch.IsToggled;
-
-            if (isReminderEnabled)
-            {
-                DateTime sessionStart = _currentSession.Date.Date + _currentSession.StartTime;
-                DateTime notifyTime = sessionStart.AddMinutes(-30);
-
-#if ANDROID
-                NotificationService.ScheduleSessionNotification(
-                    trackingId,
-                    _currentSession.Title,
-                    campaignTitle,
-                    notifyTime
-                );
-#endif
-            }
-            else
-            {
-#if ANDROID
-                NotificationService.CancelSessionNotification(trackingId);
-#endif
-            }
-
-            OnDatabaseChanged?.Invoke();
-            GoBack();
-        }
-        catch (InvalidOperationException ex)
-        {
-            var mainPage = Application.Current?.Windows?[0]?.Page;
-            if (mainPage is not null)
-            {
-                await mainPage.DisplayAlertAsync("Scheduling Conflict", ex.Message, "OK");
-            }
-        }
+//         string sessionTitle = string.IsNullOrWhiteSpace(TitleEntry.Text) ? "Untitled Session" : TitleEntry.Text.Trim();
+//         _currentSession.Title = sessionTitle;
+//         _currentSession.Date = SessionDatePicker.Date ?? DateTime.Today;
+//         _currentSession.StartTime = SessionTimePicker.Time ?? TimeSpan.Zero;
+//
+//         try
+//         {
+//             int resolvedSystemId = 0;
+//             string sysName = "";
+//
+//             if (SystemPicker.SelectedItem?.ToString() == CustomOptionText)
+//             {
+//                 sysName = CustomSystemEntry.Text?.Trim() ?? "Custom System";
+//                 var newSys = new RPGSystem { Name = sysName };
+//                 await _database._connection.InsertAsync(newSys);
+//                 resolvedSystemId = newSys.ID;
+//             }
+//             else if (SystemPicker.SelectedIndex != -1)
+//             {
+//                 sysName = SystemPicker.Items[SystemPicker.SelectedIndex];
+//                 var sysObj = _availableSystems.FirstOrDefault(s => s.Name == sysName);
+//                 resolvedSystemId = sysObj?.ID ?? 0;
+//             }
+//
+//             int resolvedCampaignId = 0;
+//             string campaignTitle = "Custom Campaign";
+//
+//             if (CampaignPicker.SelectedItem?.ToString() == CustomOptionText)
+//             {
+//                 campaignTitle = CustomCampaignEntry.Text?.Trim() ?? "Custom Campaign";
+//                 var newCamp = new Campaign { Title = campaignTitle, RPGSystemID = resolvedSystemId };
+//                 await _database._connection.InsertAsync(newCamp);
+//                 resolvedCampaignId = newCamp.ID;
+//             }
+//             else if (CampaignPicker.SelectedIndex != -1)
+//             {
+//                 campaignTitle = CampaignPicker.Items[CampaignPicker.SelectedIndex];
+//                 var campObj = _availableCampaigns.FirstOrDefault(c => c.Title == campaignTitle && c.RPGSystemID == resolvedSystemId);
+//                 resolvedCampaignId = campObj?.ID ?? 0;
+//             }
+//
+//             _currentSession.CampaignID = resolvedCampaignId;
+//
+//             // Save FIRST so SessionID is assigned before we use it as the tracking key
+//             await _database.SaveSessionWithValidationAsync(_currentSession);
+//
+//             // Now SessionID is guaranteed to be populated for both new and edited sessions
+//             string trackingId = _currentSession.SessionID.ToString();
+//
+//             bool isReminderEnabled = ReminderSwitch.IsToggled;
+//
+//             if (isReminderEnabled)
+//             {
+//                 DateTime sessionStart = _currentSession.Date.Date + _currentSession.StartTime;
+//                 DateTime notifyTime = sessionStart.AddMinutes(-30);
+//
+// #if ANDROID
+//                 NotificationService.ScheduleSessionNotification(
+//                     trackingId,
+//                     _currentSession.Title,
+//                     campaignTitle,
+//                     notifyTime
+//                 );
+// #endif
+//             }
+//             else
+//             {
+// #if ANDROID
+//                 NotificationService.CancelSessionNotification(trackingId);
+// #endif
+//             }
+//
+//             OnDatabaseChanged?.Invoke();
+//             GoBack();
+//         }
+//         catch (InvalidOperationException ex)
+//         {
+//             var mainPage = Application.Current?.Windows?[0]?.Page;
+//             if (mainPage is not null)
+//             {
+//                 await mainPage.DisplayAlertAsync("Scheduling Conflict", ex.Message, "OK");
+//             }
+//         }
     }
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
-        if (_isEditMode && _currentSession is not null)
-        {
-            var mainPage = Application.Current?.Windows?[0]?.Page;
-            if (mainPage is not null && await mainPage.DisplayAlertAsync("Delete Session", "Remove this session?", "Yes", "No"))
-            {
-                string trackingId = _currentSession.SessionID.ToString();
-
-#if ANDROID
-                NotificationService.CancelSessionNotification(trackingId);
-#endif
-
-                await _database.DeleteSessionAsync(_currentSession);
-                OnDatabaseChanged?.Invoke();
-                GoBack();
-            }
-        }
+//         if (_isEditMode && _currentSession is not null)
+//         {
+//             var mainPage = Application.Current?.Windows?[0]?.Page;
+//             if (mainPage is not null && await mainPage.DisplayAlertAsync("Delete Session", "Remove this session?", "Yes", "No"))
+//             {
+//                 string trackingId = _currentSession.SessionID.ToString();
+//
+// #if ANDROID
+//                 NotificationService.CancelSessionNotification(trackingId);
+// #endif
+//
+//                 await _database.DeleteSessionAsync(_currentSession);
+//                 OnDatabaseChanged?.Invoke();
+//                 GoBack();
+//             }
+//         }
     }
 
     private void OnCancelClicked(object sender, EventArgs e) => GoBack();
 
-    private void GoBack()
+    private async void GoBack()
     {
-        Element currentParent = this.Parent;
-        while (currentParent is not null && currentParent is not ToolsView)
+        try
         {
-            currentParent = currentParent.Parent;
-        }
-        if (currentParent is ToolsView toolsMenuHost)
-        {
-            toolsMenuHost.PopLocalView();
-        }
+            await Navigation.PopModalAsync();
+        } catch {}
     }
 }

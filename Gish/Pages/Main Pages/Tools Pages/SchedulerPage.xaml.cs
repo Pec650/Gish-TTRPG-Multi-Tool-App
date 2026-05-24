@@ -6,7 +6,7 @@ using Microsoft.Maui.Controls.Shapes;
 using Gish.Pages.Classes;
 using Gish.Pages.MainPages;
 
-namespace Gish.Pages.ToolPages;
+namespace Gish.Pages.Main_Pages.Tools_Pages;
 
 public partial class SchedulerPage : ContentPage
 {
@@ -47,7 +47,7 @@ public partial class SchedulerPage : ContentPage
 
         for (int i = 0; i < dayOfWeekOffset; i++)
         {
-            var placeholder = new Border { BackgroundColor = Color.FromArgb("#EAECEB"), StrokeShape = new RoundRectangle { CornerRadius = 4 }, Opacity = 0.5 };
+            var placeholder = new Border { BackgroundColor = Color.FromArgb("#D9D9D9"), StrokeShape = new RoundRectangle { CornerRadius = 4 }, Opacity = 0.5 };
             Grid.SetColumn(placeholder, i);
             Grid.SetRow(placeholder, 0);
             CalendarGrid.Children.Add(placeholder);
@@ -63,9 +63,9 @@ public partial class SchedulerPage : ContentPage
                 StrokeShape = new RoundRectangle { CornerRadius = 4 },
                 Padding = 0,
                 HeightRequest = 44,
-                BackgroundColor = hasSession ? Color.FromArgb("#A2C9B4") : Color.FromArgb("#EAECEB"), 
+                BackgroundColor = hasSession ? Color.FromArgb("#A2C9B4") : Colors.White, 
                 Stroke = Color.FromRgba(0,0,0,0),
-                StrokeThickness = 2
+                StrokeThickness = 3
             };
 
             var dayLabel = new Label
@@ -74,9 +74,16 @@ public partial class SchedulerPage : ContentPage
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 FontFamily = "Faustina-Bold.ttf",
-                FontSize = 14,
-                TextColor = Color.FromArgb("#1E2420")
+                FontSize = 17,
+                TextColor = Color.FromArgb("#1E2420"),
+                FontAttributes = FontAttributes.Bold
             };
+            
+            if (currentColumn % 7 == 0 && !hasSession)
+            {
+                dayBorder.BackgroundColor = Color.FromArgb("#D4956A");
+                dayLabel.TextColor = Colors.White;
+            }
 
             dayBorder.Content = dayLabel;
 
@@ -95,6 +102,17 @@ public partial class SchedulerPage : ContentPage
                 currentRow++;
             }
         }
+
+        if (currentColumn > 0)
+        {
+            for (int i = currentColumn; i <= 6; i++)
+            {
+                var placeholder = new Border { BackgroundColor = Color.FromArgb("#D9D9D9"), StrokeShape = new RoundRectangle { CornerRadius = 4 }, Opacity = 0.5 };
+                Grid.SetColumn(placeholder, i);
+                Grid.SetRow(placeholder, currentRow);
+                CalendarGrid.Children.Add(placeholder);
+            }   
+        }
     }
 
     private async void OnDayTapped(Border selectedBorder, DateTime date)
@@ -107,7 +125,7 @@ public partial class SchedulerPage : ContentPage
             _currentlySelectedDayView.Stroke = Color.FromRgba(0, 0, 0, 0);
         }
         _currentlySelectedDayView = selectedBorder;
-        _currentlySelectedDayView.Stroke = Color.FromArgb("#E8A984"); 
+        _currentlySelectedDayView.Stroke = Color.FromArgb("#1E2420"); 
 
         // 2. Fetch all sessions occurring on this chosen day from the database
         var daySessions = await _database.GetSessionsForDayAsync(date);
@@ -123,8 +141,8 @@ public partial class SchedulerPage : ContentPage
             DrawerSessionsContainer.Children.Add(new Label 
             { 
                 Text = "No game sessions scheduled for this day.", 
-                TextColor = Color.FromArgb("#5D6660"),
-                FontSize = 14,
+                TextColor = Colors.White,
+                FontSize = 15,
                 HorizontalOptions = LayoutOptions.Center,
                 Margin = new Thickness(0, 15)
             });
@@ -136,7 +154,7 @@ public partial class SchedulerPage : ContentPage
         {
             var card = new Border
             {
-                BackgroundColor = Color.FromArgb("#D4C5B3"),
+                BackgroundColor = Color.FromArgb("#E8F0D8"),
                 StrokeShape = new RoundRectangle { CornerRadius = 12 },
                 Padding = 15,
                 Stroke = Color.FromRgba(0,0,0,0),
@@ -154,11 +172,11 @@ public partial class SchedulerPage : ContentPage
             Grid.SetRowSpan(icon, 2);
             grid.Children.Add(icon);
 
-            var titleLabel = new Label { Text = session.Title, FontFamily = "Faustina-Bold.ttf", FontSize = 18, TextColor = Color.FromArgb("#1E2420") };
+            var titleLabel = new Label { Text = session.Title, FontFamily = "Faustina-Bold.ttf", FontSize = 20, TextColor = Color.FromArgb("#1E2420"), LineBreakMode=LineBreakMode.TailTruncation, MaxLines=1, WidthRequest=250, HorizontalTextAlignment = TextAlignment.Start, HorizontalOptions = LayoutOptions.Fill};
             Grid.SetColumn(titleLabel, 1);
             grid.Children.Add(titleLabel);
 
-            var timeLabel = new Label { Text = $"{DateTime.Today.Add(session.StartTime):h:mm tt}", FontSize = 12, TextColor = Color.FromArgb("#5D6660"), HorizontalOptions = LayoutOptions.End };
+            var timeLabel = new Label { Text = $"{DateTime.Today.Add(session.StartTime):h:mm tt}", FontSize = 15, TextColor = Color.FromArgb("#1E2420"), FontAttributes = FontAttributes.Bold,HorizontalOptions = LayoutOptions.End };
             Grid.SetColumn(timeLabel, 1);
             grid.Children.Add(timeLabel);
 
@@ -176,15 +194,15 @@ public partial class SchedulerPage : ContentPage
     private void OnDrawerAddSessionClicked(object sender, EventArgs e)
     {
         // Route user directly to the session creation form view, prefilled with the locked date selection context
-        var formView = new SchedulerFormPage(_selectedDate);
-        
-        formView.OnDatabaseChanged = async () => {
-            _allSessions = await _database.GetAllSessionsAsync();
-            BuildCalendar();
-            DetailsDrawer.IsVisible = false;
-        };
-
-        NavigateToForm(formView);
+        // var formView = new SchedulerFormPage(_selectedDate);
+        //
+        // formView.OnDatabaseChanged = async () => {
+        //     _allSessions = await _database.GetAllSessionsAsync();
+        //     BuildCalendar();
+        //     DetailsDrawer.IsVisible = false;
+        // };
+        //
+        // NavigateToForm(formView);
     }
 
     private void OnPreviousMonthClicked(object sender, EventArgs e)
@@ -203,57 +221,56 @@ public partial class SchedulerPage : ContentPage
 
     private void OnBackClicked(object sender, EventArgs e)
     {
-    // Find the structural parent wrapper host view
-        Element currentParent = this.Parent;
-        while (currentParent is not null && currentParent is not ToolsView)
-        {
-            currentParent = currentParent.Parent;
-        }
-        
-        // Check if we found the true local stack owner
-        if (currentParent is ToolsView toolsMenuHost)
-        {
-            // Safely pull this page off the custom internal local view stack
-            toolsMenuHost.PopLocalView();
-        }
+        // Find the structural parent wrapper host view
+        // Element currentParent = this.Parent;
+        // while (currentParent is not null && currentParent is not ToolsView)
+        // {
+        //     currentParent = currentParent.Parent;
+        // }
+        //
+        // // Check if we found the true local stack owner
+        // if (currentParent is ToolsView toolsMenuHost)
+        // {
+        //     // Safely pull this page off the custom internal local view stack
+        //     toolsMenuHost.PopLocalView();
+        // }
     }
 
     private void OnCreateSessionClicked(object sender, EventArgs e)
     {
-        DateTime fallbackDate = _currentlySelectedDayView is not null ? _selectedDate : DateTime.Today;
-        var formView = new SchedulerFormPage(fallbackDate);
-        
-        formView.OnDatabaseChanged = async () => {
-            _allSessions = await _database.GetAllSessionsAsync();
-            BuildCalendar();
-        };
-
-        NavigateToForm(formView);
+        // DateTime fallbackDate = _currentlySelectedDayView is not null ? _selectedDate : DateTime.Today;
+        // var formView = new SchedulerFormPage(fallbackDate);
+        //
+        // formView.OnDatabaseChanged = async () => {
+        //     _allSessions = await _database.GetAllSessionsAsync();
+        //     BuildCalendar();
+        // };
+        //
+        // NavigateToForm(formView);
     }
 
     private void OpenFormForEdit(GameSession session)
     {
-        var formView = new SchedulerFormPage(session);
-        formView.OnDatabaseChanged = async () => {
-            _allSessions = await _database.GetAllSessionsAsync();
-            BuildCalendar();
-            DetailsDrawer.IsVisible = false;
-        };
-
-        NavigateToForm(formView);
+        // var formView = new SchedulerFormPage(session);
+        // formView.OnDatabaseChanged = async () => {
+        //     _allSessions = await _database.GetAllSessionsAsync();
+        //     BuildCalendar();
+        //     DetailsDrawer.IsVisible = false;
+        // };
+        //
+        // NavigateToForm(formView);
     }
 
-    private void NavigateToForm(ContentView form)
+    private async void NavigateToForm(ContentView form)
     {
-        Element currentParent = this.Parent;
-        while (currentParent is not null && currentParent is not ToolsView)
-        {
-            currentParent = currentParent.Parent;
-        }
+        // try
+        // {
+        //     await Navigation.PushModalAsync(new SchedulerFormPage());
+        // } catch {};
+    }
 
-        if (currentParent is ToolsView toolsMenuHost)
-        {
-            toolsMenuHost.PushLocalView(form);
-        }
+    private void ReturnPage(object? sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
     }
 }

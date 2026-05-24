@@ -1,48 +1,100 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.ToolPages.SchedulerPage"
-             BackgroundColor="{StaticResource PageBackground}">
+             x:Class="Gish.Pages.Main_Pages.Tools_Pages.SchedulerPage"
+             Title="Session Scheduler"
+             BackgroundColor="{StaticResource TabBar}">
 
-    <Grid RowDefinitions="Auto, *, Auto" Padding="0" RowSpacing="0">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0" Margin="0">
 
-        <ScrollView Grid.Row="1" Padding="20,10">
-            <VerticalStackLayout Spacing="15">
+            <Grid Grid.Row="0"
+                  x:Name="Header"
+                  Padding="16,32,16,16"
+                  ColumnDefinitions="*,Auto">
                 
-                <Grid ColumnDefinitions="Auto, *, Auto" HorizontalOptions="Fill" Margin="0,10">
-                    <ImageButton Grid.Column="0" Source="chevron_left.svg" WidthRequest="20" HeightRequest="20" Clicked="OnPreviousMonthClicked"/>
-                    <Border Grid.Column="1" StrokeShape="RoundRectangle 4" BackgroundColor="White" HorizontalOptions="Center">
-                        <Label x:Name="MonthYearLabel" Text="May 2026" FontFamily="Faustina-Bold.ttf" FontSize="16" Padding="30, 5" TextColor="#5D6660"/>
-                    </Border>
-                    <ImageButton Grid.Column="2" Source="chevron_right.svg" WidthRequest="20" HeightRequest="20" Clicked="OnNextMonthClicked"/>
-                </Grid>
+                <HorizontalStackLayout Spacing="10">
+                    <ImageButton x:Name="ReturnButton"
+                                 Source="back_button.png"
+                                 HeightRequest="40"
+                                 WidthRequest="40"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Center"
+                                 Clicked="ReturnPage"/>
+                    <Label Style="{StaticResource PageTitle}"
+                           Text="Session Scheduler"
+                           TextColor="{StaticResource TextDark}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Grid>
+            
+            <Grid Grid.Row="1" RowDefinitions="Auto, *, Auto" Padding="0" RowSpacing="0"
+                  BackgroundColor="{StaticResource PageBackground}">
 
-                <Grid x:Name="CalendarGrid" 
-                      ColumnDefinitions="*,*,*,*,*,*,*" 
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" 
-                      ColumnSpacing="6" RowSpacing="6"
-                      HorizontalOptions="Fill"/>
-            </VerticalStackLayout>
-        </ScrollView>
+                <ScrollView Grid.Row="1" Padding="20,10">
+                    <VerticalStackLayout Spacing="15">
+                        
+                        <Grid ColumnDefinitions="Auto, *, Auto" HorizontalOptions="Fill" Margin="0,10">
+                            <ImageButton Grid.Column="0" Source="chevron_left.svg" WidthRequest="20" HeightRequest="20" Clicked="OnPreviousMonthClicked"/>
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 4" BackgroundColor="White" HorizontalOptions="Center">
+                                <Label x:Name="MonthYearLabel" Text="May 2026" FontFamily="Faustina-Bold.ttf" FontSize="20" Padding="30, 5" TextColor="{StaticResource TextDark}"/>
+                            </Border>
+                            <ImageButton Grid.Column="2" Source="chevron_right.svg" WidthRequest="20" HeightRequest="20" Clicked="OnNextMonthClicked"/>
+                        </Grid>
+                        
+                        <Grid x:Name="DayHeader" 
+                              ColumnDefinitions="*,*,*,*,*,*,*" 
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" 
+                              ColumnSpacing="6" RowSpacing="6"
+                              HorizontalOptions="Fill"
+                              Margin="0, 0, 0, -10"
+                              >
+                            <Label Grid.Column="0" Text="Sun"
+                                   FontFamily="Commissioner-SemiBold.ttf"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="1" Text="Mon"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="2" Text="Tue"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="3" Text="Wed"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="4" Text="Thu"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="5" Text="Fri"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                            <Label Grid.Column="6" Text="Sat"
+                                   Style="{StaticResource SessionDayHeader}"/>
+                        </Grid>
 
-        <Border Grid.Row="2" 
-                x:Name="DetailsDrawer"
-                IsVisible="False"
-                BackgroundColor="#E8A984" 
-                StrokeShape="RoundRectangle 24,24,0,0" 
-                Padding="20" Margin="0" VerticalOptions="End">
-            <VerticalStackLayout Spacing="12">
-                
-                <Grid ColumnDefinitions="*, Auto" Margin="5,0">
-                    <Label x:Name="DrawerHeaderLabel" Text="Sessions for this Day" FontFamily="Faustina-Bold.ttf" FontSize="18" TextColor="#1E2420" VerticalOptions="Center"/>
-                    <Button Grid.Column="1" Text="+ Add Session" BackgroundColor="#1E2420" TextColor="White" FontAttributes="Bold" CornerRadius="8" Padding="12,0" Clicked="OnDrawerAddSessionClicked"/>
-                </Grid>
-
-                <ScrollView MaximumHeightRequest="200">
-                    <VerticalStackLayout x:Name="DrawerSessionsContainer" Spacing="10" Padding="0,5"/>
+                        <Grid x:Name="CalendarGrid" 
+                              ColumnDefinitions="*,*,*,*,*,*,*" 
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" 
+                              ColumnSpacing="6" RowSpacing="6"
+                              HorizontalOptions="Fill"/>
+                    </VerticalStackLayout>
                 </ScrollView>
-                
-            </VerticalStackLayout>
-        </Border>
-    </Grid>
-</ContentView>
+
+                <Border Grid.Row="2" 
+                        x:Name="DetailsDrawer"
+                        IsVisible="False"
+                        BackgroundColor="{StaticResource TabBar}" 
+                        StrokeShape="RoundRectangle 24,24,0,0" 
+                        Padding="20" Margin="0" VerticalOptions="End">
+                    <VerticalStackLayout Spacing="12">
+                        
+                        <Grid ColumnDefinitions="*, Auto" Margin="5,0">
+                            <Label x:Name="DrawerHeaderLabel" Text="Sessions for this Day" FontFamily="Faustina-Bold.ttf" FontSize="23" TextColor="#1E2420" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="+ ADD SESSION" BackgroundColor="#1E2420" TextColor="White" FontAttributes="Bold" CornerRadius="8"
+                                    Padding="18,12" Clicked="OnDrawerAddSessionClicked" FontSize="15"/>
+                        </Grid>
+
+                        <ScrollView MaximumHeightRequest="200">
+                            <VerticalStackLayout x:Name="DrawerSessionsContainer" Spacing="10" Padding="0,5"/>
+                        </ScrollView>
+                        
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>    
+    </ContentPage.Content>
+</ContentPage>

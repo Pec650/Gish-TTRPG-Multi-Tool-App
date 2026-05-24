@@ -36,28 +36,13 @@
                 <Button x:Name="SessionScheduleDIR"
                         Text="Session Scheduler"
                         Style="{StaticResource ToolsButton}"
-                        />
+                        Clicked="GoToScheduler"/>
                 
                 <Button x:Name="InitiativeTrackerDIR"
                         Text="Initiative Tracker"
                         Style="{StaticResource ToolsButton}"
                         Clicked="GoToInitiativeTracker"
                 />
-                
-                <!-- <Button x:Name="SpellDirectoryDIR" -->
-                <!--         Text="Spell Directory" -->
-                <!--         Style="{StaticResource ToolsButton}" -->
-                <!-- /> -->
-                <!-- -->
-                <!-- <Button x:Name="CRCalculatorDIR" -->
-                <!--         Text="CR Calculator" -->
-                <!--         Style="{StaticResource ToolsButton}" -->
-                <!-- /> -->
-                <!-- -->
-                <!-- <Button x:Name="BestiaryDIR" -->
-                <!--         Text="Bestiary" -->
-                <!--         Style="{StaticResource ToolsButton}" -->
-                <!-- /> -->
                 
             </VerticalStackLayout>
         </ScrollView>

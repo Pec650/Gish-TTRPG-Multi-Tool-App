@@ -85,4 +85,17 @@ public partial class ToolsPage : ContentPage
             setAllButtonState(true);
         }
     }
+
+    private async void GoToScheduler(object? sender, EventArgs e)
+    {
+        try
+        {
+            setAllButtonState(false);
+            await Navigation.PushModalAsync(new SchedulerPage());
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
 }

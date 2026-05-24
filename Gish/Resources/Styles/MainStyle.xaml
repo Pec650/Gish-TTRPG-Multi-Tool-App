@@ -375,5 +375,14 @@
         <Setter Property="PlaceholderColor" Value="#747474" />
         <Setter Property="BackgroundColor" Value="Transparent" />
     </Style>
+    
+    <!-- SCHEDULE DAY HEADER -->
+    <Style x:Key="SessionDayHeader"  TargetType="Label">
+        <Setter Property="FontFamily" Value="Commissioner-Bold.ttf"></Setter>
+        <Setter Property="HorizontalOptions" Value="Center"></Setter>
+        <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="15"></Setter>
+        <Setter Property="TextColor" Value="{StaticResource TextDark}"></Setter>
+    </Style>
 
 </ResourceDictionary>
