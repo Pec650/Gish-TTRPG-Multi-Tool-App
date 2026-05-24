@@ -94,75 +94,291 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
+                <!-- QUICK ROLL -->
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Quick Roll" Style="{StaticResource SectionHeader}"/>
-                    <Grid>
-                        <Border Style="{StaticResource CardOuter}" Margin="0,4,0,0">
-                            <VerticalStackLayout Spacing="12" Padding="8">
+                    <Border Style="{StaticResource CardOuter}">
+                        <VerticalStackLayout Spacing="12" Padding="8">
 
-                                <Border Style="{StaticResource CardInner}" Padding="4">
-                                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
-                                        <ImageButton Source="dice/d4.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="4"   BackgroundColor="Transparent"/>
-                                        <ImageButton Source="dice/d6.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="6"   BackgroundColor="Transparent"/>
-                                        <ImageButton Source="dice/d8.svg"   WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="8"   BackgroundColor="Transparent"/>
-                                        <ImageButton Source="dice/d10.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="10"  BackgroundColor="Transparent"/>
-                                        <ImageButton Source="dice/d12.svg"  WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="12"  BackgroundColor="Transparent"/>
-                                        <ImageButton Source="dice/d100.svg" WidthRequest="56" HeightRequest="56" Margin="4" Clicked="OnDiceClicked" CommandParameter="100" BackgroundColor="Transparent"/>
-                                    </FlexLayout>
-                                </Border>
-                                
-                                <Label x:Name="DiceQueueLabel" Text="Tap dice to add, press d20 to roll"
-                                       Style="{StaticResource ItemTitle}" HorizontalTextAlignment="Center"
-                                       HorizontalOptions="Center"/>
+                            <!-- Dice area — switches between dice grid and d20 drawer -->
+                            <Border Style="{StaticResource CardInner}" Padding="8">
+                                <Grid>
 
-                                <Border x:Name="RollResult" IsVisible="False" Style="{StaticResource CardInner}" BackgroundColor="{StaticResource RollLogGreen}">
-                                    <Label x:Name="RollResultLabel" Text="Result: 0" Style="{StaticResource ItemTitle}" HorizontalOptions="Center"/>
-                                </Border>
+                                    <!-- DEFAULT: dice grid view -->
+                                    <Grid x:Name="DiceGridView"
+                                          ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto"
+                                          ColumnSpacing="6" RowSpacing="6"
+                                          Margin="68,20,52,0">
+                                        <ImageButton Grid.Row="0" Grid.Column="0" Source="dice/d4.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="4"/>
+                                        <ImageButton Grid.Row="0" Grid.Column="1" Source="dice/d6.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="6"/>
+                                        <ImageButton Grid.Row="0" Grid.Column="2" Source="dice/d8.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="8"/>
+                                        <ImageButton Grid.Row="1" Grid.Column="0" Source="dice/d10.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="10"/>
+                                        <ImageButton Grid.Row="1" Grid.Column="1" Source="dice/d12.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="12"/>
+                                        <ImageButton Grid.Row="1" Grid.Column="2" Source="dice/d100.svg"
+                                                     WidthRequest="52" HeightRequest="52"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDiceClicked" CommandParameter="100"/>
+                                    </Grid>
 
-                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                                    <Border Style="{StaticResource RollLogBtn}">
-                                        <Label Text="ROLL LOG" HorizontalOptions="Center" VerticalOptions="Center"
-                                               FontSize="18" TextColor="{StaticResource White}"
-                                               FontFamily="Faustina-Bold.ttf"/>
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="OnRollLogToggled"/>
-                                        </Border.GestureRecognizers>
-                                    </Border>
-                                    
-                                    <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
-                                        <VerticalStackLayout VerticalOptions="Center">
-                                            <Label Text="Modifier" FontSize="11" Style="{StaticResource ItemSubtitleText}" HorizontalOptions="Center"/>
-                                            <HorizontalStackLayout Spacing="4">
-                                                <Button x:Name="DisadvantageBtn" Text="D" Style="{StaticResource DangerBtn}" Clicked="OnModifierClicked" CommandParameter="D" FontSize="13" Padding="8,4" Margin="0"/>
-                                                <Button x:Name="NormalBtn" Text="●" Style="{StaticResource DiceBtn}" Clicked="OnModifierClicked" CommandParameter="N" FontSize="13" Padding="8,4" Margin="0"/>
-                                                <Button x:Name="AdvantageBtn" Text="A" Style="{StaticResource PrimaryBtn}" Clicked="OnModifierClicked" CommandParameter="A" FontSize="13" Padding="8,4" Margin="0"/>
-                                            </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-                                        
-                                        <Border BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 6" Padding="6,4">
-                                            <Grid RowDefinitions="*,*" ColumnDefinitions="30,20">
-                                                <Label x:Name="BonusLabel" Text="0" FontSize="14" TextColor="{StaticResource TextDark}" HorizontalOptions="Center" VerticalOptions="Center" Grid.RowSpan="2"/>
-                                                <Button Text="+" Grid.Column="1" Grid.Row="0" Clicked="OnBonusUp" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
-                                                <Button Text="-" Grid.Column="1" Grid.Row="1" Clicked="OnBonusDown" FontSize="10" Padding="0" Margin="0" BackgroundColor="Transparent" TextColor="{StaticResource TextDark}"/>
+                                    <!-- D20 DRAWER: replaces dice grid when open -->
+                                    <Grid x:Name="D20DrawerView" IsVisible="False"
+                                          RowDefinitions="Auto, Auto"
+                                          RowSpacing="12"
+                                          Margin="0,8,52,8">
+
+                                        <Label Grid.Row="0"
+                                               Text="d20 Roll"
+                                               FontFamily="Faustina-Bold.ttf"
+                                               FontSize="20"
+                                               TextColor="{StaticResource TextDark}"
+                                               HorizontalOptions="Center"/>
+
+                                        <VerticalStackLayout Grid.Row="1" Spacing="12" HorizontalOptions="Fill">
+
+                                            <Label x:Name="D20CountDisplay"
+                                                   Text="1d20"
+                                                   FontFamily="Faustina-Bold.ttf"
+                                                   FontSize="36"
+                                                   TextColor="{StaticResource TextDark}"
+                                                   HorizontalOptions="Center"/>
+
+                                            <Grid ColumnDefinitions="*, Auto, *" ColumnSpacing="12" HorizontalOptions="Fill">
+                                                <Button Grid.Column="0" Text="−"
+                                                        Clicked="OnDecrementD20Pool"
+                                                        FontSize="28" FontAttributes="Bold"
+                                                        HeightRequest="56"
+                                                        BackgroundColor="#E5DEC9"
+                                                        TextColor="{StaticResource TextDark}"
+                                                        CornerRadius="8"/>
+                                                <Button Grid.Column="2" Text="+"
+                                                        Clicked="OnIncrementD20Pool"
+                                                        FontSize="28" FontAttributes="Bold"
+                                                        HeightRequest="56"
+                                                        BackgroundColor="#E5DEC9"
+                                                        TextColor="{StaticResource TextDark}"
+                                                        CornerRadius="8"/>
                                             </Grid>
-                                        </Border>
-                                    </HorizontalStackLayout>
-                                </Grid>
 
-                                <CollectionView x:Name="RollLogList" IsVisible="False" Margin="0,4,0,0">
+                                            <Button Text="ROLL d20"
+                                                    Clicked="OnExecuteD20DrawerRoll"
+                                                    FontFamily="Faustina-Bold.ttf"
+                                                    FontSize="18"
+                                                    HeightRequest="52"
+                                                    BackgroundColor="{StaticResource AccentRed}"
+                                                    TextColor="White"
+                                                    CornerRadius="8"
+                                                    HorizontalOptions="Fill"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <!-- Floating d20 button — top left -->
+                                    <Border StrokeShape="Ellipse"
+                                            BackgroundColor="{StaticResource AccentRed}"
+                                            WidthRequest="72" HeightRequest="72"
+                                            HorizontalOptions="Start" VerticalOptions="Start">
+                                        <Grid>
+                                            <ImageButton Source="dice/d20.svg"
+                                                         WidthRequest="52" HeightRequest="52"
+                                                         BackgroundColor="Transparent"
+                                                         HorizontalOptions="Center" VerticalOptions="Center"
+                                                         Clicked="OnToggleD20Drawer"/>
+                                            <Label x:Name="D20DrawerChevron" Text="▾"
+                                                   FontSize="10" FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextDark}" Opacity="0.8"
+                                                   HorizontalOptions="End" VerticalOptions="End"
+                                                   Margin="0,0,4,4"
+                                                   InputTransparent="True"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Floating X — top right, clears queue and closes d20 drawer -->
+                                    <Border StrokeShape="Ellipse"
+                                            BackgroundColor="{StaticResource AccentRed}"
+                                            WidthRequest="44" HeightRequest="44"
+                                            HorizontalOptions="End" VerticalOptions="Start"
+                                            Margin="0,4,4,0">
+                                        <Label Text="✕" FontSize="18" FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnClearClicked"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Border>
+
+                                </Grid>
+                            </Border>
+
+                            <!-- Dice queue label -->
+                            <Label x:Name="DiceQueueLabel"
+                                   Text="Tap dice to add, press d20 to roll"
+                                   Style="{StaticResource ItemTitle}"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="Center"/>
+
+                            <!-- Roll result -->
+                            <Border x:Name="RollResult" IsVisible="False"
+                                    Style="{StaticResource CardInner}"
+                                    BackgroundColor="{StaticResource RollLogGreen}"
+                                    Padding="12,10">
+                                <VerticalStackLayout x:Name="RollResultContainer" Spacing="4" HorizontalOptions="Center">
+                                    <Label x:Name="RollResultMainLabel" Text="Result: 0"
+                                           Style="{StaticResource ItemTitle}"
+                                           FontAttributes="Bold"
+                                           FontSize="18"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Modifier + Bonus row -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12" Padding="4,0">
+
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="Modifier" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Border BackgroundColor="#E5DEC9"
+                                            Stroke="Transparent"
+                                            StrokeShape="RoundRectangle 8"
+                                            HeightRequest="46"
+                                            Padding="2" HorizontalOptions="Fill">
+                                        <Grid ColumnDefinitions="*, *, *">
+                                            <Border x:Name="DisadvBlock" Grid.Column="0"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                                <Label x:Name="DisadvLabel" Text="D"
+                                                       FontAttributes="Bold" FontSize="14"
+                                                       HorizontalOptions="Center" VerticalOptions="Center"
+                                                       TextColor="#AAB7B8"/>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnSelectDisadvantage"/>
+                                                </Border.GestureRecognizers>
+                                            </Border>
+                                            <Border x:Name="NormalBlock" Grid.Column="1"
+                                                    BackgroundColor="#4A148C"
+                                                    StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                                <Label x:Name="NormalLabel" Text="•"
+                                                       FontAttributes="Bold" FontSize="16"
+                                                       HorizontalOptions="Center" VerticalOptions="Center"
+                                                       TextColor="White"/>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnSelectNormal"/>
+                                                </Border.GestureRecognizers>
+                                            </Border>
+                                            <Border x:Name="AdvBlock" Grid.Column="2"
+                                                    BackgroundColor="Transparent"
+                                                    StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                                                <Label x:Name="AdvLabel" Text="A"
+                                                       FontAttributes="Bold" FontSize="14"
+                                                       HorizontalOptions="Center" VerticalOptions="Center"
+                                                       TextColor="#AAB7B8"/>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnSelectAdvantage"/>
+                                                </Border.GestureRecognizers>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="Bonus" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Border BackgroundColor="#E5DEC9"
+                                            Stroke="Transparent"
+                                            StrokeShape="RoundRectangle 8"
+                                            HeightRequest="46"
+                                            Padding="2" HorizontalOptions="Fill">
+                                        <Grid ColumnDefinitions="Auto, *, Auto">
+                                            <Button Grid.Column="0" Text="−" Clicked="OnBonusDown"
+                                                    FontSize="16" FontAttributes="Bold"
+                                                    WidthRequest="40" HeightRequest="42"
+                                                    Padding="0" Margin="0"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource TextDark}"/>
+                                            <Border Grid.Column="1" BackgroundColor="White"
+                                                    StrokeShape="RoundRectangle 6" Stroke="Transparent"
+                                                    Margin="2,0">
+                                                <Label x:Name="BonusLabel" Text="0"
+                                                       FontSize="15" FontAttributes="Bold"
+                                                       TextColor="{StaticResource TextDark}"
+                                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                                            </Border>
+                                            <Button Grid.Column="2" Text="+" Clicked="OnBonusUp"
+                                                    FontSize="16" FontAttributes="Bold"
+                                                    WidthRequest="40" HeightRequest="42"
+                                                    Padding="0" Margin="0"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource TextDark}"/>
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                            <!-- ROLL LOG drawer toggle -->
+                            <Border Style="{StaticResource RollLogBtn}" HorizontalOptions="Fill">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="ROLL LOG"
+                                           FontSize="15" TextColor="{StaticResource White}"
+                                           FontFamily="Faustina-Bold.ttf"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label x:Name="RollLogChevron" Grid.Column="1"
+                                           Text="▼" FontSize="12"
+                                           TextColor="{StaticResource White}"
+                                           VerticalOptions="Center" Margin="0,0,4,0"/>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnRollLogToggled"/>
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Roll log panel -->
+                    <Border x:Name="RollLogPanel"
+                            IsVisible="False"
+                            Style="{StaticResource CardOuter}">
+                        <VerticalStackLayout Spacing="4">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Roll Log" FontFamily="Faustina-Bold.ttf"
+                                    FontSize="16" TextColor="{StaticResource TextDark}"/>
+                                <Label Grid.Column="1" Text="Hide" FontSize="12"
+                                    TextColor="{StaticResource TextMid}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnRollLogToggled"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                            <ScrollView MaximumHeightRequest="160" Margin="0,4,0,0">
+                                <CollectionView x:Name="RollLogList">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <Label Text="{Binding .}" Style="{StaticResource ItemSubtitleText}" Margin="4,2"/>
+                                            <Label Text="{Binding .}"
+                                                Style="{StaticResource ItemSubtitleText}"
+                                                Margin="4,2"/>
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
-                                
-                                <Button Text="ROLL" Style="{StaticResource RollBtn}" Padding="0, 20" BackgroundColor="#4F6367" Clicked="OnRollClicked"/>
-
-                                <Button Text="CLEAR" Style="{StaticResource RollBtn}" Padding="0, 20" Clicked="OnClearClicked"/>
-                            </VerticalStackLayout>
-                        </Border>
-                    </Grid>
+                            </ScrollView>
+                        </VerticalStackLayout>
+                    </Border>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="6" Margin="0,0,0,12">

@@ -46,13 +46,13 @@ public partial class SchedulerFormPage : ContentPage
     private async void LoadFormFields()
     {
         // Double check that XAML elements exist
-        if (SystemPicker == null || TitleEntry == null || CampaignPicker == null) return;
+        // if (SystemPicker == null || TitleEntry == null || CampaignPicker == null) return;
 
         try
         {
             // Temporarily unsubscribe from events to prevent infinite loops / layout updates
-            SystemPicker.SelectedIndexChanged -= OnSystemPickerChanged;
-            CampaignPicker.SelectedIndexChanged -= OnCampaignPickerChanged;
+            // SystemPicker.SelectedIndexChanged -= OnSystemPickerChanged;
+            // CampaignPicker.SelectedIndexChanged -= OnCampaignPickerChanged;
 
             // Populate base fields
             TitleEntry.Text = _currentSession.Title;
@@ -62,12 +62,12 @@ public partial class SchedulerFormPage : ContentPage
             // Fetch lookup items
             _availableSystems = await _database.GetAllSystemsAsync() ?? new List<RPGSystem>();
 
-            SystemPicker.Items.Clear();
-            foreach (var sys in _availableSystems)
-            {
-                SystemPicker.Items.Add(sys.Name);
-            }
-            SystemPicker.Items.Add(CustomOptionText);
+            // SystemPicker.Items.Clear();
+            // foreach (var sys in _availableSystems)
+            // {
+            //     SystemPicker.Items.Add(sys.Name);
+            // }
+            // SystemPicker.Items.Add(CustomOptionText);
 
             // Populate Edit Mode data safely
             if (_isEditMode && _currentSession.CampaignID != 0)
@@ -80,12 +80,12 @@ public partial class SchedulerFormPage : ContentPage
                     var activeSystem = _availableSystems.FirstOrDefault(s => s.ID == activeCampaign.RPGSystemID);
                     if (activeSystem != null)
                     {
-                        SystemPicker.SelectedItem = activeSystem.Name;
+                        // SystemPicker.SelectedItem = activeSystem.Name;
                         
                         // Await the data retrieval completely BEFORE updating picker items
                         await RefreshCampaignListAsync(activeSystem.ID);
                         
-                        CampaignPicker.SelectedItem = activeCampaign.Title;
+                        // CampaignPicker.SelectedItem = activeCampaign.Title;
                     }
                 }
             }
@@ -97,74 +97,88 @@ public partial class SchedulerFormPage : ContentPage
         finally
         {
             // Re-subscribe to events so user interaction works normally again
-            SystemPicker.SelectedIndexChanged += OnSystemPickerChanged;
-            CampaignPicker.SelectedIndexChanged += OnCampaignPickerChanged;
+            // SystemPicker.SelectedIndexChanged += OnSystemPickerChanged;
+            // CampaignPicker.SelectedIndexChanged += OnCampaignPickerChanged;
         }
     }
 
     private async Task RefreshCampaignListAsync(int systemId)
-    {
-        _availableCampaigns = await _database.GetCampaignsBySystemAsync(systemId);
-        
-        CampaignPicker.Items.Clear();
-        foreach (var camp in _availableCampaigns)
-        {
-            CampaignPicker.Items.Add(camp.Title);
-        }
-        CampaignPicker.Items.Add(CustomOptionText);
-    }
+{
+    // 1. Clear selection first so the picker doesn't fight the collection change
+    // CampaignPicker.SelectedItem = null;
+    // CampaignPicker.SelectedIndex = -1;
+    //
+    // _availableCampaigns = await _database.GetCampaignsBySystemAsync(systemId);
+    //
+    // CampaignPicker.Items.Clear();
+    // foreach (var camp in _availableCampaigns)
+    // {
+    //     CampaignPicker.Items.Add(camp.Title);
+    // }
+    // CampaignPicker.Items.Add(CustomOptionText);
+    //
+    // // Optional: If you want nothing selected by default after a swap
+    // CampaignPicker.SelectedIndex = -1; 
+}
 
     private async void OnSystemPickerChanged(object sender, EventArgs e)
     {
-        if (SystemPicker.SelectedIndex == -1) return;
-    
-        string selectedText = SystemPicker.Items[SystemPicker.SelectedIndex];
-    
-        try
-        {
-            // Detach CampaignPicker event to prevent clearing items from triggering a ghost change event
-            CampaignPicker.SelectedIndexChanged -= OnCampaignPickerChanged;
-
-            if (selectedText == CustomOptionText)
-            {
-                CustomSystemEntry.IsVisible = true;
-                CampaignPicker.Items.Clear();
-                CampaignPicker.Items.Add(CustomOptionText);
-                CampaignPicker.SelectedItem = CustomOptionText;
-            
-                // Explicitly show the entry field since we know it's a custom option
-                CustomCampaignEntry.IsVisible = true;
-            }
-            else
-            {
-                CustomSystemEntry.IsVisible = false;
-                CustomCampaignEntry.IsVisible = false;
-            
-                var targetSys = _availableSystems.FirstOrDefault(s => s.Name == selectedText);
-                if (targetSys != null)
-                {
-                    // Refresh campaigns safely without firing the other picker's logic midway
-                    await RefreshCampaignListAsync(targetSys.ID);
-                }
-            }
-        }
-        finally
-        {
-            // Re-attach event handler so human clicks still work normally
-            CampaignPicker.SelectedIndexChanged += OnCampaignPickerChanged;
-        }
+        // if (SystemPicker.SelectedIndex == -1) return;
+        //
+        // string selectedText = SystemPicker.Items[SystemPicker.SelectedIndex];
+        //
+        // try
+        // {
+        //     // Detach CampaignPicker event to prevent clearing items from triggering ghost events
+        //     CampaignPicker.SelectedIndexChanged -= OnCampaignPickerChanged;
+        //
+        //     if (selectedText == CustomOptionText)
+        //     {
+        //         CustomSystemEntry.IsVisible = true;
+        //         
+        //         // Clear selection safely
+        //         CampaignPicker.SelectedItem = null;
+        //         CampaignPicker.SelectedIndex = -1;
+        //         
+        //         CampaignPicker.Items.Clear();
+        //         CampaignPicker.Items.Add(CustomOptionText);
+        //         
+        //         // Now safely select the custom option
+        //         CampaignPicker.SelectedItem = CustomOptionText;
+        //         CustomCampaignEntry.IsVisible = true;
+        //     }
+        //     else
+        //     {
+        //         CustomSystemEntry.IsVisible = false;
+        //         CustomCampaignEntry.IsVisible = false;
+        //     
+        //         var targetSys = _availableSystems.FirstOrDefault(s => s.Name == selectedText);
+        //         if (targetSys != null)
+        //         {
+        //             // Refresh campaigns safely without firing the other picker's logic midway
+        //             await RefreshCampaignListAsync(targetSys.ID);
+        //         }
+        //     }
+        // }
+        // catch {}
+        // finally
+        // {
+        //     // Re-attach event handler after UI has completely stabilized
+        //     CampaignPicker.SelectedIndexChanged += OnCampaignPickerChanged;
+        // }
     }
 
     private void OnCampaignPickerChanged(object sender, EventArgs e)
     {
-        if (CampaignPicker.SelectedIndex == -1) 
-        {
-            CustomCampaignEntry.IsVisible = false;
-            return;
-        }
-    
-        string selectedText = CampaignPicker.Items[CampaignPicker.SelectedIndex];
-        CustomCampaignEntry.IsVisible = (selectedText == CustomOptionText);
+        // Guard against programmatic clearing (-1)
+        // if (CampaignPicker.SelectedIndex == -1) 
+        // {
+        //     CustomCampaignEntry.IsVisible = false;
+        //     return;
+        // }
+        //
+        // string selectedText = CampaignPicker.Items[CampaignPicker.SelectedIndex];
+        // CustomCampaignEntry.IsVisible = (selectedText == CustomOptionText);
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -179,36 +193,36 @@ public partial class SchedulerFormPage : ContentPage
             int resolvedSystemId = 0;
             string sysName = "";
 
-            if (SystemPicker.SelectedItem?.ToString() == CustomOptionText)
-            {
-                sysName = CustomSystemEntry.Text?.Trim() ?? "Custom System";
-                var newSys = new RPGSystem { Name = sysName };
-                await _database._connection.InsertAsync(newSys);
-                resolvedSystemId = newSys.ID;
-            }
-            else if (SystemPicker.SelectedIndex != -1)
-            {
-                sysName = SystemPicker.Items[SystemPicker.SelectedIndex];
-                var sysObj = _availableSystems.FirstOrDefault(s => s.Name == sysName);
-                resolvedSystemId = sysObj?.ID ?? 0;
-            }
+            // if (SystemPicker.SelectedItem?.ToString() == CustomOptionText)
+            // {
+            //     sysName = CustomSystemEntry.Text?.Trim() ?? "Custom System";
+            //     var newSys = new RPGSystem { Name = sysName };
+            //     await _database._connection.InsertAsync(newSys);
+            //     resolvedSystemId = newSys.ID;
+            // }
+            // else if (SystemPicker.SelectedIndex != -1)
+            // {
+            //     sysName = SystemPicker.Items[SystemPicker.SelectedIndex];
+            //     var sysObj = _availableSystems.FirstOrDefault(s => s.Name == sysName);
+            //     resolvedSystemId = sysObj?.ID ?? 0;
+            // }
 
             int resolvedCampaignId = 0;
             string campaignTitle = "Custom Campaign";
 
-            if (CampaignPicker.SelectedItem?.ToString() == CustomOptionText)
-            {
-                campaignTitle = CustomCampaignEntry.Text?.Trim() ?? "Custom Campaign";
-                var newCamp = new Campaign { Title = campaignTitle, RPGSystemID = resolvedSystemId };
-                await _database._connection.InsertAsync(newCamp);
-                resolvedCampaignId = newCamp.ID;
-            }
-            else if (CampaignPicker.SelectedIndex != -1)
-            {
-                campaignTitle = CampaignPicker.Items[CampaignPicker.SelectedIndex];
-                var campObj = _availableCampaigns.FirstOrDefault(c => c.Title == campaignTitle && c.RPGSystemID == resolvedSystemId);
-                resolvedCampaignId = campObj?.ID ?? 0;
-            }
+            // if (CampaignPicker.SelectedItem?.ToString() == CustomOptionText)
+            // {
+            //     campaignTitle = CustomCampaignEntry.Text?.Trim() ?? "Custom Campaign";
+            //     var newCamp = new Campaign { Title = campaignTitle, RPGSystemID = resolvedSystemId };
+            //     await _database._connection.InsertAsync(newCamp);
+            //     resolvedCampaignId = newCamp.ID;
+            // }
+            // else if (CampaignPicker.SelectedIndex != -1)
+            // {
+            //     campaignTitle = CampaignPicker.Items[CampaignPicker.SelectedIndex];
+            //     var campObj = _availableCampaigns.FirstOrDefault(c => c.Title == campaignTitle && c.RPGSystemID == resolvedSystemId);
+            //     resolvedCampaignId = campObj?.ID ?? 0;
+            // }
 
             _currentSession.CampaignID = resolvedCampaignId;
 
@@ -218,7 +232,7 @@ public partial class SchedulerFormPage : ContentPage
             // Now SessionID is guaranteed to be populated for both new and edited sessions
             string trackingId = _currentSession.SessionID.ToString();
 
-            bool isReminderEnabled = ReminderSwitch.IsToggled;
+            bool isReminderEnabled = true;
 
             if (isReminderEnabled)
             {
