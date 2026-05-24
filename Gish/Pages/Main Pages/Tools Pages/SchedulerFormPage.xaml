@@ -6,6 +6,7 @@
     
     <ContentPage.Content>
         <Grid RowDefinitions="Auto, *" Padding="0" RowSpacing="0">
+            
             <Grid Grid.Row="0"
                   x:Name="Header"
                   Padding="16,32,16,16"
@@ -20,7 +21,7 @@
                                  VerticalOptions="Center"
                                  Clicked="ReturnPage"/>
                     <Label Style="{StaticResource PageTitle}"
-                           Text="Session Form"
+                           Text="Session Scheduler"
                            TextColor="{StaticResource TextDark}"
                            VerticalOptions="Center"/>
                 </HorizontalStackLayout>
@@ -30,38 +31,48 @@
                 <VerticalStackLayout Spacing="18">
                     
                     <VerticalStackLayout Spacing="5">
-                        <Label Text="Session Title" FontAttributes="Bold" TextColor="#424C44"/>
-                        <Entry x:Name="TitleEntry" Placeholder="e.g., Epic Boss Fight Finale" BackgroundColor="White"/>
+                        <Label Text="Session Title"   Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Entry x:Name="TitleEntry" Placeholder="e.g., Epic Boss Fight Finale" BackgroundColor="White"/>
+                        </Border>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="5">
-                        <Label Text="RPG System" FontAttributes="Bold" TextColor="#424C44"/>
-                        <Picker x:Name="SystemPicker" Title="Select an RPG System" BackgroundColor="White" SelectedIndexChanged="OnSystemPickerChanged"/>
-                        <Entry x:Name="CustomSystemEntry" Placeholder="Type custom system (e.g., Cyberpunk Red)" BackgroundColor="White" IsVisible="False" Margin="0,5,0,0"/>
+                        <Label Text="RPG System"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Picker x:Name="SystemPicker" Title="Select an RPG System" BackgroundColor="White" SelectedIndexChanged="OnSystemPickerChanged"/>
+                        </Border>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Entry x:Name="CustomSystemEntry" Placeholder="Type custom system (e.g., Cyberpunk Red)" BackgroundColor="White" IsVisible="False" Margin="0,5,0,0"/>
+                        </Border>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="5">
-                        <Label Text="Campaign Title" FontAttributes="Bold" TextColor="#424C44"/>
-                        <Picker x:Name="CampaignPicker" Title="Select a Campaign" BackgroundColor="White" SelectedIndexChanged="OnCampaignPickerChanged"/>
-                        <Entry x:Name="CustomCampaignEntry" Placeholder="Type custom campaign title" BackgroundColor="White" IsVisible="False" Margin="0,5,0,0"/>
+                        <Label Text="Campaign Title"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Picker x:Name="CampaignPicker" Title="Select a Campaign" BackgroundColor="White" SelectedIndexChanged="OnCampaignPickerChanged"/>
+                        </Border>
+                        <Border Style="{StaticResource InputTextEntryBorder}">
+                            <Entry x:Name="CustomCampaignEntry" Placeholder="Type custom campaign title" BackgroundColor="White" IsVisible="False" Margin="0,5,0,0"/>
+                        </Border>
                     </VerticalStackLayout>
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
-                            <Label Text="Date" FontAttributes="Bold" TextColor="#424C44"/>
+                            <Label Text="Date"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
                             <DatePicker x:Name="SessionDatePicker" MinimumDate="2026-01-01" BackgroundColor="White"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label Text="Start Time" FontAttributes="Bold" TextColor="#424C44"/>
+                            <Label Text="Start Time"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
                             <TimePicker x:Name="SessionTimePicker" BackgroundColor="White"/>
                         </VerticalStackLayout>
                     </Grid>
 
                     <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0" VerticalOptions="Center">
                         <VerticalStackLayout Grid.Column="0" Spacing="2">
-                            <Label Text="Set Session Reminder" FontAttributes="Bold" TextColor="#424C44"/>
-                            <Label Text="Notify players 30 minutes before game time" FontSize="12" TextColor="#5D6660"/>
+                            <Label Text="Set Session Reminder"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
+                            <Label Text="Notify players 30 minutes before game time" FontSize="15" TextColor="#5D6660"/>
                         </VerticalStackLayout>
                         <Switch x:Name="ReminderSwitch" 
                                 Grid.Column="1" 

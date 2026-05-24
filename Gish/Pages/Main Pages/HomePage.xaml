@@ -39,6 +39,10 @@
                                 <Border Style="{StaticResource CardOuter}">
                                     <VerticalStackLayout Spacing="4">
                                         <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="GoToScheduler"></TapGestureRecognizer>
+                                            </Border.GestureRecognizers>
+                                            
                                             <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" Padding="4">
                                                 <Border HeightRequest="80" 
                                                         WidthRequest="80"
@@ -46,35 +50,43 @@
                                                         StrokeThickness="5"
                                                         StrokeShape="RoundRectangle 40"
                                                         HorizontalOptions="Start"
-                                                        VerticalOptions="Start">
+                                                        VerticalOptions="Center">
                 
                                                     <Image Source="discord_icon.png"
-                                                           Aspect="AspectFill"    HeightRequest="80"
+                                                           Aspect="AspectFill"
+                                                           HeightRequest="80"
                                                            WidthRequest="80"/>
                                                 </Border>
                                                 <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                                    <Label x:Name="SessionTitle" Text="D&amp;D Session"
+                                                    <Label x:Name="SessionTitle" Text="{Binding Title}"
                                                            FontFamily="Faustina-Bold.ttf" FontSize="36" TextColor="{StaticResource TextDark}"
-                                                           HorizontalOptions="End" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" MaxLines="1" WidthRequest="200"/>
-                                                    <Label x:Name="SessionDate" Text="May 2, 2026"
+                                                           HorizontalOptions="End" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" MaxLines="1" WidthRequest="250"/>
+                                                    <Label x:Name="SessionDate" Text="{Binding Date, StringFormat='{0:MMMM d, yyyy}'}"
                                                            Style="{StaticResource ItemSubtitle}"
                                                            HorizontalOptions="End"/>
-                                                    <Label x:Name="SessionTime" Text="Time Start: 1:30 PM"
+                                                    <Label x:Name="SessionTime"
                                                            Style="{StaticResource ItemSubtitle}"
                                                            FontSize="20"
-                                                           HorizontalOptions="End"/>
+                                                           HorizontalOptions="End">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Time Start: " Style="{StaticResource ItemSubtitle}" FontSize="20" />
+                                                                <Span Text="{Binding FormattedStartTime}" Style="{StaticResource ItemSubtitle}" FontSize="20" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
                                                 </VerticalStackLayout>
                                             </Grid>
                                         </Border>
                                         
-                                        <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title"
-                                               Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0"
-                                               HorizontalOptions="End" TextColor="White"
-                                               FontSize="21"/>
-                                        <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e"
-                                               Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4"
-                                               HorizontalOptions="End" TextColor="White"
-                                               FontSize="15"/>
+                                        <!-- <Label x:Name="SessionCampaign" Text="Campaign: D&amp;D Campaign Title" -->
+                                        <!--        Style="{StaticResource ItemSubtitle}" Margin="0,4,4,0" -->
+                                        <!--        HorizontalOptions="End" TextColor="White" -->
+                                        <!--        FontSize="21"/> -->
+                                        <!-- <Label x:Name="SessionSystem" Text="RPG System: Dungeons &amp; Dragons 5.5e" -->
+                                        <!--        Style="{StaticResource ItemSubtitleText}" Margin="0,0,4,4" -->
+                                        <!--        HorizontalOptions="End" TextColor="White" -->
+                                        <!--        FontSize="15"/> -->
                                     </VerticalStackLayout>
                                 </Border>
                             </VerticalStackLayout>

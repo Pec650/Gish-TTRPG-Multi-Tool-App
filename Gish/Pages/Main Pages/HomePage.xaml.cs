@@ -6,6 +6,7 @@ using Microsoft.Maui.Controls;
 using SQLite;
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
+using Gish.Pages.Main_Pages.Tools_Pages;
 
 namespace Gish.Pages.MainPages;
 
@@ -52,6 +53,20 @@ public partial class HomePage : ContentPage
         base.OnAppearing();
         
         setAllButtonState(true);
+        
+        GameSession? nextSession = await _database.GetNextUpcomingSessionAsync();
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (nextSession != null)
+            {
+                RecentSessionItem.ItemsSource = new List<GameSession> { nextSession };
+            }
+            else
+            {
+                RecentSessionItem.ItemsSource = null; 
+            }
+        });
 
         try
         {
@@ -285,9 +300,29 @@ public partial class HomePage : ContentPage
 
     private async void GoToNewCreation(object? sender, EventArgs e)
     {
+        setAllButtonState(false);
         try
         {
             await Navigation.PushModalAsync(new NewCreationPage());
-        } catch {}
+            setAllButtonState(true);
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
+    }
+
+    private async void GoToScheduler(object? sender, TappedEventArgs e)
+    {
+        setAllButtonState(false);
+        try
+        {
+            await Navigation.PushModalAsync(new SchedulerPage());
+            setAllButtonState(true);
+        }
+        catch
+        {
+            setAllButtonState(true);
+        }
     }
 }

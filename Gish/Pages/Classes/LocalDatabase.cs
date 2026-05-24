@@ -220,19 +220,22 @@ public class LocalDatabase
     public async Task<List<RPGSystem>> GetAllSystemsAsync()
     {
         await Init();
-        return await _connection.Table<RPGSystem>().ToListAsync();
+        int userId = App.getUserID();
+        return await _connection.Table<RPGSystem>().Where(r => r.UserID == userId).ToListAsync();
     }
 
     public async Task<List<Campaign>> GetCampaignsBySystemAsync(int systemId)
     {
         await Init();
-        return await _connection.Table<Campaign>().Where(c => c.RPGSystemID == systemId).ToListAsync();
+        int userId = App.getUserID();
+        return await _connection.Table<Campaign>().Where(r => r.UserID == userId).Where(c => c.RPGSystemID == systemId).ToListAsync();
     }
 
     public async Task<List<GameSession>> GetSessionsByCampaignAsync(int campaignId)
     {
         await Init();
-        return await _connection.Table<GameSession>().Where(s => s.CampaignID == campaignId).ToListAsync();
+        int userId = App.getUserID();
+        return await _connection.Table<GameSession>().Where(r => r.UserID == userId).Where(s => s.CampaignID == campaignId).ToListAsync();
     }
 
     // --- GAME SESSION CORE ENGINES WITH 3-HOUR VALIDATION ANCHORS ---
@@ -240,13 +243,16 @@ public class LocalDatabase
     public async Task<List<GameSession>> GetAllSessionsAsync()
     {
         await Init();
-        return await _connection.Table<GameSession>().OrderBy(s => s.Date).ToListAsync();
+        int userId = App.getUserID();
+        return await _connection.Table<GameSession>().Where(s => s.UserID == userId).OrderBy(s => s.Date).ToListAsync();
     }
 
     public async Task<List<GameSession>> GetSessionsForDayAsync(DateTime targetDate)
     {
         await Init();
+        int userId = App.getUserID();
         return await _connection.Table<GameSession>()
+                                 .Where(r => r.UserID == userId)
                                  .Where(s => s.Date == targetDate.Date)
                                  .ToListAsync();
     }
@@ -295,6 +301,22 @@ public class LocalDatabase
         {
             return await _connection.InsertAsync(session);
         }
+    }
+    
+    public async Task<GameSession?> GetNextUpcomingSessionAsync()
+    {
+        await Init();
+    
+        int userId = App.getUserID();
+        DateTime today = DateTime.Today;
+        TimeSpan nowTime = DateTime.Now.TimeOfDay;
+
+        return await _connection.Table<GameSession>()
+            .Where(s => s.UserID == userId &&
+                        (s.Date > today || (s.Date == today && s.StartTime >= nowTime)))
+            .OrderBy(s => s.Date)
+            .ThenBy(s => s.StartTime)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<int> DeleteSessionAsync(GameSession session)

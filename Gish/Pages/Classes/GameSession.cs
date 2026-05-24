@@ -20,6 +20,8 @@ public class GameSession
     
     public TimeSpan StartTime { get; set; } // e.g., 13:30:00 (1:30 PM)
     
+    public string FormattedStartTime => DateTime.Today.Add(StartTime).ToString("h:mm tt");
+    
     public TimeSpan EndTime { get; set; } // Calculated or explicitly stored to enforce duration padding
     
     public GameSession() 
