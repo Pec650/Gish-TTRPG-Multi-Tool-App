@@ -2,12 +2,11 @@
 
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SQLite;
-using Gish.Pages.Classes;
+using Classes;
 
 public partial class SignUpPage
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new LocalDatabase();
     
     public SignUpPage()
     {
@@ -16,47 +15,55 @@ public partial class SignUpPage
 
     private async void SubmitSignUp(object? sender, EventArgs e)
     {
-        string username = UsernameInput.Text;
-        string email = EmailInput.Text;
-        string password = PasswordInput.Text;
-        string confirm_pass = ConfirmPassInput.Text;
+        try
+        {
+            string username = UsernameInput.Text;
+            string email = EmailInput.Text;
+            string password = PasswordInput.Text;
+            string confirmPass = ConfirmPassInput.Text;
         
-        if (IsEmptyInput(username) || IsEmptyInput(email) ||
-            IsEmptyInput(password) || IsEmptyInput(confirm_pass))
-        {
-            ShowError("Please input all fields");
-            return;
-        }
+            if (IsEmptyInput(username) || IsEmptyInput(email) ||
+                IsEmptyInput(password) || IsEmptyInput(confirmPass))
+            {
+                ShowError("Please input all fields");
+                return;
+            }
 
-        if (!IsValidEmail(email))
-        {
-            ShowError("Invalid email address");
-            return;
-        }
+            if (!IsValidEmail(email))
+            {
+                ShowError("Invalid email address");
+                return;
+            }
 
-        if (!IsValidPassword(password))
-        {
-            return;
-        }
+            if (!IsValidPassword(password))
+            {
+                return;
+            }
 
-        if (!String.Equals(password, confirm_pass))
-        {
-            ShowError("Passwords do not match");
-            return;
-        }
+            if (!String.Equals(password, confirmPass))
+            {
+                ShowError("Passwords do not match");
+                return;
+            }
         
-        RemoveError();
-        LoadingUIState(true);
+            RemoveError();
+            LoadingUiState(true);
 
-        bool success = await SignupUser(username, email, password);
+            bool success = await SignupUser(username, email, password);
 
-        if (success)
-        {
-            await GoToMain();
+            if (success)
+            {
+                await GoToMain();
+            }
+            else
+            {
+                LoadingUiState(false);
+            }
         }
-        else
+        catch
         {
-            LoadingUIState(false);
+            ShowError("Unknown error has occurred");
+            LoadingUiState(false);
         }
     }
 
@@ -81,15 +88,15 @@ public partial class SignUpPage
                 return false;
             }
 
-            int? userID = await _database.getUserID(email);
+            int? userId = await _database.getUserID(email);
 
-            if (userID is null)
+            if (userId is null)
             {
                 ShowError("Unknown error has occurred");
                 return false;
             }
             
-            App.setUserID(userID.Value);
+            App.SetUserId(userId.Value);
             return true;
         }
         catch (SQLite.SQLiteException e) when (e.Message.Contains("constraint", StringComparison.OrdinalIgnoreCase))
@@ -113,7 +120,7 @@ public partial class SignUpPage
         catch
         {
             ShowError("Unable to navigate to homepage");
-            LoadingUIState(false);
+            LoadingUiState(false);
         }
     }
     
@@ -169,18 +176,24 @@ public partial class SignUpPage
         InputError.IsVisible = false;
     }
     
-    private void LoadingUIState(bool isLoading)
+    private void LoadingUiState(bool isLoading)
     {
         if (isLoading)
         {
-            SubmitBtn.IsEnabled = false;
+            SetAllButtonState(true);
             LoadingIndicator.IsRunning = true;
         }
         else
         {
-            SubmitBtn.IsEnabled = true;
+            SetAllButtonState(true);
             LoadingIndicator.IsRunning = false;
         }
+    }
+    
+    private void SetAllButtonState(bool isEnable)
+    {
+        BackButtonBtn.IsEnabled = isEnable;
+        SubmitBtn.IsEnabled = isEnable;
     }
     
     private void InputChanged(object? sender, TextChangedEventArgs e)

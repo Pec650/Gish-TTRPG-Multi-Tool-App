@@ -1,98 +1,71 @@
-using SQLite;
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
 using Gish.Pages.MainPages.Profile_Pages;
 
-namespace Gish.Pages.MainPages;
+namespace Gish.Pages.Main_Pages;
 
-public partial class CreationsPage : ContentPage
+public partial class CreationsView
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new();
     
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
+    private readonly List<Button> _cachedButtons;
+    private readonly List<ImageButton> _cachedImgButtons;
 
-    private string searchString = "";
-    private bool hasSubclass = true;
-    private bool hasLineage = true;
-    private bool hasMonster = true;
-    private bool hasSpell = true;
-    private bool hasFeat = true;
+    private string _searchString = "";
+    private bool _hasSubclass = true;
+    private bool _hasLineage = true;
+    private bool _hasMonster = true;
+    private bool _hasSpell = true;
+    private bool _hasFeat = true;
     
-    public CreationsPage()
+    public CreationsView()
     {
         InitializeComponent();
+        
+        _cachedButtons = App.GetAllButtons(this);
+        _cachedImgButtons = App.GetAllImageButtons(this);
+        SetAllButtonState(true);
     }
     
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        
-        setAllButtonState(true);
-
-        try
-        {
-            CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
-        } catch {}
-        
-    }
-    
-    protected override void OnHandlerChanged()
+    protected override async void OnHandlerChanged()
     {
         base.OnHandlerChanged();
         
-        SetUserInfo();
-
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
-
-        setAllButtonState(true);
-    }
-    
-    public async void SetUserInfo()
-    {
+        SetAllButtonState(true);
+        
         try
         {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user is not null)
-            {
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
-            }
+            CreationsListView.ItemsSource = await _database.GetAllCreations(_searchString, _hasSubclass, _hasLineage, _hasMonster, _hasSpell, _hasFeat);
         }
         catch
-        {}
+        {
+            // ignored
+        }
     }
 
-    private async void goToProfilePage(object? sender, EventArgs e)
+    private async void GoToProfilePage(object? sender, EventArgs e)
     {
         try
         {
-            setAllButtonState(false);
+            SetAllButtonState(false);
             await Navigation.PushModalAsync(new ProfilePage());
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
     
-    private void setAllButtonState(bool enable)
+    private void SetAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(_cachedButtons, enable);
+        App.SetImageButtonState(_cachedImgButtons, enable);
     }
 
     private async void UpdateActiveTags(object? sender, TappedEventArgs e)
     {
-        if (sender is ContentView)
+        if (sender is ContentView contentView)
         {
-            var contentView = (ContentView)sender;
-
             var border = contentView.GetVisualTreeDescendants().OfType<Border>().FirstOrDefault();
             var label = contentView.GetVisualTreeDescendants().OfType<Label>().FirstOrDefault();
             var icon = contentView.GetVisualTreeDescendants().OfType<Image>().FirstOrDefault();
@@ -118,30 +91,34 @@ public partial class CreationsPage : ContentPage
                 {
                     case "Subclass":
                         icon.Source = ((isActive) ? "" : "active_") + "subclass_tag_icon.svg";
-                        hasSubclass = !isActive;
+                        _hasSubclass = !isActive;
                         break;
                     case "Lineage":
                         icon.Source = ((isActive) ? "" : "active_") + "lineage_tag_icon.svg";
-                        hasLineage = !isActive;
+                        _hasLineage = !isActive;
                         break;
                     case "Monster":
                         icon.Source = ((isActive) ? "" : "active_") + "monster_tag_icon.svg";
-                        hasMonster = !isActive;
+                        _hasMonster = !isActive;
                         break;
                     case "Spell":
                         icon.Source = ((isActive) ? "" : "active_") + "spells_tag_icon.svg";
-                        hasSpell = !isActive;
+                        _hasSpell = !isActive;
                         break;
                     case "Feat":
                         icon.Source = ((isActive) ? "" : "active_") + "feat_tag_icon.svg";
-                        hasFeat = !isActive;
+                        _hasFeat = !isActive;
                         break;
                 }
-                
+
                 try
                 {
-                    CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
-                } catch {}
+                    CreationsListView.ItemsSource = await _database.GetAllCreations(_searchString, _hasSubclass, _hasLineage, _hasMonster, _hasSpell, _hasFeat);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
     }
@@ -150,12 +127,12 @@ public partial class CreationsPage : ContentPage
     {
         try
         {
-            setAllButtonState(false);
+            SetAllButtonState(false);
             await Navigation.PushModalAsync(new NewCreationPage());
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 
@@ -163,18 +140,18 @@ public partial class CreationsPage : ContentPage
     {
         try
         {
-            setAllButtonState(false);
+            SetAllButtonState(false);
 
             var layout = sender as BindableObject;
             if (layout == null) {
-                setAllButtonState(true);
+                SetAllButtonState(true);
                 return;
             }
 
             var selectedCreation = layout.BindingContext as Creations;
             if (selectedCreation == null)
             {
-                setAllButtonState(true);
+                SetAllButtonState(true);
                 return;
             }
 
@@ -182,31 +159,35 @@ public partial class CreationsPage : ContentPage
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
         
     }
 
     private async void SearchInputChange(object? sender, TextChangedEventArgs e)
     {
-        searchString = SearchInput.Text;
+        _searchString = SearchInput.Text;
         
         try
         {
-            CreationsListView.ItemsSource = await _database.GetAllCreations(searchString, hasSubclass, hasLineage, hasMonster, hasSpell, hasFeat);
-        } catch {}
+            CreationsListView.ItemsSource = await _database.GetAllCreations(_searchString, _hasSubclass, _hasLineage, _hasMonster, _hasSpell, _hasFeat);
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private async void OnClickGoToNewCreation(object? sender, EventArgs e)
     {
         try
         {
-            setAllButtonState(false);
+            SetAllButtonState(false);
             await Navigation.PushModalAsync(new NewCreationPage());
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 }

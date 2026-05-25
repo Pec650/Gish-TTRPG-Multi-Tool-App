@@ -1,22 +1,15 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Microsoft.Maui.Controls;
-using SQLite;
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
 using Gish.Pages.Main_Pages.Tools_Pages;
-using Gish.Pages.MainPages.Profile_Pages;
 
-namespace Gish.Pages.MainPages;
+namespace Gish.Pages.Main_Pages;
 
-public partial class HomePage : ContentPage
+public partial class HomeView
 {
-    private LocalDatabase _database = new LocalDatabase();
-    
-    private string _modifier = "N";
-    private int _bonus = 0;
+    private readonly LocalDatabase _database = new();
+
+    private int _bonus;
     private readonly Random _rng = new();
     private readonly ObservableCollection<string> _rollLog = new();
     private readonly Dictionary<int, int> _diceQueue = new()
@@ -29,120 +22,82 @@ public partial class HomePage : ContentPage
         [20] = 0,
         [100] = 0,
     };
-    private bool _hasRolledThisSession = false;
+    private bool _hasRolledThisSession;
     private bool _rollLogVisible = true;
-    private bool _isD20DrawerOpen = false;
+    private bool _isD20DrawerOpen;
     private int _d20PoolCount = 1;
     
-    private List<Button> cachedButtons = new();
-    private List<ImageButton> cachedImgButtons = new();
+    private readonly List<Button> _cachedButtons;
+    private readonly List<ImageButton> _cachedImgButtons;
 
     public string CurrentModifier
     {
-        get => _modifier;
+        get;
         set
         {
-            _modifier = value;
-            OnPropertyChanged(nameof(CurrentModifier));
-            UpdateModifierUI();
+            field = value;
+            OnPropertyChanged();
+            UpdateModifierUi();
         }
-    }
+    } = "N";
 
-    
-    public HomePage()
+
+    public HomeView()
     {
         InitializeComponent();
 
-        this.Loaded += (s, e) => setAllButtonState(true);
+        Loaded += (_, _) => SetAllButtonState(true);
+        
+        _cachedButtons = App.GetAllButtons(this);
+        _cachedImgButtons = App.GetAllImageButtons(this);
+        SetAllButtonState(true);
     }
     
-    protected override async void OnAppearing()
+    protected override async void OnHandlerChanged()
     {
-        base.OnAppearing();
-        
-        setAllButtonState(true);
-        
-        GameSession? nextSession = await _database.GetNextUpcomingSessionAsync();
-
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            if (nextSession != null)
-            {
-                RecentSessionItem.ItemsSource = new List<GameSession> { nextSession };
-            }
-            else
-            {
-                RecentSessionItem.ItemsSource = null; 
-            }
-        });
-
         try
         {
-            var creations = await _database.GetRecentCreations();
+            base.OnHandlerChanged();
+            SetAllButtonState(true);
+        
+            GameSession? nextSession = await _database.GetNextUpcomingSessionAsync();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (creations != null && creations.Any())
+                RecentSessionItem.ItemsSource = nextSession != null ? new List<GameSession> { nextSession } : null;
+            });
+        
+            try
+            {
+                var creations = await _database.GetRecentCreations();
+
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>(creations);
-                }
-                else
+                    RecentHomebrewList.ItemsSource = creations.Any() ? new ObservableCollection<Creations>(creations) : new ObservableCollection<Creations>();
+                });
+            }
+            catch
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
                     RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
-                }
-            });
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Database load failed: {ex.Message}");
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
-            });
-        }
-    }
-    
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-
-        SetUserInfo();
-        
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
-
-        setAllButtonState(true);
-    }
-    
-    public async void SetUserInfo()
-    {
-        try
-        {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
-
-            if (user is not null)
-            {
-
-                if (user.ProfileImage is not null)
-                {
-                    ProfileBtn.Source = ImageSource.FromStream(() => new MemoryStream(user.ProfileImage));
-                }
+                });
             }
         }
         catch
-        {}
+        {
+            // ignored
+        }
     }
 
     private void OnDiceClicked(object sender, EventArgs e)
     {
-        if (sender is ImageButton btn && int.TryParse(btn.CommandParameter?.ToString(), out int sides))
-        {
-            if (_diceQueue.ContainsKey(sides) && _diceQueue[sides] < 50)
-            {
-                _diceQueue[sides]++;
-                UpdateDiceQueueLabel();
-            }
-        }
+        if (sender is not ImageButton btn || !int.TryParse(btn.CommandParameter?.ToString(), out var sides)) return;
+        
+        if (!_diceQueue.ContainsKey(sides) || _diceQueue[sides] >= 50) return;
+        
+        _diceQueue[sides]++;
+        UpdateDiceQueueLabel();
     }
 
      // --- D20 DRAWER ---
@@ -198,7 +153,7 @@ public partial class HomePage : ContentPage
     private void OnSelectNormal(object sender, EventArgs e) => CurrentModifier = "N";
     private void OnSelectAdvantage(object sender, EventArgs e) => CurrentModifier = "A";
 
-    private void UpdateModifierUI()
+    private void UpdateModifierUi()
     {
         DisadvBlock.BackgroundColor = CurrentModifier == "D" ? Color.FromArgb("#C0392B") : Colors.Transparent;
         NormalBlock.BackgroundColor = CurrentModifier == "N" ? Color.FromArgb("#4A148C") : Colors.Transparent;
@@ -333,8 +288,9 @@ public partial class HomePage : ContentPage
             .Where(kv => kv.Value > 0)
             .Select(kv => $"{kv.Value}d{kv.Key}");
 
-        DiceQueueLabel.Text = active.Any()
-            ? string.Join("  ", active)
+        var enumerable = active as string[] ?? active.ToArray();
+        DiceQueueLabel.Text = enumerable.Any()
+            ? string.Join("  ", enumerable)
             : (_hasRolledThisSession ? "" : "Tap dice to add, press d20 to roll");
     }
 
@@ -346,41 +302,28 @@ public partial class HomePage : ContentPage
         RollLogChevron.Text = _rollLogVisible ? "▲" : "▼";
     }
 
-    private void setAllButtonState(bool enable)
+    private void SetAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
-    }
-    
-    private async void goToProfilePage(object? sender, EventArgs e)
-    {
-        try
-        {
-            setAllButtonState(false);
-            await Navigation.PushModalAsync(new ProfilePage());
-        }
-        catch
-        {
-            setAllButtonState(true);
-        }
+        App.SetButtonState(_cachedButtons, enable);
+        App.SetImageButtonState(_cachedImgButtons, enable);
     }
 
     private async void OnHomebrewTapped(object? sender, TappedEventArgs e)
     {
         try
         {
-            setAllButtonState(false);
+            SetAllButtonState(false);
 
             var layout = sender as BindableObject;
             if (layout == null) {
-                setAllButtonState(true);
+                SetAllButtonState(true);
                 return;
             }
 
             var selectedCreation = layout.BindingContext as Creations;
             if (selectedCreation == null)
             {
-                setAllButtonState(true);
+                SetAllButtonState(true);
                 return;
             }
 
@@ -388,35 +331,35 @@ public partial class HomePage : ContentPage
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 
     private async void GoToNewCreation(object? sender, EventArgs e)
     {
-        setAllButtonState(false);
+        SetAllButtonState(false);
         try
         {
             await Navigation.PushModalAsync(new NewCreationPage());
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 
     private async void GoToScheduler(object? sender, TappedEventArgs e)
     {
-        setAllButtonState(false);
+        SetAllButtonState(false);
         try
         {
             await Navigation.PushModalAsync(new SchedulerPage());
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 }

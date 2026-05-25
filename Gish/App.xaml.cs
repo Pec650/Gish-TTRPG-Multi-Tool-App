@@ -1,10 +1,8 @@
 ﻿namespace Gish;
 
-using Gish.Pages.Classes;
-
-public partial class App : Application
+public partial class App
 {
-    private static int currentUserID = -1;
+    private static int _currentUserId = -1;
     
     public App()
     {
@@ -13,7 +11,7 @@ public partial class App : Application
 
     protected override async void OnStart()
     {
-        await initUserID();
+        await InitUserId();
     }
     
     protected override Window CreateWindow(IActivationState? activationState)
@@ -21,43 +19,50 @@ public partial class App : Application
         return new Window(new AppShell());
     }
     
-    private async Task initUserID()
+    private static async Task InitUserId()
     {
-        string idString = await SecureStorage.Default.GetAsync("Current_User_ID");
+        var idString = await SecureStorage.Default.GetAsync("Current_User_ID");
 
         if (int.TryParse(idString, out int userId))
         {
-            currentUserID = userId;
+            _currentUserId = userId;
         }
         else
         {
-            currentUserID = -1;
+            _currentUserId = -1;
         }
     }
 
-    public static async void setUserID(int userID)
+    public static async void SetUserId(int userId)
     {
-        currentUserID = userID;
-        await SecureStorage.Default.SetAsync("Current_User_ID", userID.ToString());
+        try
+        {
+            _currentUserId = userId;
+            await SecureStorage.Default.SetAsync("Current_User_ID", userId.ToString());
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
-    public static int getUserID()
+    public static int GetUserId()
     {
-        return currentUserID;
+        return _currentUserId;
     }
 
-    public static void resetUserID()
+    public static void ResetUserId()
     {
-        currentUserID = -1;
+        _currentUserId = -1;
         SecureStorage.Default.Remove("Current_User_ID");
     }
 
-    public static bool isLoggedIn()
+    public static bool IsLoggedIn()
     {
-        return currentUserID >= 0;
+        return _currentUserId >= 0;
     }
     
-    public static List<Button> getAllButtons(Element parent)
+    public static List<Button> GetAllButtons(Element parent)
     {
         List<Button> buttons = new List<Button>();
 
@@ -70,18 +75,18 @@ public partial class App : Application
                     buttons.Add(button);
                 }
             
-                buttons.AddRange(getAllButtons((Element)child));
+                buttons.AddRange(GetAllButtons((Element)child));
             }
         }
         return buttons;
     }
     
-    public static void setButtonState(List<Button> buttons, bool enable)
+    public static void SetButtonState(List<Button> buttons, bool enable)
     {
         buttons.ForEach(btn => btn.IsEnabled = enable);
     }
     
-    public static List<ImageButton> getAllImageButtons(Element parent)
+    public static List<ImageButton> GetAllImageButtons(Element parent)
     {
         List<ImageButton> buttons = new List<ImageButton>();
 
@@ -94,13 +99,13 @@ public partial class App : Application
                     buttons.Add(button);
                 }
             
-                buttons.AddRange(getAllImageButtons((Element)child));
+                buttons.AddRange(GetAllImageButtons((Element)child));
             }
         }
         return buttons;
     }
     
-    public static void setImageButtonState(List<ImageButton> buttons, bool enable)
+    public static void SetImageButtonState(List<ImageButton> buttons, bool enable)
     {
         buttons.ForEach(btn => btn.IsEnabled = enable);
     }

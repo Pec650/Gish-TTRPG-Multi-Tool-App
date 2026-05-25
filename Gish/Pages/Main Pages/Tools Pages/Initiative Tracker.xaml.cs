@@ -45,16 +45,16 @@ public partial class Initiative_Tracker : ContentPage
     {
         base.OnHandlerChanged();
 
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
     
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
 
     private void ReturnPage(object? sender, EventArgs e)
@@ -105,7 +105,7 @@ public partial class Initiative_Tracker : ContentPage
                 Initiative newItem = new Initiative()
                 {
                     ID = newID,
-                    UserID = App.getUserID(),
+                    UserID = App.GetUserId(),
                     isPlayer = true,
                     ShowDeleteIcon = deleteMode
                 };
@@ -132,7 +132,7 @@ public partial class Initiative_Tracker : ContentPage
                 Initiative newItem = new Initiative()
                 {
                     ID = newID,
-                    UserID = App.getUserID(),
+                    UserID = App.GetUserId(),
                     isPlayer = false,
                     ShowDeleteIcon = deleteMode
                 };

@@ -31,16 +31,16 @@ public partial class ChangePasswordPage : ContentPage
     {
         base.OnHandlerChanged();
 
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
     
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
     
     private async void ReturnPage(object? sender, EventArgs e)
@@ -121,7 +121,7 @@ public partial class ChangePasswordPage : ContentPage
         {
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
             
-            UserAccount user = await _database.getUserInfo(App.getUserID());
+            UserAccount user = await _database.getUserInfo(App.GetUserId());
 
             if (user is null)
             {

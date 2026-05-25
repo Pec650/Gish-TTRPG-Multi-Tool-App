@@ -64,8 +64,8 @@ public partial class DiceRollPage : ContentPage
     {
         base.OnHandlerChanged();
         
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
@@ -290,7 +290,7 @@ public partial class DiceRollPage : ContentPage
 
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
 }

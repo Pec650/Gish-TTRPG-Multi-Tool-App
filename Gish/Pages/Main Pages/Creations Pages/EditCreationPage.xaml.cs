@@ -49,16 +49,16 @@ public partial class EditCreationPage : ContentPage
     {
         base.OnHandlerChanged();
 
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
     
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
 
 
@@ -121,7 +121,7 @@ public partial class EditCreationPage : ContentPage
             var newCreation = new Creations()
             {
                 ID = CreationID,
-                UserID = App.getUserID(),
+                UserID = App.GetUserId(),
                 Title = title,
                 CreationType = type,
                 TypeIconIMGSource = type_icon,

@@ -4,10 +4,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:auth="clr-namespace:Gish.Pages.Authentication"
-    xmlns:main="clr-namespace:Gish.Pages.MainPages"
-    xmlns:profile="clr-namespace:Gish.Pages.MainPages.Profile_Pages"
+    xmlns:main="clr-namespace:Gish.Pages.Main_Pages"
+    xmlns:profile="clr-namespace:Gish.Pages.Main_Pages.Profile_Pages"
     Title="Gish"
     NavBarIsVisible="False"
+    TabBarIsVisible="False"
     TabBarBackgroundColor="#F0B67F"
     TabBarForegroundColor="Black"
     TabBarUnselectedColor="#424C44"
@@ -16,30 +17,26 @@
     <ShellContent
         ContentTemplate="{DataTemplate auth:Startup}"
         Route="StartupPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate auth:SignInPage}"
-        Route="SignInPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate auth:SignUpPage}"
-        Route="SignUpPage" />
-
-    <TabBar Route="MainPages">
-        <Tab Title="Home" Route="HomeTab" Icon="tab_icons/home_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:HomePage}" Route="HomePage" />
-        </Tab>
-        <Tab Title="Creations" Route="CreationsTab" Icon="tab_icons/edit_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" />
-        </Tab>
-        <Tab Title="Tools" Route="ToolsTab" Icon="tab_icons/creations_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" />
-        </Tab>
-        <Tab Title="Rules" Route="RulesTab" Icon="tab_icons/rules_tab_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" />
-        </Tab>
-    </TabBar>
-    
-    <ShellContent
-        ContentTemplate="{DataTemplate profile:ProfilePage}"
-        Route="ProfilePage" />
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate auth:SignInPage}" -->
+    <!--     Route="SignInPage" /> -->
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate auth:SignUpPage}" -->
+    <!--     Route="SignUpPage" /> -->
+    <!-- -->
+    <!-- <TabBar Route="MainPages"> -->
+    <!--     <Tab Title="Home" Route="HomeTab" Icon="tab_icons/home_tab_icon.svg"> -->
+    <!--         <ShellContent ContentTemplate="{DataTemplate main:HomePage}" Route="HomePage" /> -->
+    <!--     </Tab> -->
+    <!--     <Tab Title="Creations" Route="CreationsTab" Icon="tab_icons/edit_tab_icon.svg"> -->
+    <!--         <ShellContent ContentTemplate="{DataTemplate main:CreationsPage}" Route="CreationsPage" /> -->
+    <!--     </Tab> -->
+    <!--     <Tab Title="Tools" Route="ToolsTab" Icon="tab_icons/creations_tab_icon.svg"> -->
+    <!--         <ShellContent ContentTemplate="{DataTemplate main:ToolsPage}" Route="ToolsPage" /> -->
+    <!--     </Tab> -->
+    <!--     <Tab Title="Rules" Route="RulesTab" Icon="tab_icons/rules_tab_icon.svg"> -->
+    <!--         <ShellContent ContentTemplate="{DataTemplate main:RulesPage}" Route="RulesPage" /> -->
+    <!--     </Tab> -->
+    <!-- </TabBar> -->
     
 </Shell>

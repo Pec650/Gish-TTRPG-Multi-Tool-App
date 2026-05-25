@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Gish.Pages.Authentication;
 
-namespace Gish.Pages.Authentication;
-
-public partial class Startup : ContentPage
+public partial class Startup
 {
-    private List<Button> cachedButtons = new List<Button>();
-    
     public Startup()
     {
         InitializeComponent();
@@ -18,27 +10,30 @@ public partial class Startup : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        App.setButtonState(cachedButtons, true);
+        SetAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-
-        cachedButtons = App.getAllButtons(this);
-        
-        App.setButtonState(cachedButtons, true);
+        SetAllButtonState(true);
     }
 
     private void RedirectToLogin(object? sender, EventArgs e)
     {
-        App.setButtonState(cachedButtons, false);
+        SetAllButtonState(false);
         Navigation.PushAsync(new SignInPage());
     }
 
     private void RedirectToSignup(object? sender, EventArgs e)
     {
-        App.setButtonState(cachedButtons, false);
+        SetAllButtonState(false);
         Navigation.PushAsync(new SignUpPage());
+    }
+
+    private void SetAllButtonState(bool isEnable)
+    {
+        GoToLoginBtn.IsEnabled = isEnable;
+        GoToSignUpBtn.IsEnabled = isEnable;
     }
 }

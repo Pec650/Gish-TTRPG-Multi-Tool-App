@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.MainPages.CreationsPage"
-             Title="Creations"
+             x:Class="Gish.Pages.Main_Pages.CreationsView"
              BackgroundColor="{StaticResource TabBar}">
     
     <Grid RowDefinitions="Auto,*">
@@ -21,7 +20,7 @@
                         WidthRequest="36"
                         Style="{StaticResource ProfileBorder}">
                     <ImageButton x:Name="ProfileBtn"
-                                 Clicked="goToProfilePage"
+                                 Clicked="GoToProfilePage"
                                  Style="{StaticResource ProfilePictureButton}" />
                 </Border>
             </HorizontalStackLayout>
@@ -188,4 +187,4 @@
         </Border>
         
     </Grid>
-</ContentPage>
+</ContentView>

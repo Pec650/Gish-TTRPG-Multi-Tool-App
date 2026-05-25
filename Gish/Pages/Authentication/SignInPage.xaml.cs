@@ -1,51 +1,58 @@
 ﻿namespace Gish.Pages.Authentication;
 
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SQLite;
-using Gish.Pages.Classes;
+using Classes;
 
 public partial class SignInPage
 {
-    private LocalDatabase _database = new LocalDatabase();
+    private readonly LocalDatabase _database = new LocalDatabase();
     
     public SignInPage()
     {
         InitializeComponent();
     }
     
-    protected async override void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
         
         PasswordInput.IsPassword = true;
         UpdatePasswordState();
-        ResetUIStates();
+        ResetUiStates();
     }
 
+    [Obsolete("Obsolete")]
     private async void SubmitLogin(object? sender, EventArgs e)
     {
-        string email = EmailInput.Text;
-        string password = PasswordInput.Text;
+        try
+        {
+            string email = EmailInput.Text;
+            string password = PasswordInput.Text;
         
-        if (IsEmptyInput(email) || IsEmptyInput(password))
-        {
-            ShowError("Please enter a username and password");
-            return;
-        }
+            if (IsEmptyInput(email) || IsEmptyInput(password))
+            {
+                ShowError("Please enter a username and password");
+                return;
+            }
         
-        RemoveError();
-        LoadingUIState(true);
+            RemoveError();
+            LoadingUiState(true);
 
-        bool success = await SigninUser(email, password);
+            bool success = await SigninUser(email, password);
 
-        if (success)
-        {
-            await GoToMain();
+            if (success)
+            {
+                await GoToMain();
+            }
+            else
+            {
+                LoadingUiState(false);
+            }
         }
-        else
+        catch
         {
-            LoadingUIState(false);
+            ShowError("Unknown error has occurred");
+            LoadingUiState(false);
         }
     }
     
@@ -61,15 +68,15 @@ public partial class SignInPage
                 return false;
             }
             
-            int? userID = await _database.getUserID(email);
+            int? userId = await _database.getUserID(email);
 
-            if (userID is null)
+            if (userId is null)
             {
                 ShowError("Unknown error has occurred");
                 return false;
             }
         
-            App.setUserID(userID.Value);
+            App.SetUserId(userId.Value);
             return true;
         }
         catch (Exception ex)
@@ -88,7 +95,7 @@ public partial class SignInPage
         catch
         {
             ShowError("Unable to navigate to homepage");
-            LoadingUIState(false);
+            LoadingUiState(false);
         }
     }
 
@@ -122,27 +129,33 @@ public partial class SignInPage
         TogglePasswordBtn.Source = (PasswordInput.IsPassword) ? openEye : closedEye;
     }
 
-    private void ResetUIStates()
+    private void ResetUiStates()
     {
         EmailInput.Text = string.Empty;
         PasswordInput.Text = string.Empty;
         
         RemoveError();
-        LoadingUIState(false);
+        LoadingUiState(false);
     }
 
-    private void LoadingUIState(bool isLoading)
+    private void LoadingUiState(bool isLoading)
     {
         if (isLoading)
         {
-            SubmitBtn.IsEnabled = false;
+            SetAllButtonState(false);
             LoadingIndicator.IsRunning = true;
         }
         else
         {
-            SubmitBtn.IsEnabled = true;
+            SetAllButtonState(true);
             LoadingIndicator.IsRunning = false;
         }
+    }
+    
+    private void SetAllButtonState(bool isEnable)
+    {
+        BackButtonBtn.IsEnabled = isEnable;
+        SubmitBtn.IsEnabled = isEnable;
     }
 
     private void InputChanged(object? sender, TextChangedEventArgs e)

@@ -47,16 +47,16 @@ public partial class ViewCreationPage : ContentPage
     {
         base.OnHandlerChanged();
 
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
     
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
 
 

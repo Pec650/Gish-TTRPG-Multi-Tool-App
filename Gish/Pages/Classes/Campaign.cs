@@ -19,6 +19,6 @@ public class Campaign
 
     public Campaign()
     {
-        UserID = App.getUserID();
+        UserID = App.GetUserId();
     }
 }

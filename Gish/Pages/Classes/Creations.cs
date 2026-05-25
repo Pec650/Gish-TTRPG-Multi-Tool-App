@@ -37,7 +37,7 @@ public class Creations
 
     public Creations()
     {
-        UserID = App.getUserID();
+        UserID = App.GetUserId();
         ModifyDate = DateTime.UtcNow;
     }
 }

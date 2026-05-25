@@ -17,6 +17,6 @@ public class RPGSystem
 
     public RPGSystem()
     {
-        UserID = App.getUserID();
+        UserID = App.GetUserId();
     }
 }

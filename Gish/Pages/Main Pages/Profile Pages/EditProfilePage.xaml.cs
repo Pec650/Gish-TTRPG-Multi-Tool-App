@@ -35,23 +35,23 @@ public partial class EditProfilePage : ContentPage
 
         SetUserInfo();
         
-        cachedButtons = App.getAllButtons(this);
-        cachedImgButtons = App.getAllImageButtons(this);
+        cachedButtons = App.GetAllButtons(this);
+        cachedImgButtons = App.GetAllImageButtons(this);
 
         setAllButtonState(true);
     }
     
     private void setAllButtonState(bool enable)
     {
-        App.setButtonState(cachedButtons, enable);
-        App.setImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(cachedButtons, enable);
+        App.SetImageButtonState(cachedImgButtons, enable);
     }
     
     public async void SetUserInfo()
     {
         try
         {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
+            UserAccount user = await _database.getUserInfo(App.GetUserId());
 
             if (user is not null)
             {
@@ -114,7 +114,7 @@ public partial class EditProfilePage : ContentPage
     {
         try
         {
-            UserAccount user = await _database.getUserInfo(App.getUserID());
+            UserAccount user = await _database.getUserInfo(App.GetUserId());
 
             if (user is null)
             {

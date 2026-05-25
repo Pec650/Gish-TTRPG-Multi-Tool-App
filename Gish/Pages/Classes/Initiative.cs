@@ -36,7 +36,7 @@ public class Initiative : INotifyPropertyChanged
 
     public Initiative()
     {
-        UserID = App.getUserID();
+        UserID = App.GetUserId();
         InitiativeNum = 1;
         Name = "";
     }

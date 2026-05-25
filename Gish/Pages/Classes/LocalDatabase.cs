@@ -133,7 +133,7 @@ public class LocalDatabase
             );
         }
         
-        int userID = App.getUserID();
+        int userID = App.GetUserId();
         List<Creations> creations = await query.Where(c => c.UserID == userID)
                                                .OrderByDescending(c => c.ModifyDate)
                                                .ToListAsync();
@@ -144,7 +144,7 @@ public class LocalDatabase
     public async Task<List<Creations>> GetRecentCreations()
     {
         await Init();
-        int userID = App.getUserID();
+        int userID = App.GetUserId();
         List<Creations> creations = await _connection.Table<Creations>()
                                                      .Where(c => c.UserID == userID)
                                                      .OrderByDescending(c => c.ModifyDate)
@@ -178,7 +178,7 @@ public class LocalDatabase
         await Init();
         Initiative newInitiative = new Initiative()
         {
-            UserID = App.getUserID(),
+            UserID = App.GetUserId(),
             isPlayer = isPlayer
         };
         int result = await _connection.InsertAsync(newInitiative);
@@ -194,7 +194,7 @@ public class LocalDatabase
     public async Task<List<Initiative>> GetAllInitiativeInOrder()
     {
         await Init();
-        int userID = App.getUserID();
+        int userID = App.GetUserId();
         List<Initiative> orderedList = await _connection.Table<Initiative>()
             .Where(i => i.UserID == userID)
             .OrderByDescending(i => i.InitiativeNum)
@@ -205,7 +205,7 @@ public class LocalDatabase
     public async Task<bool> DeleteAllInitiative()
     {
         await Init();
-        int userID = App.getUserID();
+        int userID = App.GetUserId();
         int rowsAffected = await _connection.ExecuteAsync("DELETE FROM Initiative WHERE UserID = ?", userID);
         return rowsAffected > 0;
     }
@@ -221,21 +221,21 @@ public class LocalDatabase
     public async Task<List<RPGSystem>> GetAllSystemsAsync()
     {
         await Init();
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         return await _connection.Table<RPGSystem>().Where(r => r.UserID == userId).ToListAsync();
     }
 
     public async Task<List<Campaign>> GetCampaignsBySystemAsync(int systemId)
     {
         await Init();
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         return await _connection.Table<Campaign>().Where(r => r.UserID == userId).Where(c => c.RPGSystemID == systemId).ToListAsync();
     }
 
     public async Task<List<GameSession>> GetSessionsByCampaignAsync(int campaignId)
     {
         await Init();
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         return await _connection.Table<GameSession>().Where(r => r.UserID == userId).Where(s => s.CampaignID == campaignId).ToListAsync();
     }
 
@@ -244,14 +244,14 @@ public class LocalDatabase
     public async Task<List<GameSession>> GetAllSessionsAsync()
     {
         await Init();
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         return await _connection.Table<GameSession>().Where(s => s.UserID == userId).OrderBy(s => s.Date).ToListAsync();
     }
 
     public async Task<List<GameSession>> GetSessionsForDayAsync(DateTime targetDate)
     {
         await Init();
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         return await _connection.Table<GameSession>()
                                  .Where(r => r.UserID == userId)
                                  .Where(s => s.Date == targetDate.Date)
@@ -308,7 +308,7 @@ public class LocalDatabase
     {
         await Init();
     
-        int userId = App.getUserID();
+        int userId = App.GetUserId();
         DateTime today = DateTime.Today;
         TimeSpan nowTime = DateTime.Now.TimeOfDay;
 

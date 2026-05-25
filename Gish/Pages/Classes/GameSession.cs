@@ -26,6 +26,6 @@ public class GameSession
     
     public GameSession() 
     {
-        UserID = App.getUserID();
+        UserID = App.GetUserId();
     }
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gish.Pages.Main_Pages.RulesView"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource TabBar}">
+    
+    <ScrollView BackgroundColor="{StaticResource PageBackground}">
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <Label Style="{StaticResource SubTitle}" Text="Dungeons &amp; Dragons" />
+    
+            <Border Style="{StaticResource RulesCard}" Margin="0,6,0,0">
+                <Grid ColumnDefinitions="150,*" ColumnSpacing="15">
+                    <Image Source="dnd_players_handbook.png" VerticalOptions="Center"/>
+                    <Grid RowDefinitions="200, *" ColumnSpacing="15" Grid.Column="1"
+                          VerticalOptions="Fill">
+                        <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="Player's Handbook"
+                                   Style="{StaticResource RulesTitle}"/>
+                            <Label Text="Introducing the Player's Handbook (5.5e), the new and improved guide for fifth edition DUNGEONS &amp; DRAGONS."
+                                   Style="{StaticResource RulesDescription}"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="1" 
+                               Style="{StaticResource RulesDescription}"
+                               Text="Read here >"
+                               VerticalOptions="End"
+                               HorizontalTextAlignment="End"
+                               VerticalTextAlignment="End">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PlayersHandbookDirectory" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Grid>
+            </Border>
+    
+            <Border Style="{StaticResource RulesCard}" Margin="0,6,0,0">
+                <Grid ColumnDefinitions="150,*" ColumnSpacing="15">
+                    <Image Source="dnd_players_handbook_2014.png" VerticalOptions="Center"/>
+                    <Grid RowDefinitions="200, *" ColumnSpacing="15" Grid.Column="1"
+                          VerticalOptions="Fill">
+                        <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="Player's Handbook (2014)"
+                                   Style="{StaticResource RulesTitle}"/>
+                            <Label Text="Everything a player needs to create heroic characters for the world’s greatest roleplaying game."
+                                   Style="{StaticResource RulesDescription}"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="1" 
+                               Style="{StaticResource RulesDescription}"
+                               Text="Read here >"
+                               VerticalOptions="End"
+                               HorizontalTextAlignment="End"
+                               VerticalTextAlignment="End">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PlayersHandbook2014Directory" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Grid>
+            </Border>
+    
+            <Label Style="{StaticResource SubTitle}" Text="Pathfinder" />
+    
+            <Border Style="{StaticResource RulesCard}" Margin="0,6,0,0">
+                <Grid ColumnDefinitions="150,*" ColumnSpacing="15">
+                    <Image Source="pathfinder_advanced_players_guide.png" VerticalOptions="Center"/>
+                    <Grid RowDefinitions="200, *" ColumnSpacing="15" Grid.Column="1"
+                          VerticalOptions="Fill">
+                        <VerticalStackLayout Grid.Row="0" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="Advanced Player’s Guide"
+                                   Style="{StaticResource RulesTitle}"/>
+                            <Label Text="Ready to go beyond the basics? Expand the limits of possibility with the Pathfinder Advanced Player’s Guide!"
+                                   Style="{StaticResource RulesDescription}"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="1" 
+                               Style="{StaticResource RulesDescription}"
+                               Text="Read here >"
+                               VerticalOptions="End"
+                               HorizontalTextAlignment="End"
+                               VerticalTextAlignment="End">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PathfinderPlayersGuideDirectory" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>
