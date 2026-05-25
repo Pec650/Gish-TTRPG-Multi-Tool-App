@@ -50,7 +50,7 @@ public partial class SignInPage
                 LoadingUiState(false);
             }
         }
-        catch
+        catch (Exception ex)
         {
             ShowError("Unknown error has occurred");
             LoadingUiState(false);
@@ -73,7 +73,7 @@ public partial class SignInPage
 
             if (userId is null)
             {
-                ShowError("Unknown error has occurred");
+                ShowError("User not found, please try again");
                 return false;
             }
         

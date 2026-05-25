@@ -15,6 +15,18 @@ public partial class SchedulerPage : ContentPage
     private List<GameSession> _allSessions = new();
     private Border? _currentlySelectedDayView;
     private GameSession? _activeSelectedSession;
+    
+    private bool _areNotInteractionsEnabled = false;
+
+    public bool AreNotInteractionsEnabled
+    {
+        get => _areNotInteractionsEnabled;
+        set
+        {
+            _areNotInteractionsEnabled = value;
+            OnPropertyChanged(nameof(AreNotInteractionsEnabled));
+        }
+    }
 
     public SchedulerPage()
     {
@@ -45,6 +57,7 @@ public partial class SchedulerPage : ContentPage
 
     private void SetAllButtonState(bool enable)
     {
+        AreNotInteractionsEnabled = !enable;
         AddSessionBtn.IsEnabled = enable;
     }
 
@@ -189,6 +202,12 @@ public partial class SchedulerPage : ContentPage
                 Stroke = Color.FromRgba(0,0,0,0),
                 Margin = new Thickness(0, 2)
             };
+            
+            // Links InputTransparent on the border directly to your page's inverse state
+            card.SetBinding(Border.InputTransparentProperty, new Binding(
+                path: nameof(AreNotInteractionsEnabled),
+                source: this
+            ));
 
             var grid = new Grid
             {

@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Main_Pages.HomeView"
+             x:Name="RootHomeView"
              BackgroundColor="{StaticResource TabBar}">
 
     <ScrollView BackgroundColor="{StaticResource PageBackground}">
@@ -15,6 +16,19 @@
                             <Border Style="{StaticResource CardOuter}">
                                 <VerticalStackLayout Spacing="4">
                                     <Border Style="{StaticResource CardInner}" HorizontalOptions="Fill">
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" 
+                                                         Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootHomeView}}" 
+                                                         Value="False">
+                                                <Setter Property="InputTransparent" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" 
+                                                         Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootHomeView}}" 
+                                                         Value="True">
+                                                <Setter Property="InputTransparent" Value="False" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GoToScheduler"></TapGestureRecognizer>
                                         </Border.GestureRecognizers>
@@ -369,12 +383,26 @@
                                        HorizontalTextAlignment="Center"
                                        TextColor="White" FontSize="18"/>
                                 <Button Text="CREATE HOMEBREW" Style="{StaticResource RollBtn}" Padding="20, 10" 
-                                        FontFamily="Commissioner-Bold.ttf" FontSize="15" HorizontalOptions="Center" Clicked="GoToNewCreation"/>
+                                        FontFamily="Commissioner-Bold.ttf" FontSize="15" HorizontalOptions="Center" Clicked="GoToNewCreation"
+                                        IsEnabled="{Binding AreInteractionsEnabled, Source={x:Reference RootHomeView}}"/>
                             </VerticalStackLayout>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CardInner}" Margin="0,4">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" 
+                                                     Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootHomeView}}" 
+                                                     Value="False">
+                                            <Setter Property="InputTransparent" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" 
+                                                     Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootHomeView}}" 
+                                                     Value="True">
+                                            <Setter Property="InputTransparent" Value="False" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnHomebrewTapped" />
                                     </Border.GestureRecognizers>
@@ -397,7 +425,6 @@
                     </CollectionView>
                 </Border>    
             </VerticalStackLayout>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentView>

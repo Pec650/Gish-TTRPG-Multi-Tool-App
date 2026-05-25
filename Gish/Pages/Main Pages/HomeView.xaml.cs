@@ -8,6 +8,18 @@ namespace Gish.Pages.Main_Pages;
 public partial class HomeView : ContentView, IControlToggleable
 {
     private readonly LocalDatabase _database = new();
+    
+    private bool _areInteractionsEnabled = true;
+
+    public bool AreInteractionsEnabled
+    {
+        get => _areInteractionsEnabled;
+        set
+        {
+            _areInteractionsEnabled = value;
+            OnPropertyChanged(nameof(AreInteractionsEnabled));
+        }
+    }
 
     private int _bonus;
     private readonly Random _rng = new();
@@ -45,6 +57,8 @@ public partial class HomeView : ContentView, IControlToggleable
     public HomeView()
     {
         InitializeComponent();
+        
+        BindingContext = this;
         
         _cachedButtons = App.GetAllButtons(this);
         _cachedImgButtons = App.GetAllImageButtons(this);
@@ -323,6 +337,7 @@ public partial class HomeView : ContentView, IControlToggleable
 
     private void SetAllButtonState(bool enable)
     {
+        AreInteractionsEnabled = enable;
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);
     }

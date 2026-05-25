@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gish.Pages.Main_Pages.CreationsView"
+             x:Name="RootCreationView"
              BackgroundColor="{StaticResource TabBar}">
     
     <Grid RowDefinitions="*">
@@ -74,6 +75,19 @@
                                        BackgroundColor="#D4C4B2"
                                        VerticalOptions="Start">
                                     
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" 
+                                                     Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootCreationView}}" 
+                                                     Value="False">
+                                            <Setter Property="InputTransparent" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" 
+                                                     Binding="{Binding AreInteractionsEnabled, Source={x:Reference RootCreationView}}" 
+                                                     Value="True">
+                                            <Setter Property="InputTransparent" Value="False" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnCreationTapped" />
                                     </Border.GestureRecognizers>
@@ -131,7 +145,8 @@
                                        FontSize="20"
                                        FontAttributes="Bold"/>
                                 <Button Text="CREATE HOMEBREW" Style="{StaticResource RollBtn}" Padding="20, 10" 
-                                        FontFamily="Commissioner-Bold.ttf" FontSize="18" HorizontalOptions="Center" Clicked="OnClickGoToNewCreation"/>
+                                        FontFamily="Commissioner-Bold.ttf" FontSize="18" HorizontalOptions="Center" Clicked="OnClickGoToNewCreation"
+                                        IsEnabled="{Binding AreInteractionsEnabled, Source={x:Reference RootCreationView}}"/>
                             </VerticalStackLayout>
                         </CollectionView.EmptyView>
 
@@ -166,6 +181,5 @@
                 <TapGestureRecognizer Tapped="GoToNewCreation"></TapGestureRecognizer>
             </Border.GestureRecognizers>
         </Border>
-        
     </Grid>
 </ContentView>

@@ -17,6 +17,18 @@ public partial class CreationsView : ContentView, IControlToggleable
     private bool _hasSpell = true;
     private bool _hasFeat = true;
     
+    private bool _areInteractionsEnabled = true;
+
+    public bool AreInteractionsEnabled
+    {
+        get => _areInteractionsEnabled;
+        set
+        {
+            _areInteractionsEnabled = value;
+            OnPropertyChanged(nameof(AreInteractionsEnabled));
+        }
+    }
+    
     public CreationsView()
     {
         InitializeComponent();
@@ -57,6 +69,7 @@ public partial class CreationsView : ContentView, IControlToggleable
     
     private void SetAllButtonState(bool enable)
     {
+        AreInteractionsEnabled = enable;
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);
         FloatingAddBtn.IsEnabled = enable;
