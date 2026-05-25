@@ -1,5 +1,6 @@
 using Gish.Pages.Main_Pages.Tools_Pages;
 using Gish.Pages.Classes;
+using Gish.Pages.ToolPages;
 
 namespace Gish.Pages.Main_Pages;
 
@@ -14,6 +15,11 @@ public partial class ToolsView : ContentView, IControlToggleable
         
         _cachedButtons = App.GetAllButtons(this);
         _cachedImgButtons = App.GetAllImageButtons(this);
+        SetAllButtonState(true);
+    }
+    
+    public void IsAppearing()
+    {
         SetAllButtonState(true);
     }
 
@@ -33,5 +39,11 @@ public partial class ToolsView : ContentView, IControlToggleable
     {
         SetAllButtonState(false);
         Navigation.PushModalAsync(new SchedulerPage());
+    }
+
+    private void GoToCRCalculator(object? sender, EventArgs e)
+    {
+        SetAllButtonState(false);
+        Navigation.PushModalAsync(new CRCalculatorPage());
     }
 }

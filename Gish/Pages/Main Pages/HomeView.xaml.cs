@@ -50,38 +50,31 @@ public partial class HomeView : ContentView, IControlToggleable
         _cachedImgButtons = App.GetAllImageButtons(this);
 
         Loaded += (_, _) => SetAllButtonState(true);
+        
+        LoadRecentSession();
+        LoadRecentHombrews();
     }
     
-    protected override async void OnHandlerChanged()
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+        
+        SetAllButtonState(true);
+
+        LoadRecentSession();
+        LoadRecentHombrews();
+    }
+
+    private async void LoadRecentSession()
     {
         try
         {
-            base.OnHandlerChanged();
-            SetAllButtonState(true);
-        
             GameSession? nextSession = await _database.GetNextUpcomingSessionAsync();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 RecentSessionItem.ItemsSource = nextSession != null ? new List<GameSession> { nextSession } : null;
             });
-        
-            try
-            {
-                var creations = await _database.GetRecentCreations();
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    RecentHomebrewList.ItemsSource = creations.Any() ? new ObservableCollection<Creations>(creations) : new ObservableCollection<Creations>();
-                });
-            }
-            catch
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
-                });
-            }
         }
         catch
         {
@@ -89,6 +82,26 @@ public partial class HomeView : ContentView, IControlToggleable
         }
     }
 
+    private async void LoadRecentHombrews()
+    {
+        try
+        {
+            var creations = await _database.GetRecentCreations();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RecentHomebrewList.ItemsSource = creations.Any() ? new ObservableCollection<Creations>(creations) : new ObservableCollection<Creations>();
+            });
+        }
+        catch
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RecentHomebrewList.ItemsSource = new ObservableCollection<Creations>();
+            });
+        }
+    }
+    
     private void OnDiceClicked(object sender, EventArgs e)
     {
         if (sender is not ImageButton btn || !int.TryParse(btn.CommandParameter?.ToString(), out var sides)) return;
@@ -300,8 +313,15 @@ public partial class HomeView : ContentView, IControlToggleable
         RollLogPanel.IsVisible = _rollLogVisible && _rollLog.Count > 0;
         RollLogChevron.Text = _rollLogVisible ? "▲" : "▼";
     }
+    
+    public void IsAppearing()
+    {
+        SetAllButtonState(true);
+        LoadRecentSession();
+        LoadRecentHombrews();
+    }
 
-    public void SetAllButtonState(bool enable)
+    private void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

@@ -22,7 +22,12 @@ public partial class RulesView : ContentView, IControlToggleable
         SetAllButtonState(true);
     }
     
-    public void SetAllButtonState(bool enable)
+    public void IsAppearing()
+    {
+        SetAllButtonState(true);
+    }
+    
+    private void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

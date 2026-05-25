@@ -19,7 +19,7 @@ public partial class Startup
 
             if (loggedIn)
             {
-                App.SetMainPage(new NavigationPage(new MainContainerPage()));
+                App.SetMainPage(new MainContainerPage());
             }
         }
         catch

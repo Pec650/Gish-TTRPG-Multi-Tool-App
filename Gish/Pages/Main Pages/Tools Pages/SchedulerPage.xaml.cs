@@ -20,19 +20,38 @@ public partial class SchedulerPage : ContentPage
     {
         InitializeComponent();
         _selectedDate = new DateTime(2026, 5, 1);
-        BuildCalendar();
+        loadScheduleData();
     }
 
     
     protected override async void OnHandlerChanged()
     {
         base.OnHandlerChanged();
+        
+        SetAllButtonState(true);
 
         if (Handler is not null)
         {
-            _allSessions = await _database.GetAllSessionsAsync();
-            BuildCalendar();
+            loadScheduleData();
         }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        SetAllButtonState(true);
+        loadScheduleData();
+    }
+
+    private void SetAllButtonState(bool enable)
+    {
+        AddSessionBtn.IsEnabled = enable;
+    }
+
+    private async void loadScheduleData()
+    {
+        _allSessions = await _database.GetAllSessionsAsync();
+        BuildCalendar();
     }
 
     private void BuildCalendar()
@@ -202,6 +221,8 @@ public partial class SchedulerPage : ContentPage
 
     private void OnDrawerAddSessionClicked(object sender, EventArgs e)
     {
+        SetAllButtonState(false);
+            
         // Route user directly to the session creation form view, prefilled with the locked date selection context
         var formPage = new SchedulerFormPage(_selectedDate);
         
@@ -228,21 +249,10 @@ public partial class SchedulerPage : ContentPage
         BuildCalendar();
     }
 
-    private void OnCreateSessionClicked(object sender, EventArgs e)
-    {
-        DateTime fallbackDate = _currentlySelectedDayView is not null ? _selectedDate : DateTime.Today;
-        var formPage = new SchedulerFormPage(fallbackDate);
-        
-        formPage.OnDatabaseChanged = async () => {
-            _allSessions = await _database.GetAllSessionsAsync();
-            BuildCalendar();
-        };
-        
-        NavigateToForm(formPage);
-    }
-
     private void OpenFormForEdit(GameSession session)
     {
+        SetAllButtonState(false);
+            
         var formPage = new SchedulerFormPage(session);
         formPage.OnDatabaseChanged = async () => {
             _allSessions = await _database.GetAllSessionsAsync();

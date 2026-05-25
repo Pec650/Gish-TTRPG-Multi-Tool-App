@@ -31,12 +31,12 @@ public partial class MainContainerPage
         
         AppHeader.OnAppearing();
 
-        SetAllButtonState(true);
+        SignalAppearing();
     }
     
-    public void SetAllButtonState(bool enable)
+    public void SignalAppearing()
     {
-        AppTabBar.IsEnabled = enable; 
+        AppTabBar.IsEnabled = true; 
 
         if (ContentArea.Children.Count > 0)
         {
@@ -44,7 +44,7 @@ public partial class MainContainerPage
 
             if (activeView is IControlToggleable toggleablePage)
             {
-                toggleablePage.SetAllButtonState(enable);
+                toggleablePage.IsAppearing();
             }
         }
     }
@@ -69,8 +69,10 @@ public partial class MainContainerPage
         {
             viewToDisplay.HorizontalOptions = LayoutOptions.Fill;
             viewToDisplay.VerticalOptions = LayoutOptions.Fill;
-
+            
             ContentArea.Children.Add(viewToDisplay);
+            
+            SignalAppearing();
         }
     }
 }

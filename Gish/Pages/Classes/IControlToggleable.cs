@@ -2,5 +2,5 @@
 
 public interface IControlToggleable
 {
-    void SetAllButtonState(bool enable);
+    void IsAppearing();
 }

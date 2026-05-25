@@ -18,14 +18,21 @@ public partial class Initiative_Tracker : ContentPage
     public Initiative_Tracker()
     {
         InitializeComponent();
+
+        LoadInitiativeData();
     }
     
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
         
         setAllButtonState(true);
-        
+
+        LoadInitiativeData();
+    }
+
+    private async void LoadInitiativeData()
+    {
         try
         {
             var rawList = await _database.GetAllInitiativeInOrder();

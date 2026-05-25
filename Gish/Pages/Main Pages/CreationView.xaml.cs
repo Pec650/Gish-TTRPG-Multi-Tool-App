@@ -24,6 +24,8 @@ public partial class CreationsView : ContentView, IControlToggleable
         _cachedButtons = App.GetAllButtons(this);
         _cachedImgButtons = App.GetAllImageButtons(this);
         SetAllButtonState(true);
+
+        LoadCreations();
     }
     
     protected override async void OnHandlerChanged()
@@ -31,7 +33,12 @@ public partial class CreationsView : ContentView, IControlToggleable
         base.OnHandlerChanged();
         
         SetAllButtonState(true);
-        
+
+        LoadCreations();
+    }
+
+    private async void LoadCreations()
+    {
         try
         {
             CreationsListView.ItemsSource = await _database.GetAllCreations(_searchString, _hasSubclass, _hasLineage, _hasMonster, _hasSpell, _hasFeat);
@@ -41,8 +48,14 @@ public partial class CreationsView : ContentView, IControlToggleable
             // ignored
         }
     }
+
+    public void IsAppearing()
+    {
+        SetAllButtonState(true);
+        LoadCreations();
+    }
     
-    public void SetAllButtonState(bool enable)
+    private void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

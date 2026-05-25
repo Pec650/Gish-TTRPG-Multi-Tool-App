@@ -84,7 +84,7 @@
                         
                         <Grid ColumnDefinitions="*, Auto" Margin="5,0">
                             <Label x:Name="DrawerHeaderLabel" Text="Sessions for this Day" FontFamily="Faustina-Bold.ttf" FontSize="23" TextColor="#1E2420" VerticalOptions="Center"/>
-                            <Button Grid.Column="1" Text="+ ADD SESSION" BackgroundColor="#1E2420" TextColor="White" FontAttributes="Bold" CornerRadius="8"
+                            <Button x:Name="AddSessionBtn" Grid.Column="1" Text="+ ADD SESSION" BackgroundColor="#1E2420" TextColor="White" FontAttributes="Bold" CornerRadius="8"
                                     Padding="18,12" Clicked="OnDrawerAddSessionClicked" FontSize="15"/>
                         </Grid>
 

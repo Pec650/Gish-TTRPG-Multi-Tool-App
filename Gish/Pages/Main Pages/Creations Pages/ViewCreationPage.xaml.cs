@@ -72,15 +72,25 @@ public partial class ViewCreationPage : ContentPage
 
     private async void OnClickDeleteCreation(object? sender, EventArgs e)
     {
-        if (SelectedCreation is not null)
+        bool isConfirmed = await DisplayAlert(
+            "Reset Tracker?",
+            "Are you sure you want to delete this entry? This cannot be undone.",
+            "Continue", 
+            "Cancel"
+        );
+
+        if (isConfirmed)
         {
-            try
+            if (SelectedCreation is not null)
             {
-                await _database.DeleteCreationAsync(SelectedCreation.ID);
+                try
+                {
+                    await _database.DeleteCreationAsync(SelectedCreation.ID);
+                }
+                catch {}
             }
-            catch {}
+            Navigation.PopModalAsync();
         }
-        Navigation.PopModalAsync();
     }
 
     private async void OnClickEditCreation(object? sender, EventArgs e)

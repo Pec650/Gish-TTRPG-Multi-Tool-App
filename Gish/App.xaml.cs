@@ -82,7 +82,6 @@ public partial class App
         {
             // ignored
         }
-        _currentUserId = -1;
         return _currentUserId >= 0;
     }
     

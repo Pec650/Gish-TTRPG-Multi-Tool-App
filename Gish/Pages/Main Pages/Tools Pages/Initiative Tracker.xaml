@@ -41,7 +41,8 @@
                            VerticalOptions="Center"
                            FontSize="25"
                            Margin="0, 0, 0, 10"/>
-                    <Button x:Name="ToggleDeleteBtn" Text="Delete" 
+                    <Button x:Name="ToggleDeleteBtn" Text="DELETE" 
+                            TextColor="White"
                             Grid.Column="1" HeightRequest="45"
                             Padding="20, 0"
                             BackgroundColor="#FE5F55" HorizontalOptions="End"
@@ -118,8 +119,8 @@
                     <Grid Grid.Row="1" ColumnDefinitions="*, Auto, *" ColumnSpacing="20" Padding="0, 30, 0, 15">
 
                         <Grid RowDefinitions="Auto, Auto" RowSpacing="15" Grid.Column="0" Padding="10, 0, 0, 0">
-                            <Button Text="Add Player" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddPlayer"/>
-                            <Button Text="Add Enemy" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddEnemy"/>
+                            <Button Text="ADD PLAYER" TextColor="White" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddPlayer"/>
+                            <Button Text="ADD ENEMY" TextColor="White" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedAddEnemy"/>
                         </Grid>
 
                         <ImageButton Source="d20_big_die.svg" Grid.Column="1" 
@@ -134,8 +135,8 @@
                         </ImageButton>
 
                         <Grid RowDefinitions="Auto, Auto" RowSpacing="15" Grid.Column="2" Padding="0, 0, 10, 0">
-                            <Button Text="Order" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedOrder"/>
-                            <Button Text="Reset" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedReset"/>
+                            <Button Text="ORDER" TextColor="White" Grid.Row="0" HeightRequest="45" BackgroundColor="#839788" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedOrder"/>
+                            <Button Text="RESET" TextColor="White" Grid.Row="1" HeightRequest="45" BackgroundColor="#FE5F55" FontFamily="Commissioner-Bold.ttf" Clicked="ClickedReset"/>
                         </Grid>
                     </Grid>
                 </Grid>    
