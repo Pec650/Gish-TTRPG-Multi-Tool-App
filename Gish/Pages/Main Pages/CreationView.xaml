@@ -4,29 +4,9 @@
              x:Class="Gish.Pages.Main_Pages.CreationsView"
              BackgroundColor="{StaticResource TabBar}">
     
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="*">
 
-        <!-- HEADER -->
-        <Grid Grid.Row="0"
-              x:Name="Header"
-              Padding="16,32,16,16"
-              ColumnDefinitions="*,Auto">
-            <Label Style="{StaticResource PageTitle}"
-                   Text="Your Creations"
-                   TextColor="{StaticResource TextDark}"
-                   VerticalOptions="Center"/>
-            <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                <Border HeightRequest="36"
-                        WidthRequest="36"
-                        Style="{StaticResource ProfileBorder}">
-                    <ImageButton x:Name="ProfileBtn"
-                                 Clicked="GoToProfilePage"
-                                 Style="{StaticResource ProfilePictureButton}" />
-                </Border>
-            </HorizontalStackLayout>
-        </Grid>
-        
-        <ScrollView Grid.Row="1"
+        <ScrollView Grid.Row="0"
                     BackgroundColor="{StaticResource PageBackground}">
             <VerticalStackLayout Padding="20" Spacing="20">
                 <Border Style="{StaticResource SearchCard}">
@@ -160,7 +140,8 @@
             </VerticalStackLayout>
         </ScrollView>
         
-        <Border Grid.RowSpan="2"
+        <Border x:Name="FloatingAddBtn"
+                Grid.RowSpan="2"
                 BackgroundColor="#FE5F55"
                 HorizontalOptions="End"
                 VerticalOptions="End"

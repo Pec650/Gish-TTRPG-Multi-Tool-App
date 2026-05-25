@@ -3,11 +3,12 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Classes;
+using Main_Pages;
 
 public partial class SignUpPage
 {
     private readonly LocalDatabase _database = new LocalDatabase();
-    
+
     public SignUpPage()
     {
         InitializeComponent();
@@ -53,7 +54,7 @@ public partial class SignUpPage
 
             if (success)
             {
-                await GoToMain();
+                GoToMain();
             }
             else
             {
@@ -111,17 +112,9 @@ public partial class SignUpPage
         }
     }
 
-    private async Task GoToMain()
+    private void GoToMain()
     {
-        try
-        {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
-        }
-        catch
-        {
-            ShowError("Unable to navigate to homepage");
-            LoadingUiState(false);
-        }
+        App.SetMainPage(new MainContainerPage());
     }
     
     private bool IsEmptyInput(String input)

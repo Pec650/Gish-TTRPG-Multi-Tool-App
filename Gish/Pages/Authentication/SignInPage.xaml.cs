@@ -2,16 +2,17 @@
 
 using System.Threading.Tasks;
 using Classes;
+using Main_Pages;
 
 public partial class SignInPage
 {
     private readonly LocalDatabase _database = new LocalDatabase();
-    
+
     public SignInPage()
     {
         InitializeComponent();
     }
-    
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -42,7 +43,7 @@ public partial class SignInPage
 
             if (success)
             {
-                await GoToMain();
+                GoToMain();
             }
             else
             {
@@ -86,17 +87,9 @@ public partial class SignInPage
         }
     }
 
-    private async Task GoToMain()
+    private void GoToMain()
     {
-        try
-        {
-            await Shell.Current.GoToAsync("//MainPages/HomeTab/HomePage");
-        }
-        catch
-        {
-            ShowError("Unable to navigate to homepage");
-            LoadingUiState(false);
-        }
+        App.SetMainPage(new MainContainerPage());
     }
 
     private bool IsEmptyInput(String input)

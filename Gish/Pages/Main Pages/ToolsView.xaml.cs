@@ -1,11 +1,12 @@
 using Gish.Pages.Main_Pages.Tools_Pages;
+using Gish.Pages.Classes;
 
 namespace Gish.Pages.Main_Pages;
 
-public partial class ToolsView
+public partial class ToolsView : ContentView, IControlToggleable
 {
-    private readonly List<Button> _cachedButtons;
-    private readonly List<ImageButton> _cachedImgButtons;
+    private List<Button> _cachedButtons;
+    private List<ImageButton> _cachedImgButtons;
     
     public ToolsView()
     {
@@ -15,14 +16,8 @@ public partial class ToolsView
         _cachedImgButtons = App.GetAllImageButtons(this);
         SetAllButtonState(true);
     }
-    
-    protected override void OnHandlerChanged()
-    {
-        base.OnHandlerChanged();
-        SetAllButtonState(true);
-    }
 
-    private void SetAllButtonState(bool enable)
+    public void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

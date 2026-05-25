@@ -1,9 +1,11 @@
+using Gish.Pages.Classes;
+
 namespace Gish.Pages.Main_Pages;
 
-public partial class RulesView
+public partial class RulesView : ContentView, IControlToggleable
 {
-    private readonly List<Button> _cachedButtons;
-    private readonly List<ImageButton> _cachedImgButtons;
+    private List<Button> _cachedButtons;
+    private List<ImageButton> _cachedImgButtons;
     
     public RulesView()
     {
@@ -20,7 +22,7 @@ public partial class RulesView
         SetAllButtonState(true);
     }
     
-    private void SetAllButtonState(bool enable)
+    public void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

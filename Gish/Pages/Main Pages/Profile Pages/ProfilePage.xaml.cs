@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
-using Gish.Pages.Classes;
-using Gish.Pages.Main_Pages.Profile_Pages;
+﻿using Gish.Pages.Classes;
+using Gish.Pages.Authentication;
 
-namespace Gish.Pages.MainPages.Profile_Pages;
+namespace Gish.Pages.Main_Pages.Profile_Pages;
 
-public partial class ProfilePage : ContentPage
+public partial class ProfilePage
 {
-    private LocalDatabase _database = new LocalDatabase();
-    
-    private List<Button> cachedButtons = new List<Button>();
-    private List<ImageButton> cachedImgButtons = new List<ImageButton>();
+    private readonly LocalDatabase _database = new();
+
+    private List<Button> _cachedButtons = [];
+    private List<ImageButton> _cachedImgButtons = [];
     
     public ProfilePage()
     {
         InitializeComponent();
+        
+        SetUserInfo();
     }
     
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        setAllButtonState(true);
+        SetAllButtonState(true);
     }
     
     protected override void OnHandlerChanged()
@@ -34,16 +30,16 @@ public partial class ProfilePage : ContentPage
         
         SetUserInfo();
 
-        cachedButtons = App.GetAllButtons(this);
-        cachedImgButtons = App.GetAllImageButtons(this);
+        _cachedButtons = App.GetAllButtons(this);
+        _cachedImgButtons = App.GetAllImageButtons(this);
 
-        setAllButtonState(true);
+        SetAllButtonState(true);
     }
     
-    private void setAllButtonState(bool enable)
+    private void SetAllButtonState(bool enable)
     {
-        App.SetButtonState(cachedButtons, enable);
-        App.SetImageButtonState(cachedImgButtons, enable);
+        App.SetButtonState(_cachedButtons, enable);
+        App.SetImageButtonState(_cachedImgButtons, enable);
     }
     
     public async void SetUserInfo()
@@ -77,57 +73,48 @@ public partial class ProfilePage : ContentPage
 
     private async void ReturnPage(object? sender, EventArgs e)
     {
-        setAllButtonState(false);
         try
         {
+            SetAllButtonState(false);
             await Navigation.PopModalAsync();
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
         
     }
     
     private async void GoToEditProfile(object? sender, EventArgs e)
     {
-        setAllButtonState(false);
         try
         {
+            SetAllButtonState(false);
             await Navigation.PushModalAsync(new EditProfilePage());
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
     
-    private async void LogOut(object? sender, EventArgs e)
+    private void LogOut(object? sender, EventArgs e)
     {
-        int tempID = App.GetUserId();
-        setAllButtonState(false);
-        try
-        {
-            App.ResetUserId();
-            await Shell.Current.GoToAsync("//StartupPage");
-        }
-        catch
-        {
-            App.SetUserId(tempID);
-            setAllButtonState(true);
-        }
+        SetAllButtonState(false);
+        App.ResetUserId();
+        App.SetMainPage(new NavigationPage(new Startup()));
     }
 
     private async void GoToChangePasswordButton(object? sender, EventArgs e)
     {
-        setAllButtonState(false);
         try
         {
+            SetAllButtonState(false);
             await Navigation.PushModalAsync(new ChangePasswordPage());
         }
         catch
         {
-            setAllButtonState(true);
+            SetAllButtonState(true);
         }
     }
 }

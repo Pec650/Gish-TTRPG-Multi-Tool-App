@@ -20,7 +20,6 @@ public class Creations
 
     public int UserID { get; set;  }
     
-    [Unique]
     public string Title { get; set; }
     
     public CreationTypeEnum CreationType { get; set; }

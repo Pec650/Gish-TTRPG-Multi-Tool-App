@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Gish.Pages.MainPages.Profile_Pages.ProfilePage"
-             Title="Profile"
-             NavigationPage.HasNavigationBar="False"
+             x:Class="Gish.Pages.Main_Pages.Profile_Pages.ProfilePage"
              BackgroundColor="{StaticResource TabBar}">             
     
     <Grid RowDefinitions="Auto,*">
@@ -44,11 +42,11 @@
                                  Style="{StaticResource ProfilePicture}" />
                 </Border>
         
-                <Label x:Name="UsernameText" Text="Username"
+                <Label x:Name="UsernameText" Text=""
                        Style="{StaticResource ProfileUsername}"
                        HorizontalTextAlignment="Center" />
                 
-                <Label x:Name="EmailText" Text="Email Address"
+                <Label x:Name="EmailText" Text=""
                        Style="{StaticResource ProfileEmail}"
                        HorizontalTextAlignment="Center"
                        Margin="0, -10, 0, 10"/>

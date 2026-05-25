@@ -14,9 +14,9 @@
     TabBarUnselectedColor="#424C44"
     TabBarTitleColor="Black" >
     
-    <ShellContent
-        ContentTemplate="{DataTemplate auth:Startup}"
-        Route="StartupPage" />
+    <!-- <ShellContent -->
+    <!--     ContentTemplate="{DataTemplate auth:Startup}" -->
+    <!--     Route="StartupPage" /> -->
     <!-- <ShellContent -->
     <!--     ContentTemplate="{DataTemplate auth:SignInPage}" -->
     <!--     Route="SignInPage" /> -->

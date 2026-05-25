@@ -1,15 +1,14 @@
 using Gish.Pages.Classes;
 using Gish.Pages.Main_Pages.Creations_Pages;
-using Gish.Pages.MainPages.Profile_Pages;
 
 namespace Gish.Pages.Main_Pages;
 
-public partial class CreationsView
+public partial class CreationsView : ContentView, IControlToggleable
 {
     private readonly LocalDatabase _database = new();
     
-    private readonly List<Button> _cachedButtons;
-    private readonly List<ImageButton> _cachedImgButtons;
+    private List<Button> _cachedButtons;
+    private List<ImageButton> _cachedImgButtons;
 
     private string _searchString = "";
     private bool _hasSubclass = true;
@@ -42,24 +41,12 @@ public partial class CreationsView
             // ignored
         }
     }
-
-    private async void GoToProfilePage(object? sender, EventArgs e)
-    {
-        try
-        {
-            SetAllButtonState(false);
-            await Navigation.PushModalAsync(new ProfilePage());
-        }
-        catch
-        {
-            SetAllButtonState(true);
-        }
-    }
     
-    private void SetAllButtonState(bool enable)
+    public void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);
+        FloatingAddBtn.IsEnabled = enable;
     }
 
     private async void UpdateActiveTags(object? sender, TappedEventArgs e)

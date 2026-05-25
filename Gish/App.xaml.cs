@@ -11,12 +11,27 @@ public partial class App
 
     protected override async void OnStart()
     {
-        await InitUserId();
+        try
+        {
+            await InitUserId();
+        }
+        catch
+        {
+            // ignored
+        }
     }
     
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new AppShell());
+        return new Window(new NavigationPage(new Pages.Authentication.Startup()));
+    }
+    
+    public static void SetMainPage(Page rootPage)
+    {
+        if (Current?.Windows.Count > 0)
+        {
+            Current.Windows[0].Page = rootPage;
+        }
     }
     
     private static async Task InitUserId()
@@ -57,8 +72,17 @@ public partial class App
         SecureStorage.Default.Remove("Current_User_ID");
     }
 
-    public static bool IsLoggedIn()
+    public static async Task<bool> IsLoggedIn()
     {
+        try
+        {
+            _currentUserId = int.Parse(await SecureStorage.Default.GetAsync("Current_User_ID") ?? "-1");
+        }
+        catch
+        {
+            // ignored
+        }
+        _currentUserId = -1;
         return _currentUserId >= 0;
     }
     

@@ -1,3 +1,5 @@
+using Gish.Pages.Classes;
+
 namespace Gish.Pages.Main_Pages;
 
 public partial class MainContainerPage
@@ -7,7 +9,7 @@ public partial class MainContainerPage
     private readonly View _toolsView;
     private readonly View _rulesView;
 
-    private readonly List<string> _tabHistory = new();
+    private List<string> _tabHistory = new();
     private bool _isInternalTabSwitch = false;
 
     public MainContainerPage()
@@ -23,52 +25,52 @@ public partial class MainContainerPage
         SwitchToTab("Home");
     }
 
- public void SwitchToTab(string tabName)
+    protected override void OnAppearing()
     {
-        ContentArea.Children.Clear();
+        base.OnAppearing();
+        
+        AppHeader.OnAppearing();
 
-        if (!_isInternalTabSwitch)
+        SetAllButtonState(true);
+    }
+    
+    public void SetAllButtonState(bool enable)
+    {
+        AppTabBar.IsEnabled = enable; 
+
+        if (ContentArea.Children.Count > 0)
         {
-            if (tabName == "Home")
-            {
-                _tabHistory.Clear();
-                _tabHistory.Add("Home");
-            }
-            else
-            {
-                _tabHistory.Remove(tabName);
-                _tabHistory.Add(tabName);
+            var activeView = ContentArea.Children[0];
 
-                if (_tabHistory.Count > 4)
-                {
-                    _tabHistory.RemoveAt(1);
-                }
+            if (activeView is IControlToggleable toggleablePage)
+            {
+                toggleablePage.SetAllButtonState(enable);
             }
         }
+    }
+
+    public void SwitchToTab(string tabName)
+    {
+        ContentArea.Children.Clear();
 
         AppTabBar.ActiveTab = tabName;
         AppHeader.Title = tabName;
 
-        switch (tabName)
+        View? viewToDisplay = tabName switch
         {
-            case "Home":
-                ContentArea.Children.Add(_homeView);
-                break;
-            case "Creations":
-                ContentArea.Children.Add(_creationsView);
-                break;
-            case "Tools":
-                ContentArea.Children.Add(_toolsView);
-                break;
-            case "Rules":
-                ContentArea.Children.Add(_rulesView);
-                break;
-        }
-    }
+            "Home" => _homeView,
+            "Creations" => _creationsView,
+            "Tools" => _toolsView,
+            "Rules" => _rulesView,
+            _ => null
+        };
 
-    public void SetTabBarVisibility(bool isVisible)
-    {
-        AppTabBar.IsVisible = isVisible;
-        ContentArea.Padding = isVisible ? new Thickness(0, 0, 0, 64) : new Thickness(0);
+        if (viewToDisplay != null)
+        {
+            viewToDisplay.HorizontalOptions = LayoutOptions.Fill;
+            viewToDisplay.VerticalOptions = LayoutOptions.Fill;
+
+            ContentArea.Children.Add(viewToDisplay);
+        }
     }
 }

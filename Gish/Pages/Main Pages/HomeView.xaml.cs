@@ -5,7 +5,7 @@ using Gish.Pages.Main_Pages.Tools_Pages;
 
 namespace Gish.Pages.Main_Pages;
 
-public partial class HomeView
+public partial class HomeView : ContentView, IControlToggleable
 {
     private readonly LocalDatabase _database = new();
 
@@ -27,8 +27,8 @@ public partial class HomeView
     private bool _isD20DrawerOpen;
     private int _d20PoolCount = 1;
     
-    private readonly List<Button> _cachedButtons;
-    private readonly List<ImageButton> _cachedImgButtons;
+    private List<Button> _cachedButtons;
+    private List<ImageButton> _cachedImgButtons;
 
     public string CurrentModifier
     {
@@ -45,12 +45,11 @@ public partial class HomeView
     public HomeView()
     {
         InitializeComponent();
-
-        Loaded += (_, _) => SetAllButtonState(true);
         
         _cachedButtons = App.GetAllButtons(this);
         _cachedImgButtons = App.GetAllImageButtons(this);
-        SetAllButtonState(true);
+
+        Loaded += (_, _) => SetAllButtonState(true);
     }
     
     protected override async void OnHandlerChanged()
@@ -302,7 +301,7 @@ public partial class HomeView
         RollLogChevron.Text = _rollLogVisible ? "▲" : "▼";
     }
 
-    private void SetAllButtonState(bool enable)
+    public void SetAllButtonState(bool enable)
     {
         App.SetButtonState(_cachedButtons, enable);
         App.SetImageButtonState(_cachedImgButtons, enable);

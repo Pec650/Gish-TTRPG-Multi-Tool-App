@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
-using Gish.Pages.MainPages;
-using Gish.Pages.MainPages.Profile_Pages;
+using Gish.Pages.Main_Pages;
+using Gish.Pages.Main_Pages.Profile_Pages;
 
 namespace Gish.Pages.Controls;
 
-public partial class CustomHeader : ContentView
+public partial class CustomHeader
 {
     private readonly LocalDatabase _database = new();
 
@@ -28,6 +28,11 @@ public partial class CustomHeader : ContentView
     public CustomHeader()
     {
         InitializeComponent();
+    }
+
+    public void OnAppearing()
+    {
+        ProfileBtn.IsEnabled = true;
     }
 
     protected override void OnHandlerChanged()
@@ -62,6 +67,7 @@ public partial class CustomHeader : ContentView
 
     private void OnProfileClicked(object sender, EventArgs e)
     {
+        ProfileBtn.IsEnabled = false;
         Navigation.PushModalAsync(new ProfilePage());
     }
 }

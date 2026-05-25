@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Gish.Pages.Classes;
-using Gish.Pages.MainPages;
+using Gish.Pages.Main_Pages;
 
 namespace Gish.Pages.Main_Pages.Tools_Pages;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
 using Gish.Pages.Classes;
-using Gish.Pages.MainPages;
+using Gish.Pages.Main_Pages;
 
 namespace Gish.Pages.Main_Pages.Tools_Pages;
 
@@ -20,6 +20,7 @@ public partial class SchedulerPage : ContentPage
     {
         InitializeComponent();
         _selectedDate = new DateTime(2026, 5, 1);
+        BuildCalendar();
     }
 
     

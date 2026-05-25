@@ -1,10 +1,31 @@
-﻿namespace Gish.Pages.Authentication;
+﻿using Gish.Pages.Main_Pages;
+
+namespace Gish.Pages.Authentication;
 
 public partial class Startup
 {
     public Startup()
     {
         InitializeComponent();
+
+        CheckIfLoggedIn();
+    }
+
+    private async void CheckIfLoggedIn()
+    {
+        try
+        {
+            bool loggedIn = await App.IsLoggedIn();
+
+            if (loggedIn)
+            {
+                App.SetMainPage(new NavigationPage(new MainContainerPage()));
+            }
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     protected override void OnAppearing()

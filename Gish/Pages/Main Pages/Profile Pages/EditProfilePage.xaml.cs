@@ -20,6 +20,8 @@ public partial class EditProfilePage : ContentPage
     public EditProfilePage()
     {
         InitializeComponent();
+        
+        SetUserInfo();
     }
     
     protected override void OnAppearing()
