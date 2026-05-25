@@ -60,12 +60,12 @@
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
                         <VerticalStackLayout Grid.Column="0" Spacing="5">
                             <Label Text="Date"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
-                            <DatePicker x:Name="SessionDatePicker" MinimumDate="2026-01-01" BackgroundColor="White"/>
+                            <DatePicker x:Name="SessionDatePicker" MinimumDate="2026-01-01" TextColor="Black" BackgroundColor="White"/>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
                             <Label Text="Start Time"  Style="{StaticResource InputTextLabel}" Margin="0, 0, 0, -10"/>
-                            <TimePicker x:Name="SessionTimePicker" BackgroundColor="White"/>
+                            <TimePicker x:Name="SessionTimePicker" TextColor="Black" BackgroundColor="White"/>
                         </VerticalStackLayout>
                     </Grid>
 

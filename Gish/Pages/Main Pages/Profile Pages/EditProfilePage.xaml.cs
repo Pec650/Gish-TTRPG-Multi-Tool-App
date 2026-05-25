@@ -148,7 +148,7 @@ public partial class EditProfilePage : ContentPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PopModalAsync();
         }
         catch
         {

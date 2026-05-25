@@ -152,7 +152,7 @@ public partial class ChangePasswordPage : ContentPage
     {
         try
         {
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Navigation.PopModalAsync();
         }
         catch
         {

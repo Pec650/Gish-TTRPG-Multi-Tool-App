@@ -36,6 +36,9 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+        <AndroidSdkDirectory Condition="$([MSBuild]::IsOSPlatform('windows'))">C:\Users\Rick Bryson\AppData\Local\Android\Sdk</AndroidSdkDirectory>
+        <AndroidSdkDirectory Condition="$([MSBuild]::IsOSPlatform('osx'))">/Users/Rick Bryson/Library/Android/sdk</AndroidSdkDirectory>
     </PropertyGroup>
 
     <ItemGroup>
