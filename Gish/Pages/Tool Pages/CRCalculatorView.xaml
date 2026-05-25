@@ -6,16 +6,30 @@
 
     <Grid RowDefinitions="Auto, *" Padding="0" RowSpacing="0">
 
+        <!-- Header -->
+        <Border Grid.Row="0" BackgroundColor="#E8A984" HeightRequest="60" Stroke="Transparent" Margin="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <ImageButton Source="back_arrow_icon.png" WidthRequest="24" HeightRequest="24"
+                             Margin="16,0" VerticalOptions="Center"
+                             Clicked="OnBackClicked"/>
+                <Label Grid.Column="1" Text="Experimental Feature, not always accurate"
+                       FontFamily="Faustina-Bold.ttf" FontSize="20"
+                       TextColor="#424C44" VerticalOptions="Center"/>
+            </Grid>
+        </Border>
+
         <ScrollView Grid.Row="1" Padding="16,20,16,16">
             <VerticalStackLayout Spacing="16">
 
+                <!-- Input Card -->
                 <Border Style="{StaticResource CardOuter}">
                     <VerticalStackLayout Spacing="12" Padding="8">
 
                         <Label Text="Monster Stats" FontFamily="Faustina-Bold.ttf"
                                FontSize="20" TextColor="{StaticResource TextDark}"/>
 
-                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="8">
+                        <!-- Row 1: HP, DPR -->
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
 
                             <VerticalStackLayout Grid.Column="0" Spacing="4">
                                 <Label Text="Hit Points" FontSize="12"
@@ -34,7 +48,7 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Damage/Round" FontSize="12"
+                                <Label Text="Damage / Round" FontSize="12"
                                        Style="{StaticResource ItemSubtitleText}"
                                        HorizontalOptions="Center"/>
                                 <Border BackgroundColor="White" StrokeShape="RoundRectangle 8"
@@ -49,7 +63,12 @@
                                 </Border>
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="2" Spacing="4">
+                        </Grid>
+
+                        <!-- Row 2: AC, Attack Bonus -->
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
                                 <Label Text="Armor Class" FontSize="12"
                                        Style="{StaticResource ItemSubtitleText}"
                                        HorizontalOptions="Center"/>
@@ -65,12 +84,29 @@
                                 </Border>
                             </VerticalStackLayout>
 
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Attack Bonus" FontSize="12"
+                                       Style="{StaticResource ItemSubtitleText}"
+                                       HorizontalOptions="Center"/>
+                                <Border BackgroundColor="White" StrokeShape="RoundRectangle 8"
+                                        Stroke="Transparent" Padding="8,4">
+                                    <Entry x:Name="AttackBonusEntry"
+                                           Placeholder="5"
+                                           Keyboard="Numeric"
+                                           FontSize="18" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextDark}"
+                                           BackgroundColor="Transparent"
+                                           HorizontalTextAlignment="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+
                         </Grid>
 
+                        <!-- Weapon Ability picker -->
                         <VerticalStackLayout Spacing="4">
                             <Label Text="Weapon Ability" FontSize="12"
                                    Style="{StaticResource ItemSubtitleText}"/>
-                            <Border Style="{StaticResource CardInner}" StrokeShape="RoundRectangle 8"
+                            <Border BackgroundColor="#E5DEC9" StrokeShape="RoundRectangle 8"
                                     Stroke="Transparent" HeightRequest="46" Padding="2">
                                 <Grid ColumnDefinitions="*, *">
                                     <Border x:Name="WeaponSTRBlock" Grid.Column="0"
@@ -87,7 +123,7 @@
                                             BackgroundColor="Transparent"
                                             StrokeShape="RoundRectangle 6" Stroke="Transparent">
                                         <Label Text="DEX" FontAttributes="Bold" FontSize="15"
-                                               TextColor="{StaticResource TextDark}"
+                                               TextColor="#AAB7B8"
                                                HorizontalOptions="Center" VerticalOptions="Center"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnWeaponDEX"/>
@@ -97,10 +133,11 @@
                             </Border>
                         </VerticalStackLayout>
 
+                        <!-- Spellcasting Ability picker -->
                         <VerticalStackLayout Spacing="4">
                             <Label Text="Spellcasting Ability" FontSize="12"
                                    Style="{StaticResource ItemSubtitleText}"/>
-                            <Border Style="{StaticResource CardInner}" StrokeShape="RoundRectangle 8"
+                            <Border BackgroundColor="#E5DEC9" StrokeShape="RoundRectangle 8"
                                     Stroke="Transparent" HeightRequest="46" Padding="2">
                                 <Grid ColumnDefinitions="*, *, *, *">
                                     <Border x:Name="SpellNoneBlock" Grid.Column="0"
@@ -117,7 +154,7 @@
                                             BackgroundColor="Transparent"
                                             StrokeShape="RoundRectangle 6" Stroke="Transparent">
                                         <Label Text="INT" FontAttributes="Bold" FontSize="15"
-                                               TextColor="{StaticResource TextDark}"
+                                               TextColor="#AAB7B8"
                                                HorizontalOptions="Center" VerticalOptions="Center"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnSpellINT"/>
@@ -127,7 +164,7 @@
                                             BackgroundColor="Transparent"
                                             StrokeShape="RoundRectangle 6" Stroke="Transparent">
                                         <Label Text="WIS" FontAttributes="Bold" FontSize="15"
-                                               TextColor="{StaticResource TextDark}"
+                                               TextColor="#AAB7B8"
                                                HorizontalOptions="Center" VerticalOptions="Center"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnSpellWIS"/>
@@ -137,7 +174,7 @@
                                             BackgroundColor="Transparent"
                                             StrokeShape="RoundRectangle 6" Stroke="Transparent">
                                         <Label Text="CHA" FontAttributes="Bold" FontSize="15"
-                                               TextColor="{StaticResource TextDark}"
+                                               TextColor="#AAB7B8"
                                                HorizontalOptions="Center" VerticalOptions="Center"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnSpellCHA"/>
@@ -157,9 +194,11 @@
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- Result Card -->
                 <Border x:Name="ResultCard" IsVisible="False" Style="{StaticResource CardOuter}">
                     <VerticalStackLayout Spacing="12" Padding="8">
 
+                        <!-- CR Badge -->
                         <Grid ColumnDefinitions="*, Auto">
                             <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
                                 <Label Text="Estimated Challenge Rating"
@@ -183,7 +222,8 @@
                             </Border>
                         </Grid>
 
-                        <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                        <!-- HP / DPR / Attack CR breakdown -->
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="8">
                             <Border Grid.Column="0" Style="{StaticResource CardInner}">
                                 <VerticalStackLayout Spacing="2">
                                     <Label Text="HP-based CR" FontSize="11"
@@ -206,10 +246,22 @@
                                            HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
                             </Border>
+                            <Border Grid.Column="2" Style="{StaticResource CardInner}">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Attack-based CR" FontSize="11"
+                                           Style="{StaticResource ItemSubtitleText}"
+                                           HorizontalOptions="Center"/>
+                                    <Label x:Name="AttackCRLabel" Text="—"
+                                           FontFamily="Faustina-Bold.ttf" FontSize="22"
+                                           TextColor="{StaticResource TextDark}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
                         </Grid>
 
                         <BoxView HeightRequest="1" BackgroundColor="#D4C5B3" Margin="0,4"/>
 
+                        <!-- CR Stat Block -->
                         <Label Text="CR Stat Block"
                                FontFamily="Faustina-Bold.ttf"
                                FontSize="16" TextColor="{StaticResource TextDark}"/>
@@ -271,6 +323,7 @@
 
                         <BoxView HeightRequest="1" BackgroundColor="#D4C5B3" Margin="0,4"/>
 
+                        <!-- Ability Scores -->
                         <Label Text="Ability Scores"
                                FontFamily="Faustina-Bold.ttf"
                                FontSize="16" TextColor="{StaticResource TextDark}"/>

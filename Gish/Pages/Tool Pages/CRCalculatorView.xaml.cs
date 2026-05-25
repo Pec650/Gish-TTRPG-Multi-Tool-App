@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using Gish.Pages.MainPages;
@@ -12,9 +11,33 @@ public partial class CRCalculatorView : ContentView
     private string _weaponAbility = "STR";
     private string _spellAbility  = "NONE";
 
-    // Dynamic style lookup targets to maintain absolute resource alignment
-    private Color ActiveGreenColor => Application.Current?.Resources.TryGetValue("AccentGreen", out var colorVal) == true ? (Color)colorVal : Color.FromArgb("#2E7D32");
-    private Color InactiveClearColor => Colors.Transparent;
+    // Rows = To Hit 0-20, Columns = AC 8-28
+    // attackCRTable[toHit][acIndex] where acIndex = ac - 8
+    private static readonly double[,] AttackCRTable = new double[21, 21]
+    {
+        // AC:  8      9      10     11     12     13     14     15     16     17     18     19     20     21     22     23     24     25     26     27     28
+        /* 0*/ {0,     0,     0,     0,     0.125, 0.25,  1,     1,     2,     3,     4,     5,     6,     7,     8,     9,     10,    11,    11,    12,    13},
+        /* 1*/ {0,     0,     0,     0.125, 0.25,  0.5,   1,     2,     2,     3,     4,     5,     6,     7,     8,     9,     10,    11,    12,    13,    14},
+        /* 2*/ {0,     0,     0.125, 0.25,  0.5,   1,     2,     2,     3,     4,     5,     5,     6,     7,     8,     9,     10,    11,    12,    13,    14},
+        /* 3*/ {0,     0.125, 0.25,  0.5,   1,     2,     2,     3,     3,     4,     5,     6,     7,     8,     8,     9,     10,    11,    12,    13,    14},
+        /* 4*/ {0.125, 0.25,  0.5,   1,     2,     3,     3,     4,     4,     5,     6,     6,     7,     8,     9,     10,    11,    12,    13,    13,    14},
+        /* 5*/ {0.125, 0.25,  1,     2,     3,     3,     4,     4,     5,     6,     7,     7,     8,     9,     9,     10,    11,    12,    13,    14,    15},
+        /* 6*/ {0.125, 1,     2,     3,     4,     4,     5,     6,     7,     7,     8,     8,     9,     10,    11,    12,    13,    14,    14,    15,    16},
+        /* 7*/ {0.25,  1,     2,     3,     4,     5,     5,     6,     7,     8,     8,     9,     10,    11,    12,    13,    14,    14,    15,    16,    17},
+        /* 8*/ {0.25,  0.5,   1,     2,     3,     4,     5,     5,     6,     7,     8,     8,     9,     10,    11,    12,    13,    14,    15,    15,    16},
+        /* 9*/ {0.5,   1,     2,     3,     4,     5,     6,     6,     7,     8,     9,     10,    10,    11,    12,    13,    14,    15,    16,    16,    17},
+        /*10*/ {0.5,   1,     2,     3,     4,     5,     6,     6,     7,     8,     9,     9,     10,    11,    12,    12,    13,    14,    15,    16,    17},
+        /*11*/ {1,     2,     3,     4,     5,     6,     7,     7,     8,     9,     10,    11,    11,    12,    13,    14,    15,    16,    16,    17,    18},
+        /*12*/ {1,     2,     3,     4,     5,     6,     7,     7,     8,     9,     10,    10,    11,    12,    13,    13,    14,    15,    16,    17,    17},
+        /*13*/ {2,     3,     4,     5,     6,     7,     8,     8,     9,     10,    11,    12,    13,    13,    14,    15,    16,    16,    17,    18,    19},
+        /*14*/ {2,     3,     4,     5,     6,     7,     8,     8,     9,     10,    11,    11,    12,    13,    14,    14,    15,    16,    17,    18,    18},
+        /*15*/ {3,     4,     5,     6,     7,     8,     8,     9,     10,    11,    12,    12,    13,    14,    15,    15,    16,    17,    18,    18,    19},
+        /*16*/ {3,     4,     5,     6,     7,     8,     9,     9,     10,    11,    12,    12,    13,    14,    15,    15,    16,    17,    18,    19,    19},
+        /*17*/ {4,     5,     6,     7,     8,     9,     10,    10,    11,    12,    13,    13,    14,    15,    16,    16,    17,    18,    19,    19,    20},
+        /*18*/ {4,     5,     6,     7,     8,     9,     10,    10,    11,    12,    13,    13,    14,    15,    16,    16,    17,    18,    19,    20,    20},
+        /*19*/ {5,     6,     7,     8,     9,     10,    11,    11,    12,    13,    14,    14,    15,    16,    17,    17,    18,    19,    20,    20,    21},
+        /*20*/ {5,     6,     7,     8,     9,     10,    11,    11,    12,    13,    14,    14,    15,    16,    17,    17,    18,    19,    20,    21,    21},
+    };
 
     private static readonly List<CREntry> CRTable = new()
     {
@@ -61,22 +84,19 @@ public partial class CRCalculatorView : ContentView
         UpdateSpellUI();
     }
 
-    // --- WEAPON ABILITY SELECTION ---
-
+    // --- WEAPON ABILITY ---
     private void OnWeaponSTR(object sender, EventArgs e) { _weaponAbility = "STR"; UpdateWeaponUI(); }
     private void OnWeaponDEX(object sender, EventArgs e) { _weaponAbility = "DEX"; UpdateWeaponUI(); }
 
     private void UpdateWeaponUI()
     {
-        WeaponSTRBlock.BackgroundColor = _weaponAbility == "STR" ? ActiveGreenColor : InactiveClearColor;
-        WeaponDEXBlock.BackgroundColor = _weaponAbility == "DEX" ? ActiveGreenColor : InactiveClearColor;
-
+        WeaponSTRBlock.BackgroundColor = _weaponAbility == "STR" ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
+        WeaponDEXBlock.BackgroundColor = _weaponAbility == "DEX" ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
         SetBlockLabelColor(WeaponSTRBlock, _weaponAbility == "STR");
         SetBlockLabelColor(WeaponDEXBlock, _weaponAbility == "DEX");
     }
 
-    // --- SPELL ABILITY SELECTION ---
-
+    // --- SPELL ABILITY ---
     private void OnSpellNone(object sender, EventArgs e) { _spellAbility = "NONE"; UpdateSpellUI(); }
     private void OnSpellINT(object sender, EventArgs e)  { _spellAbility = "INT";  UpdateSpellUI(); }
     private void OnSpellWIS(object sender, EventArgs e)  { _spellAbility = "WIS";  UpdateSpellUI(); }
@@ -84,11 +104,10 @@ public partial class CRCalculatorView : ContentView
 
     private void UpdateSpellUI()
     {
-        SpellNoneBlock.BackgroundColor = _spellAbility == "NONE" ? ActiveGreenColor : InactiveClearColor;
-        SpellINTBlock.BackgroundColor  = _spellAbility == "INT"  ? ActiveGreenColor : InactiveClearColor;
-        SpellWISBlock.BackgroundColor  = _spellAbility == "WIS"  ? ActiveGreenColor : InactiveClearColor;
-        SpellCHABlock.BackgroundColor  = _spellAbility == "CHA"  ? ActiveGreenColor : InactiveClearColor;
-
+        SpellNoneBlock.BackgroundColor = _spellAbility == "NONE" ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
+        SpellINTBlock.BackgroundColor  = _spellAbility == "INT"  ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
+        SpellWISBlock.BackgroundColor  = _spellAbility == "WIS"  ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
+        SpellCHABlock.BackgroundColor  = _spellAbility == "CHA"  ? Color.FromArgb("#A2C9B4") : Colors.Transparent;
         SetBlockLabelColor(SpellNoneBlock, _spellAbility == "NONE");
         SetBlockLabelColor(SpellINTBlock,  _spellAbility == "INT");
         SetBlockLabelColor(SpellWISBlock,  _spellAbility == "WIS");
@@ -102,31 +121,38 @@ public partial class CRCalculatorView : ContentView
     }
 
     // --- CALCULATE ---
-
     private void OnCalculateClicked(object sender, EventArgs e)
     {
-        if (!int.TryParse(HPEntry.Text,  out int hp)  || hp  < 0) return;
-        if (!int.TryParse(DPREntry.Text, out int dpr) || dpr < 0) return;
-        if (!int.TryParse(ACEntry.Text,  out int ac)  || ac  < 0) return;
+        if (!int.TryParse(HPEntry.Text,          out int hp)     || hp     < 0) return;
+        if (!int.TryParse(DPREntry.Text,         out int dpr)    || dpr    < 0) return;
+        if (!int.TryParse(ACEntry.Text,          out int ac)     || ac     < 0) return;
+        if (!int.TryParse(AttackBonusEntry.Text, out int toHit)  || toHit  < 0) return;
 
-        int hpIndex  = GetCRIndexByHP(hp);
-        int dprIndex = GetCRIndexByDPR(dpr);
-        int avgIndex = Math.Clamp((int)Math.Round((hpIndex + dprIndex) / 2.0), 0, CRTable.Count - 1);
+        int hpIndex     = GetCRIndexByHP(hp);
+        int dprIndex    = GetCRIndexByDPR(dpr);
+        int attackIndex = GetCRIndexByAttack(toHit, ac);
 
-        CREntry hpEntry  = CRTable[hpIndex];
-        CREntry dprEntry = CRTable[dprIndex];
-        CREntry avgEntry = CRTable[avgIndex];
+        int avgIndex = Math.Clamp(
+            (int)Math.Round((hpIndex + dprIndex + attackIndex) / 3.0),
+            0, CRTable.Count - 1);
+
+        CREntry hpEntry     = CRTable[hpIndex];
+        CREntry dprEntry    = CRTable[dprIndex];
+        CREntry attackEntry = CRTable[attackIndex];
+        CREntry avgEntry    = CRTable[avgIndex];
 
         double hpCR  = hpEntry.CRNumeric;
         double dprCR = dprEntry.CRNumeric;
         double avgCR = avgEntry.CRNumeric;
 
-        // --- CR stat block labels ---
-        CRLabel.Text      = $"CR {avgEntry.CR}";
-        CRBadgeLabel.Text = avgEntry.CR;
-        HPCRLabel.Text    = hpEntry.CR;
-        DPRCRLabel.Text   = dprEntry.CR;
+        // --- CR labels ---
+        CRLabel.Text        = $"CR {avgEntry.CR}";
+        CRBadgeLabel.Text   = avgEntry.CR;
+        HPCRLabel.Text      = hpEntry.CR;
+        DPRCRLabel.Text     = dprEntry.CR;
+        AttackCRLabel.Text  = attackEntry.CR;
 
+        // --- Stat block ---
         StatProfBonus.Text   = $"+{avgEntry.ProfBonus}";
         StatAC.Text          = avgEntry.AC.ToString();
         StatHP.Text          = avgEntry.HPRange;
@@ -135,27 +161,23 @@ public partial class CRCalculatorView : ContentView
         StatSaveDC.Text      = avgEntry.SaveDC.ToString();
         StatAvgHP.Text       = avgEntry.AvgHP.ToString();
 
-        // --- Ability score calculations ---
-        int conScore = FloorStat(0.5 * hpCR  + 10.5);
-        int dprStat  = FloorStat(0.5 * dprCR + 10.5);
-        int avgStat  = FloorStat(0.5 * avgCR + 10.5);
+        // --- Ability scores ---
+        int avgStat = FloorStat(0.5 * avgCR + 10.5);
+        int dprStat = FloorStat(0.5 * dprCR + 10.5);
+        int hpStat  = FloorStat(0.5 * hpCR  + 10.5);
 
-        // DEX from AC
-        int dexFromAC  = FloorStat(2.0 * ac - 10.0);
-        int dexFromDPR = dprStat;
-        int dexScore   = _weaponAbility == "DEX"
-            ? Math.Max(dexFromAC, dexFromDPR)
-            : dexFromAC;
+        const int primaryBonus = 5;
+        const int acOffset     = 12;
 
-        // STR
-        int strScore = _weaponAbility == "STR" ? dprStat : avgStat;
+        int strScore = _weaponAbility == "STR" ? dprStat + primaryBonus : avgStat;
+        int dexScore = _weaponAbility == "DEX"
+            ? Math.Clamp(dprStat + primaryBonus + (ac - acOffset), 1, 20)
+            : Math.Clamp(avgStat + (ac - acOffset), 1, 20);
+        int conScore = hpStat + primaryBonus;
+        int intScore = _spellAbility == "INT" ? dprStat + primaryBonus : avgStat;
+        int wisScore = _spellAbility == "WIS" ? dprStat + primaryBonus : avgStat;
+        int chaScore = _spellAbility == "CHA" ? dprStat + primaryBonus : avgStat;
 
-        // Spell stats
-        int intScore = _spellAbility == "INT" ? dprStat : avgStat;
-        int wisScore = _spellAbility == "WIS" ? dprStat : avgStat;
-        int chaScore = _spellAbility == "CHA" ? dprStat : avgStat;
-
-        // --- Display ability scores ---
         SetAbilityScore(STRScore, STRMod, strScore);
         SetAbilityScore(DEXScore, DEXMod, dexScore);
         SetAbilityScore(CONScore, CONMod, conScore);
@@ -163,18 +185,11 @@ public partial class CRCalculatorView : ContentView
         SetAbilityScore(WISScore, WISMod, wisScore);
         SetAbilityScore(CHAScore, CHAMod, chaScore);
 
-        // Highlight weapon and spell ability score cards
-        STRLabel.TextColor = _weaponAbility == "STR"
-            ? Color.FromArgb("#2E7D32") : Color.FromArgb("#AAB7B8");
-        DEXLabel.TextColor = _weaponAbility == "DEX"
-            ? Color.FromArgb("#2E7D32") : Color.FromArgb("#AAB7B8");
-
-        INTMod.TextColor = _spellAbility == "INT"
-            ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
-        WISMod.TextColor = _spellAbility == "WIS"
-            ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
-        CHAMod.TextColor = _spellAbility == "CHA"
-            ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
+        STRLabel.TextColor = _weaponAbility == "STR" ? Color.FromArgb("#2E7D32") : Color.FromArgb("#AAB7B8");
+        DEXLabel.TextColor = _weaponAbility == "DEX" ? Color.FromArgb("#2E7D32") : Color.FromArgb("#AAB7B8");
+        INTMod.TextColor   = _spellAbility  == "INT" ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
+        WISMod.TextColor   = _spellAbility  == "WIS" ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
+        CHAMod.TextColor   = _spellAbility  == "CHA" ? Color.FromArgb("#4A148C") : Color.FromArgb("#AAB7B8");
 
         ResultCard.IsVisible = true;
     }
@@ -200,6 +215,36 @@ public partial class CRCalculatorView : ContentView
         for (int i = 0; i < CRTable.Count; i++)
             if (dpr <= CRTable[i].MaxDPR) return i;
         return CRTable.Count - 1;
+    }
+
+    private static int GetCRIndexByAttack(int toHit, int ac)
+    {
+        // Clamp inputs to table bounds
+        int toHitClamped = Math.Clamp(toHit, 0, 20);
+        int acClamped    = Math.Clamp(ac, 8, 28);
+        int acIndex      = acClamped - 8;
+
+        double crValue = AttackCRTable[toHitClamped, acIndex];
+
+        // Convert CR value to index in CRTable
+        return GetCRIndexByNumeric(Math.Min(crValue, 30.0));
+    }
+
+    private static int GetCRIndexByNumeric(double crNumeric)
+    {
+        // Find closest matching index
+        int bestIndex = 0;
+        double bestDiff = double.MaxValue;
+        for (int i = 0; i < CRTable.Count; i++)
+        {
+            double diff = Math.Abs(CRTable[i].CRNumeric - crNumeric);
+            if (diff < bestDiff)
+            {
+                bestDiff = diff;
+                bestIndex = i;
+            }
+        }
+        return bestIndex;
     }
 
     private void OnBackClicked(object sender, EventArgs e)
